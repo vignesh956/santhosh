@@ -1,0 +1,546 @@
+<div style="background-color: #fff; display: flex;width: 100%;">
+    <div style="display:none">
+        <div #pdfJobs>
+            <div *ngIf="printJobs">
+                <div *ngFor="let printJob of printJobs">
+                    <h1>{{printJob['Title']}} vignesh1 </h1>
+                    <hr>
+                    <table style="width:100%">
+                        <tr>
+                            <td colspan="2">
+                                <p><b>Title</b>: {{printJob['title']}} </p>
+                                <p><b>Skills Required</b>: {{getJobSkills(printJob)}} </p>
+                                <p><b>Location</b>: {{printJob['location']}} </p>
+                                <p><b>Company</b>: {{getCompanyName(printJob['companyId'].toString())}} </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:50%">
+                                <p><b>Job Type</b>:
+                                    <span *ngFor="let jt of printJob['jobsTypes']">
+                                    {{_JobTypes.get(jt)}}
+                                </span>
+                                </p>
+                                <p *ngIf="LoggedUserRole !='Candidate'"><b>Job Status</b>: {{printJob['jobStatus']}} </p>
+                                <p><b>Salary: </b>
+                                    {{printJob['jobsSalaries'][3]}} ({{printJob['jobsSalaries'][0]}})
+                                    {{printJob['jobsSalaries'][1]}} - {{printJob['jobsSalaries'][2]}}
+                                </p>
+    
+                            </td>
+                            <td style="width:50%">
+                                <p><b>Job Functions</b>:
+                                    <span *ngFor="let jbfnara of printJob['jobsFunctionalAreas']">
+                                    {{_FunctionalAreas.get(jbfnara)}}
+                                </span>
+                                </p>
+                                <p><b>Seniority Level</b>: {{printJob['seniorityLevel']}}</p>
+                                <p><b>Industry</b>:
+                                    <span *ngFor="let jindst of printJob['companyIndustry']">
+                                    {{_Industries.get(jindst)}},
+                                </span>
+                                </p>
+    
+                                <p><b>Benefits</b>:
+                                    <span *ngFor="let jb of printJob['jobsProvidedBenefits']">
+                                    {{_Benefits.get(jb)}},
+                                </span>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr *ngIf="LoggedUserRole !='Candidate'">
+                            <td colspan="2">
+                                <b>Recruiters: </b>
+                                <span *ngFor="let jr of printJob['jobsRecruiters']">
+                                {{_Recruiters.get(jr)}}
+                            </span>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <h4>Job Description</h4>
+                    <div [innerHTML]="printJob['description']"></div>
+                    <br>
+                    <h4>Company Overview</h4>
+                    <div [innerHTML]="printJob['companyOverview']"></div>
+                    <br><br><br>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- style="background: whitesmoke !important;" -->
+         <div class="job-card-info1">
+    <fuse-sidebar name="mail-main-sidebar" position="left" lockedOpen="gt-xs">
+        <div fusePerfectScrollbar>
+            <div class="content">
+                <div class="nav material2">
+                    <div style="margin-bottom: 16% !important;"></div>
+                    <br><br>
+                    <div>
+                        <a style="cursor: pointer !important;" aria-label="Compose"
+                           title="Reset filters to load all jobs" (click)="resetFilters()">
+                            <mat-icon style="vertical-align: middle !important;">autorenew</mat-icon>
+                            Reset Filters
+                        </a>
+                        <span class="p-4 w-full" *ngIf="selectedView === 'list'">
+                            <mat-form-field class="w-3/4">
+                                <input matInput [(ngModel)]="jobListSearchFilter" placeholder="Search for a Job">
+                                <button *ngIf="jobListSearchFilter" matSuffix mat-icon-button
+                                        aria-label="Clear" (click)="jobsKeywordSearchFilter()">
+                                    <mat-icon>search</mat-icon>
+                                </button>
+                                <button style="color: red !important;" *ngIf="jobListSearchFilter" matSuffix
+                                        mat-icon-button aria-label="Clear"
+                                        (click)="jobListSearchFilter='';jobsKeywordSearchFilter()">
+                                    <mat-icon>close</mat-icon>
+                                  </button>
+                            </mat-form-field>
+                        </span>
+                        <span class="p-4">
+                            <mat-form-field class="w-3/4">
+                                <input matInput [(ngModel)]="locationFilter" placeholder="Search Location">
+                                <button style="color: red !important;" *ngIf="locationFilter" matSuffix
+                                        mat-icon-button aria-label="Clear" (click)="locationFilter=' '">
+                                    <mat-icon>close</mat-icon>
+                                  </button>
+                            </mat-form-field>
+                        </span>
+                    </div>
+                    <div>
+                        <div style="height: 150px !important; width: 220px !important;overflow: scroll !important;">
+                            <div class="pl-4">
+                                <mat-checkbox [checked]="isLocationChecked()" [indeterminate]="locationIndeterminate()"
+                                              (change)="toggleAllFilters('locations', $event)">
+                                    <span class="searchLocationFilter" title="All">All</span>
+                                </mat-checkbox>
+                            </div>
+                            <div class="pl-4"
+                                 *ngFor="let lcs of this.Locations | jobLocationFilter:locationFilter let i=index;">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                              [checked]="locationexists(lcs)"
+                                              (change)="$event ? toggleFilters('locations', lcs, $event) : null;"
+                                              [value]="lcs">
+                                    <span class="searchLocationFilter text-truncate" title="{{lcs}}">{{lcs}}</span>
+                                </mat-checkbox>
+                                <br>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="pl-4 mt-4"><b>Companies</b></div>
+                            <div style="height: 200px !important; width: 220px !important;overflow: scroll !important;">
+                                <div class="pl-4">
+                                    <mat-checkbox [checked]="isCompaniesChecked()"
+                                                  [indeterminate]="companiesIndeterminate()"
+                                                  (change)="toggleAllFilters('companies', $event)">
+                                        <span class="filterText" title="All">All</span>
+                                    </mat-checkbox>
+                                </div>
+                                <div class="pl-4" *ngFor="let company of this.CompaniesList let i=index">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                                  [checked]="companiesexists(company)"
+                                                  (change)="$event ? toggleFilters('companies', company, $event) : null;"
+                                                  [value]="company">
+                                        <span class="filterText" title="{{company}}">{{company}}</span>
+                                    </mat-checkbox>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="LoggedUserRole != 'Candidate'">
+                            <div class="pl-4 mt-4"><b>Recruiters</b></div>
+                            <div style="height: 150px !important; width: 220px !important;overflow: scroll !important;">
+                                <div class="pl-4">
+                                    <mat-checkbox [checked]="isRecruitersChecked()"
+                                                  [indeterminate]="recruitersIndeterminate()"
+                                                  (change)="toggleAllFilters('recruiters', $event)">
+                                        <span class="filterText" title="All">All</span>
+                                    </mat-checkbox>
+                                </div>
+                                <div class="pl-4" *ngFor="let recruiter of this.RecruitersList let i=index">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                                  [checked]="recruitersexists(recruiter)"
+                                                  (change)="$event ? toggleFilters('recruiters', recruiter, $event) : null;"
+                                                  [value]="recruiter">
+                                        <span class="filterText" title="{{recruiter}}">{{recruiter}}</span>
+                                    </mat-checkbox>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="pl-4"><b>Work Site</b></div>
+                            <div style="height: 150px !important; width: 220px !important;overflow: scroll !important;">
+                                <div class="pl-4">
+                                    <mat-checkbox [checked]="isSitesChecked()"
+                                                  [indeterminate]="sitesIndeterminate()"
+                                                  (change)="toggleAllFilters('worksite',$event)">
+                                        <span class="filterText" title="All">All</span>
+                                    </mat-checkbox>
+                                </div>
+                                <div class="pl-4" *ngFor="let site of this.WorkSite let i=index">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                                  [checked]="sitesexists(site)"
+                                                  (change)="$event ? toggleFilters('worksite', site, $event) : null;"
+                                                  [value]="site">
+                                        <span class="filterText" title="{{site}}">{{site}}</span>
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pl-4"  *ngIf="LoggedUserRole != 'Candidate'"><b>Job Status</b></div>
+                        <div  *ngIf="LoggedUserRole != 'Candidate'" style="height: 200px !important; width: 220px !important;overflow: scroll !important;">
+                            <div class="pl-4">
+                                <mat-checkbox [checked]="isStatusChecked()"
+                                              [indeterminate]="statusIndeterminate()"
+                                              (change)="$event ? toggleAllFilters('jobstatus', $event) : 'All'">
+                                    <span class="searchLocationFilter" title="All">All</span>
+                                </mat-checkbox>
+                            </div>
+                            <div class="pl-4" *ngFor="let status of this.JobStatus let i=index">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                              [checked]="statusexists(status)"
+                                              (change)="$event ? toggleFilters('jobstatus', status, $event) : null;"
+                                              [value]="status">
+                                    <span class="searchLocationFilter" title="{{status}}">{{status}}</span>
+                                </mat-checkbox>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fuse-sidebar>
+    </div>
+    
+    <div *ngIf="selectedView === 'list'" id="job" style="width:100%;" class="bg-white page-layout carded left-sidebar inner-scroll">
+    <div class="bg-white job-card-info" flexLayout="column" >
+       
+    <div class="sub-card-header">
+        <div class="flex mt-1 mb-4 w-full" style="display: flex; align-items: center; justify-content: space-between;">
+            <div class="ml-5 h-7 mt-3 w-3/4">
+                <span>
+                    <h3><b>Jobs <span *ngIf="paginationTotalRecords">({{paginationTotalRecords}})</span></b></h3>
+                </span>
+            </div>
+            <div class="h-7 mt-3" style="display: flex; align-items: center; justify-content: space-between;">
+                <button *ngIf="LoggedUserRole !='Candidate'"
+                    class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800"
+                    aria-label="Compose" [routerLink]="['/post-job']" [queryParams]="{view: 'list'}" title="Add a new Job">Post
+                    a Job
+                </button>
+                <!-- <mat-icon *ngIf="LoggedUserRole !='Candidate'" class="nav-link-icon" style="cursor:pointer;vertical-align: middle;" title="List View"
+                                      (click)="showView('list')">list</mat-icon> -->
+                <!-- <mat-icon *ngIf="LoggedUserRole !='Candidate'" class="nav-link-icon accent" style="cursor:pointer;vertical-align: middle;" title="Grid View" (click)="showView('grid')">table_chart</mat-icon> -->
+            </div>
+        
+        </div>
+        <div class="flex flex-wrap" style="display: flex; align-items: center; justify-content: space-between;">
+            <div class="flex-1 h-12 mb-1">
+                <mat-checkbox style="vertical-align:middle;" (change)="allChecked($event)"
+                    [checked]="isallChecked"></mat-checkbox>
+                <span>{{selectedCount}} Selected</span>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div class="flex-1 h-12 mb-1 w-full">
+                    <span class="mr-3">Sort by</span>
+                    <mat-form-field>
+                        <mat-select [(value)]="defaultSort" (selectionChange)="sortChanged($event)">
+                            <mat-option value="Name">Name</mat-option>
+                            <mat-option value="Newest to Oldest" selected=true>Newest to Oldest</mat-option>
+                            <mat-option value="Oldest to Newest">Oldest to Newest</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="flex-1 h-12 mb-1 w-full truncate nowrap">
+                    <mat-paginator class="mb-1 text-center" [length]="paginationTotalRecords" [pageSize]="25"
+                        [pageSizeOptions]="[25]" [pageIndex]="paginationCurrentPage" (page)="onPaginateChange($event)">
+                    </mat-paginator>
+                </div>
+            </div>
+        
+        </div>
+        <div class="flex flex-wrap mt-2 mb-2 ml-3" style="display:flex;width:100%!important;"
+            *ngIf="selectedCount > 0 && LoggedUserRole !='Candidate'">
+            <span>
+                <button
+                    class="mr-5 mb-5 inline-block px-4 py-1.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
+                    *ngIf="isBulkAction && this.openStatusCount > 0" mat-button (click)="bulkCloseListJobs()">Archive
+                    Job</button>
+                <button
+                    class="mr-5 mb-5 inline-block px-4 py-1.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
+                    *ngIf="isBulkAction && this.archiveStatusCount > 0" mat-button (click)="bulkOpenListJobs()">Re-Open
+                    Job</button>
+                <button
+                    class="mr-5 mb-5 inline-block px-4 py-1.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
+                    mat-button (click)="openModal(Recruiters)">Reassign</button>
+                <button
+                    class="mr-5 mb-5 inline-block px-4 py-1.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
+                    mat-button *ngIf="LoggedUserRole !='Candidate'"
+                    (click)="openDialogModal(ShareJobDialog, '500px', '250px')">Share</button>
+                <button
+                    class="mr-5 mb-5 inline-block px-4 py-1.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
+                    mat-button (click)="bulkPrintJob()">Print</button>
+                <button
+                    class="mr-5 mb-5 inline-block px-4 py-1.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
+                    mat-button *ngIf="LoggedUserRole =='Candidate'" (click)="ApplyMultipleJobs()">Apply</button>
+            </span>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        <!-- <div style="width:20%!important;" class="mt-2">
+            <mat-checkbox style="vertical-align:middle;" (change)="allChecked($event)" [checked]="isallChecked"></mat-checkbox>
+                        <span>{{selectedCount}} Selected</span>
+        </div>
+        <div style="width:40%!important;">
+            <span class="mr-3">Sort by</span>
+            <mat-form-field style="width:auto;">
+                <mat-select [(value)]="defaultSort" (selectionChange)="sortChanged($event)">
+                    <mat-option value="Name">Name</mat-option>
+                    <mat-option value="Newest to Oldest" selected=true>Newest to Oldest</mat-option>
+                    <mat-option value="Oldest to Newest">Oldest to Newest</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div style="width:40%!important;text-align:right;">
+            <mat-paginator  [length]="paginationTotalRecords"
+                            [pageSize]="25"
+                            [pageSizeOptions]="[25]"
+                            [pageIndex]="paginationCurrentPage"
+                            (page)="onPaginateChange($event)">
+             </mat-paginator>
+        </div> -->
+    <!-- </div> -->
+    <!-- <div class="relative flex py-2 items-center">
+        <div class="flex-grow border-t dark border-gray-900"></div>
+        <div class="flex-grow border-t dark border-gray-900"></div>
+    </div> -->
+    <div class="content">
+        <!-- <mat-progress-bar mode="indeterminate" color = 'primary'></mat-progress-bar> -->
+        <div style="align-items: center !important;text-align: center;" *ngIf="paginationTotalRecords === 0">
+            <span style="font-size: 14px; " *ngIf="paginationTotalRecords == 0 && isVisible && (this.locationFormGroup.get('status').value == '' || this.locationFormGroup.get('sites').value == '' || this.locationFormGroup.get('Locations').value == '' || this.locationFormGroup.get('recruiters').value == '' || this.locationFormGroup.get('companies').value == '' || this.Jobs.length == 0)">There are no records to display for the selected criteria.</span>
+        </div>
+        <div class="content" fxLayout="row">
+            <div id='divList' fxFlex="50" *ngIf="selectedView === 'list'" class="mail-list-parent"
+                 fusePerfectScrollbar fxFlex>
+                <div class="mail-list-1">
+                    <job-list-item matRipple style="border-bottom: 0px !important;"
+                                   *ngFor="let job of this.Jobs let i = index;" (selected)="job && i == 0"
+                                   [job]="formatRecord(job)" (click)="viewJob(job)"
+                                   (onChecked)="childOnChecked($event,job.Id,job.JobStatus)"
+                                   [ngClass]="{'current-mail':job?.Id == selectedJob?.Id}"
+                    >
+                    </job-list-item>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    
+    <div *ngIf="selectedView === 'grid'" style="width:100%;" class="bg-white page-layout carded left-sidebar inner-scroll" >
+        <!-- CONTENT -->
+        <div class="bg-white" flexLayout="column">
+            <div class="flex mt-1 mb-4 w-full">
+                <div class="ml-5 h-7 mt-3 w-3/4">
+                    <span>
+                        <h3><b>Jobs <span *ngIf="gridtotRowCount">({{gridtotRowCount}})</span></b></h3>
+                    </span>
+                </div>
+                <div class="h-7 mt-3 w-2/4 text-right">
+                    <button *ngIf="LoggedUserRole !='Candidate'" class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800" aria-label="Compose"
+                    routerLink="/post-job" [queryParams]="{view: 'list'}" title="Add a new Job">Post a Job
+                    </button>
+                    <mat-icon class="nav-link-icon" style="cursor:pointer;vertical-align: middle;" title="List View"
+                                      (click)="showView('list')">list</mat-icon>
+                    <mat-icon class="nav-link-icon accent" style="cursor:pointer;vertical-align: middle;" title="Grid View" (click)="showView('grid')">table_chart</mat-icon>
+                </div>
+            </div>
+            </div>
+    
+        <div class="bg-white mb-15" flexLayout="column">
+            <div class="flex mt-1 mb-4 w-full">
+                <div class="ml-5 h-7 mt-3 " style="width:45% !important;margin-right:25px !important;">
+                    <mat-form-field style="width: 100% !important;">
+                        <mat-label class="mr-3">Show/Hide Columns</mat-label>
+                        <mat-select [formControl]="jobsDrpdwnformControl" multiple>
+    
+                            <mat-select-trigger>
+                                {{jobsDrpdwnformControl.value ? jobsDrpdwnformControl.value[0] : ''}}
+                                <span *ngIf="jobsDrpdwnformControl.value?.length > 1" class="example-additional-selection">
+        (+{{jobsDrpdwnformControl.value.length - 1}} {{jobsDrpdwnformControl.value?.length === 2 ? 'other' : 'others'}})
+        </span>
+                            </mat-select-trigger>
+    
+                            <mat-option (onSelectionChange)="change($event)"
+                                        *ngFor="let jobCol of jobsDrpdwnColumns"
+                                        [value]="jobCol.field">
+                                {{jobCol.field}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="h-7 mt-8 rightside-div" style="width:100% !important; display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;">
+                    <mat-form-field class="w-2/4" style="margin-right: 15px !important;">
+                        <input matInput (input)="onQuickFilterChanged()" [(ngModel)]="jobGridSearchFilter"
+                                placeholder="Search for a Job">
+                        <button style="color: red !important;" mat-button *ngIf="jobGridSearchFilter" matSuffix
+                                mat-icon-button aria-label="Clear"
+                                (click)="jobGridSearchFilter='';onQuickFilterChanged()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+               
+                <!-- <div > -->
+                    <mat-form-field  style="margin-right: 15px !important;">
+                        <mat-label>My Views</mat-label>
+                        <select matNativeControl [(ngModel)]="selectedUserView" (change)="showUserView()">
+    
+    
+                            <option value="defaultUserView">Default View</option>
+                            <option *ngFor="let item of userSavedViews"
+                                    [value]="item['Id']">{{item['ViewName']}}</option>
+                        </select>
+                    </mat-form-field>
+                    &nbsp;
+                    <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800" (click)="saveUserView()">Add View</button>
+                <!-- </div> -->
+            </div>
+            </div>
+        </div>
+        <div class="ml-3 bg-white" flexLayout="row">
+            <mat-progress-bar mode="indeterminate" color = 'primary' *ngIf="jobsGridLoader"></mat-progress-bar>
+            <ag-grid-angular
+                #agGrid
+                style="width: 100%; height: 400px;"
+                id="myGrid"
+                class="ag-theme-alpine"
+                [context]="context"
+                [gridOptions]="gridOptions"
+                [rowData]="rowData"
+                (gridReady)="onGridReady($event)"
+                (filterChanged)="onGridFilterChanged()"
+                [defaultColDef]="defaultColDef"
+                [rowSelection]="rowSelection"
+                [frameworkComponents]="frameworkComponents"
+                (selectionChanged)="onSelectionChanged($event)"
+                (rowSelected)= "onRowSelected($event)"
+            ></ag-grid-angular>
+        </div>
+    </div>
+    
+    <ng-template #Recruiters>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div fxLayout="row" class="flex-1" style="display:flex;width:100%!important;">
+                    <div style="width:90%!important;">
+                        <span>Select Recruiter</span>
+                    </div>
+                    <div style="width:10%!important;">
+                        <button type="button" mat-dialog-close class="bg-red-600 rounded-md p-1 inline-flex items-center justify-center text-red-400 hover:text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                            <span class="sr-only">Close</span>
+                            <!-- Heroicon name: outline/x -->
+                            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="modal-body mail-details1">
+                <div class="mail-content">
+                    <div style="display:flex;width:100%!important;">
+                        <mat-form-field appearance="outline" class="pr-1" *ngIf="recruitersList">
+                            <mat-label>Recruiter *</mat-label>
+                            <mat-select multiple (selectionChange)="selectedrecruiters($event)">
+                                <mat-option *ngFor="let _recruiter of recruitersList.$values"
+                                            [value]="formatString(_recruiter.id)">
+                                    {{_recruiter.firstName}} {{_recruiter.lastName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                <div style="text-align: center !important;">
+                    <button [disabled]="selectedRecruiters.length == 0"
+                    class="mr-2 bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" color="primary" (click)="bulkReassignListJobs()"><span>Save</span>
+                    </button>
+                    &nbsp;&nbsp;
+                    <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" mat-dialog-close tabindex="-1">Close</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </ng-template>
+    
+    <ng-template #ShareJobDialog>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div fxLayout="row" class="flex-1" style="display:flex;width:100%!important;">
+                    <div style="width:90%!important;">
+                        <span>Select Recruiter(s) to share the job details</span>
+                    </div>
+                    <div style="width:10%!important;">
+                        <button type="button" mat-dialog-close class="bg-red-600 rounded-md p-1 inline-flex items-center justify-center text-red-400 hover:text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                            <span class="sr-only">Close</span>
+                            <!-- Heroicon name: outline/x -->
+                            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="modal-body mail-details1">
+                <div class="mail-content">
+                    <div style="display:flex;width:100%!important;">
+                        <mat-form-field appearance="outline" class="pr-1" *ngIf="recruitersList">
+                            <mat-label>Recruiter *</mat-label>
+                            <mat-select multiple (selectionChange)="selectedrecruiters($event)">
+                                <mat-option *ngFor="let _recruiter of recruitersList.$values"
+                                            [value]="_recruiter.id">
+                                    {{_recruiter.firstName}} {{_recruiter.lastName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                <div style="text-align: center !important;">
+                    <button [disabled]="selectedRecruiters.length == 0"
+                    class="mr-2 bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" color="primary" (click)="shareJob()"><span>Save</span>
+                    </button>
+                    &nbsp;&nbsp;
+                    <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" mat-dialog-close tabindex="-1">Close</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </ng-template>
+    </div>
+    

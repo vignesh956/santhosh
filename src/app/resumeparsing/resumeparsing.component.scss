@@ -1,0 +1,40 @@
+// /* Optional: Customize the card and form styles */
+// .mat-card {
+//     margin: 20px;
+//   }
+  
+//   .mat-form-field {
+//     margin-bottom: 10px;
+//   }
+
+//   mat-card {
+//     margin: 16px;
+//   }
+  
+//   .form-actions {
+//     margin-top: 16px;
+//     display: flex;
+//     justify-content: flex-end;
+//     gap: 16px;
+//   }
+  
+
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .form-field {
+    flex: 1;
+    min-width: calc(33.333% - 16px);
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+  

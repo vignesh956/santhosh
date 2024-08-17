@@ -1,0 +1,565 @@
+<!-- border-right: 1px solid rgba(0, 0, 0, 0.12); border-bottom: 2px solid blue; -->
+<div fxLayout="row" fxLayoutAlign="start center" 
+style="height: auto; margin-bottom: 1% !important;" class="job-list-card-info">
+    <mat-checkbox style="padding-bottom:70px;margin-right:10px; margin-left: 10px;" 
+    [checked]="this.candidatelist.isallChecked" (click)="$event.stopPropagation()" 
+    (change)="checkValue($event)"></mat-checkbox>
+    <div class="info" fxFlex FlexLayout="column">
+        <div class="row-1" fxLayout="row" fxLayoutAlign="start center">
+            <div class="name" fxLayout="row" fxLayoutAlign="start center" 
+            fxFlex title="Name: {{candidate['Name']}}" 
+            style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                <div *ngIf="!candidate['ProfileImage']" 
+                class="inline-flex overflow-hidden relative justify-center items-center 
+                w-6 h-6 bg-blue-900 rounded-full dark:bg-gray-600 font-medium text-white"
+                 style="border-radius: 50px !important">{{candidate['Name'][0]}}</div> 
+                <div *ngIf="candidate['ProfileImage']" class="inline-flex overflow-hidden relative justify-center items-center 
+                w-6 h-6 bg-blue-900 rounded-full dark:bg-gray-600 font-medium text-white"
+                 style="border-radius: 50px !important" >
+                    <img  [src]="candidate['ProfileImage']" 
+                    style="vertical-align: middle !important; border-radius: 50px !important" />
+                </div> &nbsp;
+                <span class="text-truncate"
+                 style="font-weight: 600 !important;font-size: 18px !important;">
+                 <a style="color: #0b6d6d !important;"
+                  [routerLink]="['/candidates/edit-candidate', candidate.Id]">{{candidate['Name']}}</a></span>
+                <span class="text-truncate" style="font-weight: 600 !important;font-size: 18px !important;"><a style="color: #858585 !important;font-size: 15px;text-decoration: none;">, {{candidate['Designation']}}</a></span>
+                &nbsp;&nbsp;
+            </div>&nbsp;&nbsp;
+            <div style="float: right !important;" fxFlex="7">
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                        (click)="selectRecord()">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+            </div>
+        </div>
+        <mat-menu #moreMenu="matMenu">
+            <!-- <button mat-menu-item aria-label="Forward">
+                <mat-icon>lock</mat-icon>
+                <span>Archive Candidate</span>
+            </button> -->
+            <!-- <button mat-menu-item aria-label="Forward">
+                <mat-icon>lock_open</mat-icon>
+                <span>Open Candidate</span>
+            </button> -->
+            <button mat-menu-item aria-label="Forward" (click)="printDescription(candidate['Id'])">
+                <mat-icon>print</mat-icon>
+                <span>Print</span>
+            </button>
+            <button mat-menu-item aria-label="Forward" (click)="openDialogModal(ShareJobDialog, '500px', '250px')">
+                <mat-icon>share</mat-icon>
+                <span>Share Candidate</span>
+            </button>
+            <button mat-menu-item aria-label="Forward" (click)='openModal(viewcandidate)'>
+                <mat-icon>file_copy</mat-icon>
+                <span>View Candidate</span>
+            </button>
+            <!-- <button mat-menu-item aria-label="Forward" *ngIf="candidate['resumepath']" (click)="openModalviewresume(viewresume, candidate['resumepath'])">
+                <mat-icon>file_copy</mat-icon>
+                <span>View Resume</span>
+            </button> -->
+            <button mat-menu-item aria-label="Forward" (click)="redirectToEditcandidate(candidate['Id'])">
+                <mat-icon>create</mat-icon>
+                <span>Edit Candidate</span>
+            </button>
+            <button mat-menu-item aria-label="Forward" (click)="openNewFolderDialogModal(NewFolderDialog, '950px', '550px', candidate['Id'])">
+                <mat-icon>folder</mat-icon>
+                <span>Add to Folder</span>
+            </button>
+        </mat-menu>
+
+        <div class="row-2" fxLayout="row" fxLayoutAlign="start center">
+            <div style="padding-left: 50px;height: 25px; flex-direction: column;box-sizing: border-box;display: grid;place-content: flex-start;align-items: flex-start;">
+                <div class="subject text-truncate" style="font-size:12px;" *ngIf="candidate['CurrentEmployer'] != ''">
+                    <span style="color:#858585 !important;" class="truncate">  &nbsp;{{candidate['CurrentEmployer']}} | {{candidate['CreatedDate'] | date:'shortDate'}}</span>
+                    &nbsp;&nbsp;
+                    <!-- <span style="color:#858585 !important;" title="Location: {{candidate['Location']}}"><span class="material-icons">location_on</span>&nbsp; <span  style="color:black !important;">{{candidate['Location']}},</span></span> -->
+                    &nbsp;
+                    <!-- <span style="color:#858585 !important;">{{candidate['CreatedDate'] | date:'shortDate'}}</span> -->
+                </div>
+                <div class="subject text-truncate" style="font-size:12px;color:#858585 !important;" *ngIf="candidate['CurrentEmployer'] === ''">
+                    <span>{{candidate['CreatedDate'] | date:'shortDate'}}</span>
+                </div>
+
+            </div>
+        </div>
+        <div class="row-2" fxLayout="row" fxLayoutAlign="start center">
+            <!-- <div style="padding-left: 50px;height:30px;word-wrap: break-word; ;width: 100%;">
+                <span style="color:#858585 !important;" class="truncate">  &nbsp;{{candidate['Location']}} </span>
+            </div>     -->
+            <div style="padding-left: 50px;height:30px;width:100%!important;" class="mr-2">
+                <span class="text-sm" title="Location: {{candidate['Location']}}"><span class="material-icons">location_on</span>&nbsp; <span style="color:#858585 !important;">{{candidate['Location']}}</span></span>
+            </div>
+        </div><br>
+        <div class="row-3" fxLayout="row" fxLayoutAlign="start center">
+            <div style="padding-left: 50px;height:30px; flex-direction: column;box-sizing: border-box;display: initial;place-content: flex-start;align-items: flex-start;width: 100%;">
+                <!-- <span fxFlex="80" style=" font-size: 15px; color: #858585 !important;margin-right: 50px;" class="truncate" title="Email:&nbsp;{{candidate['Email']}}"><b><span class="material-icons">email</span></b> &nbsp;{{candidate['Email']}}</span>
+                <span fxFlex="20" style="font-size: 15px; color: #858585 !important;" class="truncate" title="Mobile Number:&nbsp;{{candidate['MobileNumber']}}"><b><span class="material-icons">call</span></b> &nbsp;{{candidate['MobileNumber']}}</span> -->
+                <span fxFlex="80" style=" font-size: 15px; color: #858585 !important;margin-right: 50px;" class="truncate">{{candidate['Experience']}} Yrs | {{candidate['Email']}} | {{candidate['MobileNumber']}}</span>
+                <!-- <span fxFlex="20" style="font-size: 15px; color: #858585 !important;" class="truncate" title="Mobile Number:&nbsp;{{candidate['MobileNumber']}}"><b><span class="material-icons">call</span></b> &nbsp;{{candidate['MobileNumber']}}</span> -->
+                &nbsp;
+            </div>
+        </div>
+        <div *ngIf="candidate?.Skills != ''" class="row-4" fxLayout="row" fxLayoutAlign="start center" style="margin-left: 50px;height: 30px;">
+            <button class="downloadresume" *ngIf="candidate['resumepath']"
+            class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                    aria-label="Forward" (click)="openModalviewresume(viewresume, candidate['resumepath'])">
+                <span>View Resume</span>
+            </button>&nbsp;
+
+            <div style="background-color: #192a56 !important; margin-right: 10px !important; padding: 5px 5px 10px 5px !important;" *ngFor="let skillID of candidate?.Skills let i=index">
+                <span class="text-boxed" style="color: #fff !important; font-size: 14px;" title="Skill {{i+1}}: {{skillID}}">{{skillID}}</span>
+            </div>&nbsp;
+            <!-- <span class="truncate" title="Date:&nbsp;{{candidate['CreatedDate'] | date :  'MM/dd/yyyy'}}" style="float: right !important;color:black !important;"><b><span class="material-icons">calendar_today</span></b>&nbsp;{{candidate['CreatedDate'] | date :  "MM/dd/yyyy"}} </span> -->
+            <!-- <span style="font-size: 15px; color: #000 !important;font-weight: bold; border:1px solid; width: 60px; text-align: center;" class="truncate" title="Experience:&nbsp;{{candidate['Experience']}}"><b></b> &nbsp;{{candidate['Experience']}} Yrs</span> -->
+            <!-- <button class="downloadresume"   *ngIf="candidate['resumepath']"
+                mat-raised-button aria-label="Forward" (click)="DownloadResume(candidate['resumepath'])">
+                <span>Download CV</span>
+            </button> -->
+
+        </div>
+        <div style="margin-left: 50px;" *ngIf="candidateFolderList.length > 0" class="row-4" fxLayout="row" fxLayoutAlign="start center" style="margin-left: 50px;height: 30px;">
+            <span style="color: #858585 !important;">Folders:</span>
+            <div *ngFor="let folder of candidateFolderList">
+                <div class="mat-caption" style="align-items: center !important;margin-top: 5% !important; color: #858585 !important;">
+                    <button type="submit" [ngStyle]="{'font-color':curFolder === folder.FolderName ? 'red' : 'yellow' }" (click)="getCandidatesbyFoldersId(folder)" style="cursor: pointer !important;border:none; background: none;" class="text-truncate button btn btn-primary" title="{{folder.FolderName}} ({{folder.CandidatesCount}})">
+                        {{folder.FolderName}} ({{folder.CandidatesCount}})
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-left: 50px;">
+            <br>
+            <span style="color: #858585 !important;">Jobs : &nbsp;</span>
+
+            <span  *ngFor="let job of  candidate.List_JobApplied">
+                 <!-- <span class="avatar accent" style="padding-left:5px  !important; padding-right:5px  !important; font-size:13px !important;">{{job.JobTitle[0]}}</span> -->
+            <span style="color: #192a56  !important;font-weight:600;cursor:initial;">
+                <!-- <a [routerLink]="['/apps/job/edit-job', job.JobId]"> -->
+                    <!-- <a [routerLink]="['/post-job', job.JobId]">
+                        {{job.JobTitle}}, -->
+                        <a  routerLink="/post-job" [queryParams]="{Id: job.JobId}">{{job['JobTitle']}},
+                </a>
+
+            <!-- <span *ngFor="let job of  candidate.List_JobApplied">
+               
+                <span style="color: #192a56  !important;font-weight:600;cursor:initial;">
+                    <a [routerLink]="['/apps/job/edit-job', job.JobId]">
+                        {{job.JobTitle}},
+                    </a> -->
+                </span>
+
+            </span>
+            <br>
+        </div>
+        <br>
+    </div>
+
+    <ng-template #ShareJobDialog>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayout.gt-xs="column" fxLayout.gt-md="row">
+                    <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                        <div fxFlex="90">
+                            <span>Select Recruiter(s) to share the job details</span>
+                        </div>
+                        <div fxFlex="2">
+                            <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                                    mat-dialog-close tabindex="-1" style="cursor:pointer;">
+                                Close
+                                <!-- <svg class="mat_icon_svg" style="height: 20px;width: 20px;" aria-hidden="true">
+                                    <use matTooltip="close" height="20" width="20" fill="white"
+                                         xlink:href="assets/icons/material-icons/maticons.svg#icon-clear"></use>
+                                </svg> -->
+                            </button>
+                        </div>
+                        <div fxFlex="3">
+                        </div>&nbsp;
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="modal-body mail-details1">
+                <div class="mail-content">
+                    <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                        <mat-form-field appearance="outline" fxFlex="100" class="pr-4" *ngIf="recruitersList">
+                            <mat-label>Recruiter(s) *</mat-label>
+                            <mat-select multiple (selectionChange)="selectedrecruiters($event)">
+                                <mat-option *ngFor="let _recruiter of recruitersList"
+                                            [value]="formatString(_recruiter.Id)">
+                                    {{_recruiter.FirstName}} {{_recruiter.LastName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <button [disabled]="selectedRecruiters.length == 0"
+                            class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                            (click)="shareCandidate()">
+                        Share
+                    </button>&nbsp;&nbsp;
+                    <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                            id="btnCancelDialog1" mat-dialog-close>
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #viewcandidate>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayout.gt-xs="column" fxLayout.gt-md="row">
+                    <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                        <div id="divJobTitle" style="width: 650px !important;">
+                            <div style="font-size: 18px;font-weight: 600;color: #116fbf;" title="Title: {{candidate.Name}}">{{candidate.Name}}</div>
+                        </div>
+                        <div fxFlex="2" style="margin-top: 2% !important;">
+                            <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                                    mat-dialog-close tabindex="-1" style="cursor:pointer;">
+                                Close
+                                <!-- <svg class="mat_icon_svg"  style="height: 20px;width: 20px;"
+                                aria-hidden="true"
+                                 >
+                                 <use matTooltip="close" height="20" width="20" fill="white"
+                                 xlink:href="assets/icons/material-icons/maticons.svg#icon-clear">
+                                </use>
+                                 </svg> -->
+                            </button>
+                        </div>
+                        <div fxFlex="3">
+                        </div>
+                        &nbsp;
+                    </div>
+                </div>
+            </div><br>
+            <div class="modal-body mail-details1">
+                <div class="mail-content">
+                    <br><hr>
+                    <table style="width:100%">
+                        <tr>
+                            <td colspan="2">
+                                <p><b>Name</b>: {{candidate.Name}} </p>
+                                <p><b>Designation</b>: {{candidate.Designation}} </p>
+                                <p><b>Location</b>: {{candidate.Location}} </p>
+                                <p><b>Company</b>: {{candidate.CurrentEmployer}} </p>
+                            </td>
+                        </tr>
+                        <tr>
+                                <p>
+                                    <b>Email</b>:
+                                    {{candidate.Email}}
+                                </p>
+                                <p><b>Candidate Status</b>: {{candidate.Active ? 'Active' : 'Inactive'}} </p>
+                                <p>
+                                    <b>Salary: </b>
+                                    {{candidate.Salary}}
+                                </p>
+                                <p>
+                                    <b>MobileNumber</b>:
+                                    {{candidate.MobileNumber}}
+                                </p>
+                                <p><b>Relocate</b>: {{candidate.Relocate ? 'Yes' : 'No'}}</p>
+                                <p><b>Experience</b>: {{candidate.Experience}} Yrs</p>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <b>Candidate Skills: </b>
+                                : {{candidate.Skills}}
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <h4><b>Candidate Overview</b></h4>
+                    <div [innerHTML]="candidate.Overview"></div>
+                    <br><br><br><br><hr>
+                    <div style="text-align: center !important;">
+                        <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                                id="btnCancelDialog" mat-dialog-close>
+                            Close
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #viewresume>
+
+        <div style="display: inline-block; margin-bottom: 10px; margin-right: 230px;">
+            <button class="downloadresume" style="height: 40px;"
+            class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                    aria-label="Forward" (click)="DownloadResume(candidate['resumepath'])">
+                <span>Download</span>
+            </button>&nbsp;&nbsp;
+            <button class="downloadresume" style="height: 40px;"
+            class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" 
+                    aria-label="Forward">
+                <span>Approve</span>
+            </button>&nbsp;&nbsp;
+            <button class="downloadresume" style="height: 40px;"
+            class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" 
+                    aria-label="Forward">
+                <span>Reject</span>
+            </button>&nbsp;&nbsp;
+            <button class="downloadresume" style="height: 40px;"
+            class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                    aria-label="Forward">
+                <span>Send Email</span>
+            </button>
+        </div>
+        <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" 
+            mat-dialog-close tabindex="-1" style="cursor:pointer;">Close
+            <!-- <svg class="mat_icon_svg" style="height: 20px;width: 20px;"
+                 aria-hidden="true">
+                <use matTooltip="close" height="20" width="20" fill="white"
+                     xlink:href="assets/icons/material-icons/maticons.svg#icon-clear">
+                </use>
+            </svg> -->
+        </button>
+        <iframe *ngIf="IsPdf && filepath" style="height: 100vh; width:100%; display: block;"
+                ngx-document [src]="filepath"
+                provider="google"></iframe>
+
+        <iframe *ngIf="IsDoc && docpath" [src]="docpath"
+                viewer="url" style="width:100%;height:100vh;">
+        </iframe>
+    </ng-template>
+    <ng-template #NewFolderDialog>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div fxLayout="row" style="border-bottom: 1px solid#5D5D5D;" fxLayoutAlign="start center" fxLayout.gt-xs="column" fxLayout.gt-md="row">
+                    <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                        <div fxFlex="80" fxLayout="row">
+                            <div fxFlex="15" fxLayout="row">
+                                <span style="color: #474747;"><h2><b>New Folder</b></h2></span>
+                            </div>
+                        </div>
+                        <div fxFlex="20">
+                            <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                                    mat-dialog-close [disabled]="this.newFolderFormGroup.invalid" color="accent" (click)="createNewFolder()">
+                                Save
+                            </button>&nbsp;&nbsp;
+                            <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                                    mat-dialog-close tabindex="-1">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="modal-body mail-details1" fxLayout="column">
+                <form fxLayout="column" [formGroup]="newFolderFormGroup">
+                    <div fxLayout="column">
+                        <div style="margin-bottom:10px" fxLayout="column">
+                            <mat-radio-group (change)="chkfolderStatus($event)">
+                                <mat-radio-button style="margin-bottom: 5px; margin-left: 10px; font-size: 12px;" checked [value]="true">New</mat-radio-button>
+                                <mat-radio-button style="margin-left: 10px; font-size: 12px;" [value]="false">Add to existing</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="mail-content" fxLayout="row">
+                            <div fxLayout="row" fxFlex="40" *ngIf="isNewFolder">
+                                <mat-form-field fxFlex="100" appearance="outline" class="pr-4" class="example-full-width">
+                                    <mat-label>New folder</mat-label>
+                                    <input matInput tabindex="1" formControlName="newfolder" required>
+                                </mat-form-field>
+                            </div>
+                            <div fxLayout="row" fxFlex="40" *ngIf="!isNewFolder">
+                                <mat-form-field fxFlex="100" appearance="outline" class="pr-4" class="example-full-width">
+                                    <mat-label>Add to existing folder</mat-label>
+                                    <mat-select formControlName="newfolder">
+                                        <mat-option *ngFor="let folder of filteredFolderList"
+                                                    [value]="folder.FolderName">
+                                            {{folder.FolderName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center !important;" class="mail-list-1" *ngIf="this.selectedCandidates.length == 0">
+                        <span>No candidates added</span>
+                    </div>
+                    <div class="mail-list-1" *ngIf="this.selectedCandidates">
+                        <div class="row-1" fxLayout="column" *ngFor="let candidate of selectedCandidates" style="border: 1px solid rgba(0, 0, 0, 0.12);">
+                            <div class="name" fxLayout="row" fxLayoutAlign="start center" fxFlex title="Name: {{candidate['Name']}}" style="margin-left: 1%;margin-top:1%;text-overflow: ellipsis;white-space: nowrap;">
+                                <div fxLayoutAlign="start center" fxLayout="row" fxFlex="95">
+                                    <!-- <div *ngIf="!candidate['ProfileImage']" class="avatar accent" style="border-radius: 50px !important">{{candidate['Name'][0]}}</div> -->
+                                    <div *ngIf="!candidate['ProfileImage']" class="inline-flex overflow-hidden relative justify-center items-center w-6 h-6 bg-blue-900 rounded-full dark:bg-gray-600 font-medium text-white" style="border-radius: 50px !important">{{candidate['Name'][0]}}</div>
+                                    <div *ngIf="candidate['ProfileImage']" class="avatar">
+                                        <img class="img" [src]="candidate['ProfileImage']" class="img-circle" width="180" style="vertical-align: middle !important; border-radius: 50px !important" />
+                                    </div>
+                                    <span class="text-truncate" style="font-weight: 600 !important;font-size: 18px !important;"><a style="color: rgb(17, 111, 191) !important;">{{candidate['Name']}}</a></span>
+                                    <span class="text-truncate" style="font-weight: 600 !important;font-size: 18px !important;"><a style="color: #000 !important;font-size: 15px;text-decoration: none;">, {{candidate['Designation']}}</a></span>
+                                </div>
+                                <div fxLayout="row" fxFlex="5">
+                                    <button matSuffix
+                                            mat-icon-button aria-label="Clear"
+                                            (click)="RemoveCandidate(candidate['Id'],'New')">
+                                        <mat-icon style="font-size: 25px !important;color: red !important;">close</mat-icon>
+                                    </button>
+                                </div>
+                            </div><br>
+                            <div class="row-2" fxLayout="row" fxLayoutAlign="start center">
+                                <div style="padding-left: 50px;height: 25px; flex-direction: column;box-sizing: border-box;display: grid;place-content: flex-start;align-items: flex-start;">
+                                    <div class="subject text-truncate" style="font-size:12px;">
+                                        <span *ngIf="candidate['CurrentEmployer']!=''" style="color:black !important;" class="truncate" title="CurrentEmployer:&nbsp;{{candidate['CurrentEmployer']}}"><b><span style="color:#000 !important" class="material-icons">business</span>  &nbsp;{{candidate['CurrentEmployer']}},</b></span>
+                                        &nbsp;&nbsp; <br>
+                                        <span *ngIf="candidate['Location']!='' " title="Location: {{candidate['Location']}}"><span style="color:#858585 !important" class="material-icons">location_on</span>&nbsp; <span style="color:black !important;">{{candidate['Location']}},</span></span>
+                                        &nbsp;
+                                        <span>{{candidate['CreatedDate'] | date:'shortDate'}}</span>
+                                    </div>
+                                </div>
+                            </div><br>
+                            <div class="row-3" fxLayout="row" fxLayoutAlign="start center" style="margin-top: 30px;">
+                                <!-- <div class="row-3" fxLayout="row" fxLayoutAlign="start center"> -->
+                                <div style="padding-left: 50px;height:30px; flex-direction: column;box-sizing: border-box;display: initial;place-content: flex-start;align-items: flex-start;width: 100%;">
+                                    <span fxFlex="80" style=" font-size: 15px; color: rgb(17, 111, 191) !important;margin-right: 30px;" class="truncate" title="Email:&nbsp;{{candidate['Email']}}"><b><span style="color:#000 !important" class="material-icons">email</span></b> &nbsp;{{candidate['Email']}}</span>
+                                    <span fxFlex="20" style="font-size: 15px; color: rgb(17, 111, 191) !important;" class="truncate" title="Mobile Number:&nbsp;{{candidate['MobileNumber']}}"><b><span style="color:#000 !important" class="material-icons">call</span></b> &nbsp;{{candidate['MobileNumber']}}</span>
+                                    &nbsp;
+                                </div>
+                            </div><br>
+                            <div class="row-4" fxLayout="row" fxLayoutAlign="start center" style="margin-bottom: 1% !important;margin-left: 50px;height: 30px;">
+                                <div style="background-color: #192a56 !important; margin-right: 10px !important; padding: 5px 5px 10px 10px !important;" *ngFor="let skillID of candidate['Skills'].split(',') let i=index">
+                                    <span style="color: #fff !important; font-size: 14px;" class="text-boxed" title="Skill {{i+1}}: {{skillID}}">{{skillID}}</span>
+                                </div>&nbsp;
+                                <!-- <span class="truncate" title="Date:&nbsp;{{candidate['CreatedDate'] | date :  'MM/dd/yyyy'}}" style="float: right !important;color:black !important;"><b><span class="material-icons">calendar_today</span></b>&nbsp;{{candidate['CreatedDate'] | date :  "MM/dd/yyyy"}} </span> -->
+                                <span style="font-size: 15px; color: #000 !important;font-weight: bold; border:1px solid; width: 60px; text-align: center;" class="truncate" title="Experience:&nbsp;{{candidate['Experience']}}"><b></b> &nbsp;{{candidate['Experience']}} Yrs</span>
+                                <!-- <button class="downloadresume"   *ngIf="candidate['resumepath']"
+                                    mat-raised-button aria-label="Forward" (click)="DownloadResume(candidate['resumepath'])">
+                                    <span>Download CV</span>
+                                </button> -->
+                                <button class="downloadresume" *ngIf="candidate['resumepath']"
+                                class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" 
+                                        aria-label="Forward" (click)="openModalviewresume(viewresume, candidate['resumepath'])">
+                                    <span>View Resume</span>
+                                </button>&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #EditFolderDialog>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div fxLayout="row" style="border-bottom: 1px solid#5D5D5D;" fxLayoutAlign="start center" fxLayout.gt-xs="column" fxLayout.gt-md="row">
+                    <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                        <div fxFlex="70" fxLayout="row">
+                            <div fxLayout="row">
+                                <span fxFlex="max-content" style="color: #474747;"><h2><b>{{curFolder}}</b></h2></span>
+                            </div>
+                        </div>
+                        <div fxFlex="30">
+                            <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                                    *ngIf="curFolderStatus == true" (click)="UpdateFolderStatus(!curFolderStatus)">
+                                Archive
+                            </button>&nbsp;
+                            <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                                    *ngIf="curFolderStatus == false" (click)="UpdateFolderStatus(!curFolderStatus)">
+                                Activate
+                            </button>&nbsp;
+                            <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                                    mat-dialog-close [disabled]="this.EditFolderFormGroup.invalid" color="accent" (click)="UpdateFolder()">
+                                Save
+                            </button>&nbsp;&nbsp;
+                            <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                                    mat-dialog-close tabindex="-1">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div fxLayout="row" style="margin-bottom: 10px;">
+                <div fxFlex="100">
+                    <form fxLayout="column" [formGroup]="EditFolderFormGroup">
+                        <div class="example-button-row" *ngIf="selectedCount !=0">
+                            <span fxFlex="10" style="align-self: center !important;margin-bottom: 3% !important;">Selected: {{selectedCount}}</span>
+                            <a fxFlex="10" style="cursor: pointer !important;align-self: center !important;margin-bottom: 3% !important;" (click)="RemoveCandidatesfromFolder()">Remove</a>
+                            <mat-form-field fxFlex="50" appearance="outline" class="pr-4" class="example-full-width">
+                                <mat-label>Move to another folder</mat-label>
+                                <mat-select formControlName="folderId">
+                                    <mat-option *ngFor="let folder of filteredFolderList"
+                                                [value]="folder.FolderId">
+                                        {{folder.FolderName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-body mail-details1" fxLayout="column">
+                <div style="text-align: center !important;" class="mail-list-1" *ngIf="this.AllCandidates.length == 0">
+                    <span>No candidates added</span>
+                </div>
+                <div class="mail-list-1" *ngIf="this.AllCandidates">
+                    <div class="row-1" fxLayout="column" *ngFor="let candidate of AllCandidates" style="border: 1px solid rgba(0, 0, 0, 0.12);">
+                        <div class="name" fxLayout="row" fxLayoutAlign="start center" fxFlex title="Name: {{candidate['Name']}}" style="margin-left: 1%;margin-top:1%;text-overflow: ellipsis;white-space: nowrap;">
+                            <div fxLayoutAlign="start center" fxLayout="row" fxFlex="95">
+                                <mat-checkbox style="margin-right:10px; margin-left: 10px;" (click)="$event.stopPropagation()" (change)="isCandidateChecked($event,candidate['Id'])"></mat-checkbox>
+                                <!-- <div *ngIf="!candidate['ProfileImage']" class="avatar accent" style="border-radius: 50px !important">{{candidate['Name'][0]}}</div> -->
+                                <div *ngIf="!candidate['ProfileImage']" class="inline-flex overflow-hidden relative justify-center items-center w-6 h-6 bg-blue-900 rounded-full dark:bg-gray-600 font-medium text-white" style="border-radius: 50px !important">{{candidate['Name'][0]}}</div>
+                                <div *ngIf="candidate['ProfileImage']" class="avatar">
+                                    <img class="img" [src]="candidate['ProfileImage']" class="img-circle" width="180" style="vertical-align: middle !important; border-radius: 50px !important" />
+                                </div>
+                                <span class="text-truncate" style="font-weight: 600 !important;font-size: 18px !important;"><a style="color: rgb(17, 111, 191) !important;cursor: pointer !important;" (click)="redirectCandidate(candidate['Id'])">{{candidate['Name']}}</a></span>
+                                <span class="text-truncate" style="font-weight: 600 !important;font-size: 18px !important;"><a style="color: #000 !important;font-size: 15px;text-decoration: none;">, {{candidate['Designation']}}</a></span>
+                            </div>
+                            <div fxLayout="row" fxFlex="5">
+                                <button matSuffix
+                                        mat-icon-button aria-label="Clear"
+                                        (click)="RemoveCandidate(candidate['Id'],'Edit')">
+                                    <mat-icon style="font-size: 25px !important;color: red !important;">close</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row-2" fxLayout="row" fxLayoutAlign="start center">
+                            <div style="padding-left: 50px;height: 25px; flex-direction: column;box-sizing: border-box;display: grid;place-content: flex-start;align-items: flex-start;">
+                                <div class="subject text-truncate" style="font-size:12px;">
+                                    <span style="color:black !important;" class="truncate" title="CurrentEmployer:&nbsp;{{candidate['CurrentEmployer']}}"><b><span style="color:#000 !important" class="material-icons">business</span>  &nbsp;{{candidate['CurrentEmployer']}},</b></span>
+                                    &nbsp;&nbsp;
+                                    <span title="Location: {{candidate['Location']}}"><span style="color:#858585 !important" class="material-icons">location_on</span>&nbsp; <span style="color:black !important;">{{candidate['Location']}},</span></span>
+                                    &nbsp;
+                                    <span>{{candidate['CreatedDate'] | date:'shortDate'}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-3" fxLayout="row" fxLayoutAlign="start center">
+                            <div style="padding-left: 50px;height:30px; flex-direction: column;box-sizing: border-box;display: initial;place-content: flex-start;align-items: flex-start;width: 100%;">
+                                <span fxFlex="80" style=" font-size: 15px; color: rgb(17, 111, 191) !important;margin-right: 50px;" class="truncate" title="Email:&nbsp;{{candidate['Email']}}"><b><span style="color:#000 !important" class="material-icons">email</span></b> &nbsp;{{candidate['Email']}}</span>
+                                <span fxFlex="20" style="font-size: 15px; color: rgb(17, 111, 191) !important;" class="truncate" title="Mobile Number:&nbsp;{{candidate['MobileNumber']}}"><b><span style="color:#000 !important" class="material-icons">call</span></b> &nbsp;{{candidate['MobileNumber']}}</span>
+                                &nbsp;
+                            </div>
+                        </div>
+                        <div class="row-4" fxLayout="row" fxLayoutAlign="start center" style="margin-bottom: 1% !important;margin-left: 50px;height: 30px;">
+                            <div style="background-color: #192a56 !important; margin-right: 10px !important; padding: 5px 5px 10px 10px !important;" *ngFor="let skillID of candidate['Skills'].split(',') let i=index">
+                                <span style="color: #fff !important; font-size: 14px;" class="text-boxed" title="Skill {{i+1}}: {{skillID}}">{{skillID}}</span>
+                            </div>&nbsp;
+                            <!-- <span class="truncate" title="Date:&nbsp;{{candidate['CreatedDate'] | date :  'MM/dd/yyyy'}}" style="float: right !important;color:black !important;"><b><span class="material-icons">calendar_today</span></b>&nbsp;{{candidate['CreatedDate'] | date :  "MM/dd/yyyy"}} </span> -->
+                            <span style="font-size: 15px; color: #000 !important;font-weight: bold; border:1px solid; width: 60px; text-align: center;" class="truncate" title="Experience:&nbsp;{{candidate['Experience']}}"><b></b> &nbsp;{{candidate['Experience']}} Yrs</span>
+                            <!-- <button class="downloadresume"   *ngIf="candidate['resumepath']"
+                                mat-raised-button aria-label="Forward" (click)="DownloadResume(candidate['resumepath'])">
+                                <span>Download CV</span>
+                            </button> -->
+                            <button class="downloadresume" *ngIf="candidate['resumepath']"
+                            class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" 
+                                    aria-label="Forward" (click)="openModalviewresume(viewresume, candidate['resumepath'])">
+                                <span>View Resume</span>
+                            </button>&nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>

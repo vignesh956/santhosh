@@ -1,0 +1,342 @@
+<style>
+    
+    .example-full-width {
+        width: 100%;
+    }
+    :host ::ng-deep .mat-tab-body-content {
+        overflow: hidden;
+    }
+    .ag-header-cell-label {
+      justify-content: center !important;
+  }
+</style>
+<div class="w-full bg-white" flexLayout="row">
+  <div class="page-layout carded fullwidth inner-scroll">
+    <div class="center">
+        
+  <div class="container-fluid">
+    <mat-tab-group>
+      <mat-tab label="Job Functions">
+        
+        <div class="page-layout carded inner-scroll" style="margin-left: 2%;">
+          <div class="center">
+             
+        <div class="container-fluid">
+          <div>
+        <div class="row">
+          <!-- Eswari -->
+          <div class="ml-3 flex mt-1 mb-15 w-full">
+            <div class="ml-5 h-7 mt-3 w-1/2">
+              <span class="mat-accent compose-dialog-button w-100-p">
+                <h4><b>Functional Areas <span *ngIf="gridtotRowCount">({{gridtotRowCount}})</span></b></h4>
+                </span>
+            </div>
+            <div class="h-7 mt-3 w-2/4">
+              <mat-form-field class="w-2/4 mr-1">
+                <input matInput (input)="onQuickFilterChanged()" [(ngModel)]="jobGridSearchFilter"
+                       placeholder="Search Functional Area">
+                <!-- <button style="color: red !important;" mat-button *ngIf="jobGridSearchFilter" matSuffix
+                        mat-icon-button aria-label="Clear"
+                        (click)="jobGridSearchFilter='';onQuickFilterChanged()">
+                    <mat-icon>close</mat-icon>
+                </button> -->
+              </mat-form-field>
+              <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800" aria-label="Compose"
+                    (click)="openModal(FunctionalAreas)" title="Add a new Functional Area">Add
+                    </button>
+            </div>
+          </div>
+          <!-- Eswari -->
+          
+          
+        </div>
+        <ag-grid-angular #agGrid style="height: 500px; width: 98% !important; margin-top: 20px;" id="myGrid" class="ag-theme-alpine custom-header" [context]="context"
+         [context]="context"
+              [gridOptions]="gridOptions"
+              [rowData]="rowData"
+              (gridReady)="onGridReady($event)"
+              [defaultColDef]="defaultColDef"
+              [frameworkComponents]="frameworkComponents"
+              [rowSelection]="rowSelection"
+          ></ag-grid-angular>
+              <ng-template #FunctionalAreas> 
+                  <h2 mat-dialog-title>{{this.isAction}} Functional Areas</h2>
+                  <mat-divider></mat-divider>
+                  <mat-dialog-content>
+                    
+                      <form class="example-form" [formGroup]="functionalAreaFormGroup">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Functional Area" formControlName="functional_area_name" required>
+                          </mat-form-field>
+                        </form>
+                   
+                  </mat-dialog-content>
+                  <mat-divider></mat-divider><br>
+                  <mat-dialog-actions>
+                      <div class="col-md-6">
+                          <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                          id="btnCancelDialog" mat-dialog-close>Close</button>
+                      </div>&nbsp;&nbsp;
+                      <div class="col-md-6">
+                          <button *ngIf="isAction == 'Edit'" [disabled]="this.functionalAreaFormGroup.invalid" 
+                          class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" 
+                          (click)="updateFunctionalArea()" >Update</button>&nbsp;&nbsp;
+                          <button *ngIf="isAction == 'Add'" [disabled]="this.functionalAreaFormGroup.invalid" 
+                          class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" 
+                          (click)="saveFunctionalArea()">Save</button>&nbsp;&nbsp;
+                          </div>
+                  </mat-dialog-actions>
+              </ng-template>
+            </div>
+            </div>
+      </div>
+      </div>
+              
+    </mat-tab>
+    <mat-tab label="Job Industries">
+      <div class="page-layout carded inner-scroll" style="margin-left: 2%;">
+        <div class="center">
+           
+      <div class="container-fluid">
+        <div>
+      <div class="row">
+        <!-- Eswari -->
+        <div class="ml-3 flex mt-1 mb-15 w-full">
+          <div class="ml-5 h-7 mt-3 w-1/2">
+            <span class="mat-accent compose-dialog-button w-100-p">
+              <h2><b>Industries <span *ngIf="gridIndustrytotRowCount">({{gridIndustrytotRowCount}})</span></b></h2>
+              </span>
+          </div>
+          <div class="h-7 mt-3 w-2/4">
+            <mat-form-field class="w-2/4 mr-1">
+              <input matInput (input)="onQuickIndustryFilterChanged()" [(ngModel)]="jobGridIndustrySearchFilter"
+                       placeholder="Search for a Industry">
+                <!-- <button style="color: red !important;" mat-button *ngIf="jobGridIndustrySearchFilter" matSuffix
+                        mat-icon-button aria-label="Clear"
+                        (click)="jobGridIndustrySearchFilter='';onQuickIndustryFilterChanged()">
+                    <mat-icon>close</mat-icon>
+                </button> -->
+            </mat-form-field>
+            <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800" aria-label="Compose"
+                  (click)="openModal(Industries)" title="Add a new Industry">Add
+                  </button>
+          </div>
+          
+        </div>
+        <div class="ml-3 bg-white" flexLayout="row">
+          <ag-grid-angular #agGrid style="height: 500px; width: 98% !important; margin-top: 20px;" id="myGrid" class="ag-theme-alpine custom-header" [context]="context"
+          [context]="contextIndustry"
+          [gridOptions]="gridIndustryOptions"
+          [rowData]="rowIndustryData"
+          (gridReady)="onIndustryGridReady($event)"
+          [defaultColDef]="defaultIndustryColDef"
+          [frameworkComponents]="frameworkIndustryComponents"
+          [rowSelection]="rowIndustrySelection"
+      ></ag-grid-angular>
+        </div>
+        <!-- Eswari -->
+        
+      </div>
+           
+            <ng-template #Industries> 
+                <h2 mat-dialog-title>{{this.isAction}} Industry</h2>
+                <mat-divider></mat-divider>
+                <mat-dialog-content>
+                  
+                    <form class="example-form" [formGroup]="industryFormGroup">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Industry Name" formControlName="industry_name" required>
+                        </mat-form-field>
+                      </form>
+                 
+                </mat-dialog-content>
+                <mat-divider></mat-divider><br>
+                <mat-dialog-actions>
+                    <div class="col-md-6">
+                        <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" 
+                        id="btnCancelDialog" mat-dialog-close>Close</button>
+                    </div>&nbsp;&nbsp;
+                    <div class="col-md-6">
+                        <button *ngIf="isAction == 'Edit'" [disabled]="this.industryFormGroup.invalid" 
+                        class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                        (click)="updateIndustry()" >Update</button>&nbsp;&nbsp;
+                        <button *ngIf="isAction == 'Add'" [disabled]="this.industryFormGroup.invalid" 
+                        class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                        (click)="saveIndustry()" >Save</button>&nbsp;&nbsp;
+                        </div>
+                </mat-dialog-actions>
+            </ng-template>
+          </div>
+          </div>
+    </div>
+    </div>
+            
+  </mat-tab>
+  <mat-tab label="Job Benefits">
+    <div class="page-layout carded inner-scroll" style="margin-left: 2%;">
+      <div class="center">
+         
+    <div class="container-fluid">
+      <div>
+    <div class="row">
+      <!-- Eswari -->
+      <div class="ml-3 flex mt-1 mb-15 w-full">
+        <div class="ml-5 h-7 mt-3 w-1/2">
+          <span
+              class="mat-accent compose-dialog-button w-100-p"><h2><b>Benefits <span
+            *ngIf="gridBenefittotRowCount">({{gridBenefittotRowCount}})</span></b></h2>
+          </span>
+        </div>
+        <div class="h-7 mt-3 w-2/4">
+          <mat-form-field class="w-2/4 mr-1">
+            <input matInput (input)="onQuickBenefitFilterChanged()" [(ngModel)]="jobGridBenefitSearchFilter"
+                       placeholder="Search for a Benefit">
+                <!-- <button style="color: red !important;" mat-button *ngIf="jobGridBenefitSearchFilter" matSuffix
+                        mat-icon-button aria-label="Clear"
+                        (click)="jobGridBenefitSearchFilter='';onQuickBenefitFilterChanged()">
+                    <mat-icon>close</mat-icon>
+                </button> -->
+          </mat-form-field>
+          <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800" aria-label="Compose"
+                (click)="openModal(Benefits)" title="Add a new Benefit">Add
+                </button>
+        </div>
+        </div>
+        <div class="ml-3 bg-white" flexLayout="row">
+          <ag-grid-angular #agGrid style="height: 500px; width: 98% !important; margin-top: 20px;" id="myGrid" class="ag-theme-alpine custom-header" [context]="context"
+          [context]="contextBenefit"
+          [gridOptions]="gridBenefitsOptions"
+          [rowData]="rowBenefitsData"
+          (gridReady)="onBenefitsGridReady($event)"
+          [defaultColDef]="defaultBenefitsColDef"
+          [frameworkComponents]="frameworkBenefitsComponents"
+          [rowSelection]="rowBenefitsSelection"
+      ></ag-grid-angular>
+        </div>
+      </div>
+      <!-- Eswari -->
+   
+          
+          <ng-template #Benefits> 
+              <h2 mat-dialog-title>{{this.isAction}} Benefit</h2>
+              <mat-divider></mat-divider>
+              <mat-dialog-content>
+                
+                  <form class="example-form" [formGroup]="benefitsFormGroup">
+                      <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Benefit Name" formControlName="benefit_name" required>
+                      </mat-form-field>
+                    </form>
+               
+              </mat-dialog-content>
+              <mat-divider></mat-divider><br>
+              <mat-dialog-actions>
+                  <div class="col-md-6">
+                      <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                      id="btnCancelDialog" mat-dialog-close><span>Close</span></button>
+                  </div>&nbsp;&nbsp;
+                  <div class="col-md-6">
+                      <button *ngIf="isAction == 'Edit'" [disabled]="this.benefitsFormGroup.invalid" 
+                      class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" 
+                      (click)="updateBenefit()" >Update</button>&nbsp;&nbsp;
+                      <button *ngIf="isAction == 'Add'" [disabled]="this.benefitsFormGroup.invalid" 
+                      class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" 
+                      (click)="saveBenefit()" >Save</button>&nbsp;&nbsp;
+                      </div>
+              </mat-dialog-actions>
+          </ng-template>
+        </div>
+        </div>
+  </div>
+  </div>       
+</mat-tab>
+<mat-tab label="Job Skills">
+  <div class="page-layout carded inner-scroll" style="margin-left: 2%;">
+    <div class="center">
+       
+  <div class="container-fluid">
+    <div>
+  <div class="row">
+    <!-- Eswari -->
+    <div class="ml-3 flex mt-1 mb-15 w-full">
+      <div class="ml-5 h-7 mt-3 w-1/2">
+        <span
+            class="mat-accent compose-dialog-button w-100-p"><h2><b>Skills <span
+          *ngIf="gridSkillstotRowCount">({{gridSkillstotRowCount}})</span></b></h2></span>
+      </div>
+      <div class="h-7 mt-3 w-2/4">
+        <mat-form-field class="w-2/4 mr-1">
+          <input matInput (input)="onQuickSkillFilterChanged()" [(ngModel)]="jobGridSkillSearchFilter"
+                 placeholder="Search for a Skill">
+          <!-- <button style="color: red !important;" mat-button *ngIf="jobGridSkillSearchFilter" matSuffix
+                  mat-icon-button aria-label="Clear"
+                  (click)="jobGridSkillSearchFilter='';onQuickSkillFilterChanged()">
+              <mat-icon>close</mat-icon>
+          </button> -->
+        </mat-form-field>
+        <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800" aria-label="Compose"
+              (click)="openModal(Skills)" title="Add a new Skill">Add
+              </button>
+      </div>
+    </div>
+    <div class="ml-3 bg-white" flexLayout="row">
+      <ag-grid-angular #agGrid style="height: 500px; width: 98% !important; margin-top: 20px;" id="myGrid" class="ag-theme-alpine custom-header" [context]="context"
+        [context]="contextSkill"
+        [gridOptions]="gridSkillsOptions"
+        [rowData]="rowSkillsData"
+        (gridReady)="onSkillsGridReady($event)"
+        [defaultColDef]="defaultSkillsColDef"
+        [frameworkComponents]="frameworkSkillsComponents"
+        [rowSelection]="rowSkillsSelection"
+    ></ag-grid-angular>
+    </div>
+    <!-- Eswari -->
+    
+  </div>
+        
+        <ng-template #Skills> 
+            <h2 mat-dialog-title>{{this.isAction}} Skill</h2>
+            <mat-divider></mat-divider>
+            <mat-dialog-content>
+                <form class="example-form" [formGroup]="skillsFormGroup">
+                  <!-- <mat-form-field appearance="outline" class="example-full-width" style="margin-right: 5px !important;">
+                    <mat-label>Job Industry</mat-label>
+                    <mat-select formControlName="company_industry" required>
+                        <mat-option *ngFor="let Industry of rowIndustryData" [value]="Industry.Id">
+                            {{Industry.Name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field> -->
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Skill Name" formControlName="skill_name" required>
+                    </mat-form-field>
+                  </form>
+             
+            </mat-dialog-content>
+            <mat-divider></mat-divider><br>
+            <mat-dialog-actions>
+                <div class="col-md-6">
+                    <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                    id="btnCancelDialog" mat-dialog-close>Close</button>
+                </div>&nbsp;&nbsp;
+                <div class="col-md-6">
+                    <button *ngIf="isAction == 'Edit'" [disabled]="this.skillsFormGroup.invalid" 
+                    class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                    (click)="updateSkill()" >Update</button>&nbsp;&nbsp;
+                    <button *ngIf="isAction == 'Add'" [disabled]="this.skillsFormGroup.invalid" 
+                    class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" 
+                    (click)="saveSkill()" >Save</button>&nbsp;&nbsp;
+                    </div>
+            </mat-dialog-actions>
+        </ng-template>
+      </div>
+      </div>
+</div>
+</div>       
+</mat-tab>
+  </mat-tab-group>
+      </div>
+</div>
+</div>
+</div>
+        

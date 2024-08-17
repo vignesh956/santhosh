@@ -1,0 +1,374 @@
+@mixin job-theme($theme) {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $accent: map-get($theme, accent);
+    $is-dark: map-get($theme, is-dark);
+
+    // Mail
+    mail {
+        .center {
+
+            .header {
+
+                .search-wrapper {
+                    background: map-get($background, card);
+
+                    .sidebar-toggle {
+                        border-right-color: map-get($foreground, divider);
+                    }
+
+                    .search {
+
+                        input {
+                            background: map-get($background, card);
+                            color: map-get($foreground, text);
+                        }
+                    }
+                }
+            }
+
+            .content-card {
+
+                .toolbar {
+
+                    .toolbar-separator {
+                        background: map-get($foreground, divider);
+                    }
+                }
+            }
+        }
+    }
+
+    // Mail list
+    mail-list-1 {
+        border-right-color: map-get($foreground, divider);
+    }
+    /* Set the height to the desired value */
+    // mat-form-field-flex {
+    //     height: 10px; 
+    //   }
+    // Mail list item
+    candidate-list-item {
+        border-bottom-color: map-get($foreground, divider);
+
+        &.unread {
+
+            .info {
+
+                .row-2 {
+                    color: map-get($foreground, text);
+                }
+            }
+        }
+
+        &.current-mail {
+            background: map-get($background, hover);
+        }
+
+        &.selected {
+            @if ($is-dark) {
+                background: map-get($background, background);
+            } @else {
+                background: map-get($accent, 50);
+            }
+
+            .info {
+
+                .row-2 {
+
+                    .labels {
+                        @if ($is-dark) {
+                            background: map-get($background, background);
+                        } @else {
+                            background: map-get($accent, 50);
+                        }
+                    }
+                }
+            }
+        }
+
+        .info {
+
+            .row-2 {
+                color: map-get($foreground, secondary-text);
+
+                .labels {
+
+                    .label {
+                        background-color: rgba(0, 0, 0, 0.08);
+                        color: #0b6d6d !important;
+                    }
+                }
+            }
+        }
+    }
+
+    // Mail details
+    mail-details1 {
+
+        .mail-header {
+            border-bottom-color: map-get($foreground, divider);
+
+            .label {
+                background-color: rgba(0, 0, 0, 0.08);
+            }
+        }
+
+        .mail-content {
+
+            .to {
+                color: map-get($foreground, secondary-text);
+            }
+
+            .info {
+
+                .avatar {
+                    background: map-get($accent, default);
+                }
+
+                .details {
+
+                    .detail {
+                        color: map-get($foreground, secondary-text);
+                    }
+                }
+            }
+        }
+
+        .mail-attachments {
+            border-top-color: map-get($foreground, divider);
+        }
+    }
+}
+
+#loading{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+
+
+    
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .form-field {
+    // flex: 1;
+    // min-width: calc(33.333% - 16px);
+    width: 30%;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+  
+
+  .cards-info{
+    margin-bottom: 23px;
+    background-color: #fbfbfb;
+    border: 1px solid #d3dce6;
+    border: 1px solid #d3dce6;
+    width: 95%;
+    border-radius: 20px;
+    padding: 5px;
+    color: #67748e;
+    overflow: hidden;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 20px 0px;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .cards-info:hover {
+    transform: scale(1.05);
+    border: solid !important;
+    // border-color: #8c8c8c4d !important;
+  } 
+
+  .sub-card-header{
+    color: #67748e;
+    border-radius: 12px;
+    padding: 18px 16px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 20px 0px;
+    margin:16px
+  }
+
+/* Popup styles */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    height: 80%;
+    overflow: auto;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+  h3,h4,p{
+    font-family: Roboto, Arial, sans-serif;
+  }
+  
+  .text-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  
+  .centered {
+    font-family: sans-serif;
+    font-size: 1.3em;
+    text-align:center;
+  }
+  
+  .dropzone {
+      height: 200px;
+      display: table;
+      width: 100%;
+      background-color: #eee;
+      border: dotted 1px #aaa;
+  }
+  
+  input[type="file"]{
+    display:none;
+  }
+  
+  .textLink{
+    background-color: #f45e61;
+    color:#fff;
+    padding:10px;
+    border-radius:5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  .textLink::before{
+    content: "\f093";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      color: #fff;
+      font-size: large;
+      margin-right: 10px;
+  }
+    
+    .text-wrapper {
+      display: table-cell;
+      vertical-align: middle;
+    }
+    
+    .centered {
+      font-family: sans-serif;
+      font-size: 1.3em;
+      text-align:center;
+    }
+  
+  
+  .fileItem{
+    width: calc(25% - 6px);
+    overflow:hidden;
+    height: fit-content;
+    margin:3px;
+    padding: 10px;
+    display:block;
+    position:relative;
+    float:left;
+    border:2px dashed #778899;
+    border-radius:5px;
+    transition: .3s ease;
+  }
+    .fileItem:hover{
+      border:2px solid #c33838;
+      background-color: #c33838bf;
+    }
+    .fileItem:hover .fileItemIcon::before{
+      content: "\f00d";
+      color: whitesmoke;
+    }
+    .fileItem:hover .fileItemText{
+      color: whitesmoke;
+    }
+  .fileItemIconDiv{
+    text-align:center;
+  }
+  .fileItemIcon::before{
+    font-style: normal;
+    content: "\f15b";
+    color:#778899;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+  }
+  .fileItemText{
+    text-align:center;
+    margin-top:10px;
+    height: 40px;
+  }
+  .ag-header{
+    --ag-background-color : red !important;
+    background-color: #f51c1c !important; 
+}
+
+.ag-header-cell-label {
+    color: #fafcfa !important; 
+}
+.ag-header {
+    background-color: #043535 !important;
+}
+:host ::ng-deep .ag-theme-alpine.custom-header .ag-header {
+    --ag-foreground-color: rgb(252, 252, 252);
+    --ag-background-color: rgb(249, 245, 227);
+    --ag-header-foreground-color: rgb(255, 255, 255);
+    --ag-header-background-color: #043535;
+    --ag-odd-row-background-color: rgba(73, 70, 70, 0.03);
+    --ag-header-column-resize-handle-color: rgb(250, 247, 250);
+
+    --ag-font-size: 17px;
+    --ag-font-family: monospace;
+}
+:host ::ng-deep .ag-theme-alpine.custom-header {
+    border-radius: 15px; /* Adjust the value to your preference */
+    overflow: hidden; /* Ensures content doesn't overflow the rounded corners */
+  }
+  a[mat-button] {
+    color: inherit;
+    text-decoration: none;
+}
+
+a[mat-button]:hover {
+    background-color: rgb(43, 149, 235);
+    color: white;
+}

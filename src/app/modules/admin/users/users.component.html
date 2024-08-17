@@ -1,0 +1,122 @@
+<style>
+    .example-full-width {
+      width: 100%;
+    }
+  
+    .ag-header-cell-label {
+      justify-content: center !important;
+    }
+  </style>
+    <div class="w-full bg-white" flexLayout="row">
+      <div class="ml-3 flex mt-1 mb-10 w-full">
+        <div class="ml-3 h-7 mt-3 w-40">
+            <span class="mat-accent compose-dialog-button w-100-p">
+                <h2><b>Users <span *ngIf="gridtotRowCount">({{gridtotRowCount}})</span></b></h2>
+                </span>
+        </div>
+        <div class="h-7 mt-3 w-full mr-5 text-right">
+            <mat-form-field class="mr-2">
+                <input matInput (input)="onQuickFilterChanged()" [(ngModel)]="jobGridSearchFilter"
+                    placeholder="Search User">
+                <!-- <button style="color: red !important;" mat-button *ngIf="jobGridSearchFilter" matSuffix
+                    mat-icon-button aria-label="Clear" (click)="jobGridSearchFilter='';onQuickFilterChanged()">
+                    <mat-icon>close</mat-icon>
+                </button> -->
+                
+                </mat-form-field>
+
+                <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800" aria-label="Compose"
+                (click)="openModal(Users)" title="Add a new User">Add User
+                </button>
+        </div>
+    </div>
+    <div class="ml-3 bg-white" flexLayout="row">
+      <ag-grid-angular #agGrid style="height: 500px; width: 98% !important; margin-top: 20px;" id="myGrid" class="ag-theme-alpine custom-header" [context]="context"
+             [context]="context" [gridOptions]="gridOptions" [rowData]="rowData" 
+        (gridReady)="onGridReady($event)" [defaultColDef]="defaultColDef"
+        [frameworkComponents]="frameworkComponents" [rowSelection]="rowSelection">
+      </ag-grid-angular>
+    </div>
+    </div>
+    <ng-template #Users>
+        <h2 mat-dialog-title>{{this.isAction}} User</h2>
+        <mat-divider></mat-divider>
+        <mat-dialog-content>
+          <form class="example-form" [formGroup]="userFormGroup">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="First Name" formControlName="first_name" required>
+              <mat-error *ngIf="userFormGroup.get('first_name').hasError('required')">
+                First name is required
+            </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Last Name" formControlName="last_name" required>
+              <mat-error *ngIf="userFormGroup.get('last_name').hasError('required')">
+                Last name is required
+            </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Mobile" formControlName="mobile" required
+              pattern="^((\\+91-?)|0)?[0-9]{10}$"  minlength="10" maxlength="10">
+              <mat-error *ngIf="userFormGroup.get('mobile').hasError('required')">
+                Mobile number is required
+            </mat-error>
+              <mat-error *ngIf="userFormGroup.get('mobile').hasError('pattern')">
+                Please enter a valid mobile number
+            </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" *ngIf="isAction == 'Edit'" >
+              <input matInput type="text" placeholder="Email Address" formControlName="email" readonly>
+              <mat-error *ngIf="userFormGroup.get('email').hasError('required')">
+                Email address is required
+            </mat-error>
+            <mat-error *ngIf="userFormGroup.get('email').hasError('email')">
+                Please enter a valid email address
+            </mat-error> 
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" *ngIf="isAction == 'Add'" >
+                <input matInput type="text" placeholder="Email Address" formControlName="email"> 
+                <mat-error *ngIf="userFormGroup.get('email').hasError('required')">
+                  Email address is required
+              </mat-error>
+              <mat-error *ngIf="userFormGroup.get('email').hasError('email')">
+                  Please enter a valid email address
+              </mat-error> 
+              </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Password" formControlName="password" required>
+              <mat-error *ngIf="userFormGroup.get('email').hasError('required')">
+                Password required
+            </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>Role</mat-label>
+              <mat-select  style="text-align: center !important;" formControlName="role" required>
+                  <mat-option *ngFor="let role of Roles" [value]="role">
+                      {{role}}
+                      </mat-option>
+              </mat-select>
+          </mat-form-field>
+
+          </form>
+        </mat-dialog-content>
+        <mat-divider></mat-divider><br>
+        <mat-dialog-actions>
+          <div class="col-md-6">
+            <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" color="primary" id="btnCancelDialog"
+              mat-dialog-close>Close</button>
+          </div>&nbsp;&nbsp;
+          <div class="col-md-6">
+            <button *ngIf="isAction == 'Edit'" [disabled]="this.userFormGroup.invalid" class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+              color="primary" (click)="updateUser()" [class.disabled]="userFormGroup.invalid"><span>Update</span></button>&nbsp;&nbsp;
+            <button *ngIf="isAction == 'Add'" [disabled]="this.userFormGroup.invalid" class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+              color="primary" (click)="saveUser()"><span>Save</span></button>&nbsp;&nbsp;
+          </div>
+        </mat-dialog-actions>
+      </ng-template>

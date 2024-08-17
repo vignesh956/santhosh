@@ -1,0 +1,1687 @@
+<style>
+    .ag-header-cell-label {
+        justify-content: center !important;
+    }
+
+    .mat-dialog-container {
+        border-radius: 0px !important;
+    }
+
+    .mat-card {
+        border-radius: 0px !important;
+    }
+
+    .mat-form-field-appearance-outline .mat-form-field-infix {
+        padding: .5em 0 .5em 0 !important;
+    }
+
+    .brd {
+        border: 1px solid black;
+        border-collapse: collapse;
+        font-size: large;
+    }
+
+    .ellipsis {
+        /* max-width: 20px; */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .brd1 {
+        border: 1px solid black;
+        border-collapse: collapse;
+        border-bottom: none;
+        font-size: large;
+        /* margin-right: 0px !important; */
+    }
+
+    .brd2 {
+        border: 1px solid black;
+        border-collapse: collapse;
+        border-bottom: none;
+        font-size: large;
+        background-color: darkgray;
+    }
+
+    .t1, .t2 {
+        border-collapse: collapse;
+    }
+
+        .t1 > tbody > tr > td {
+            border: 1px solid red;
+        }
+
+        .t2 > tbody > tr > td {
+            border: 1px solid blue;
+        }
+
+    .t3 td {
+        white-space: nowrap;
+    }
+</style>
+<script>
+
+</script>
+
+<div style="display:none">
+    <div #pdfCandidates>
+        <div *ngIf="printCandidates">
+            <div *ngFor="let printCandidate of printCandidates">
+                <h1>{{printCandidate['Name']}} </h1>
+                <hr>
+                <table style="width:100%">
+                    <tr>
+                        <td colspan="2">
+                            <p><b>Name</b>: {{printCandidate['Name']}} </p>
+                            <p><b>Designation</b>: {{printCandidate['Designation']}} </p>
+                            <p><b>Location</b>: {{printCandidate['Location']}} </p>
+                            <p><b>Company</b>: {{printCandidate['CurrentEmployer']}} </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:50%">
+                            <p>
+                                <b>Email</b>:
+                                {{printCandidate['Email']}}
+                            </p>
+                            <p><b>Candidate Status</b>: {{printCandidate['Active'] ? 'Active' : 'Inactive'}} </p>
+                            <p>
+                                <b>Salary: </b>
+                                {{printCandidate['Salary']}}
+                            </p>
+                        </td>
+                        <td style="width:50%">
+                            <p>
+                                <b>MobileNumber</b>:
+                                {{printCandidate['MobileNumber']}}
+                            </p>
+                            <p><b>Relocate</b>: {{printCandidate['Relocate'] ? 'Yes' : 'No'}}</p>
+                            <p><b>Experience</b>: {{printCandidate['Experience']}} Yrs</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <b>Candidate Skills: </b>
+                            : {{printCandidate['Skills']}}
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <h4>Candidate Overview</h4>
+                <div [innerHTML]="printCandidate['Overview']"></div>
+                <br><br><br>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bg-white" flexLayout="column" style="width:100%;">
+    <div id="job" class="page-layout carded left-sidebar inner-scroll" style="padding-bottom: 10px;">
+        <fuse-sidebar *ngIf="this.selectedView == 'list'" class="" style="margin-left:10px;width: 300px;  
+        margin: 19px 3px 0px 21px;
+        border-radius: 20px;
+        box-shadow: rgba(18, 18, 43, 0.2) 0px 7px 20px 0px;
+        padding: 22px;" name="mail-main-sidebar" position="left" lockedOpen="gt-xs">
+            <div fusePerfectScrollbar>
+                <div class="content">
+                    <div class="nav material2">
+                        <div style="margin-bottom: 16% !important;"></div>
+                        <br><br>
+                        <div>
+                            <a style="cursor: pointer !important; margin-top: 6% !important;" aria-label="Compose" title="Reset filters to load all candidates" (click)="resetFilters()">
+                                <mat-icon style="vertical-align: middle !important;">autorenew</mat-icon>Reset Filters
+                            </a>
+                            <span class="p-4" *ngIf="selectedView === 'list'" style="height: 50px;">
+                                <mat-form-field class="example-full-width" fxFlex="95">
+                                    <input matInput [(ngModel)]="candidateListSearchFilter" placeholder="Search for a Candidate">
+                                    <button style="color: red !important;" mat-button *ngIf="candidateListSearchFilter"
+                                            matSuffix mat-icon-button aria-label="Clear" (click)="candidatesKeywordSearchFilter()">
+                                        <mat-icon>search</mat-icon>
+                                    </button>
+                                    <button style="color: red !important;" mat-button *ngIf="candidateListSearchFilter" matSuffix
+                                            mat-icon-button aria-label="Clear"
+                                            (click)="candidateListSearchFilter='';candidatesKeywordSearchFilter()">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                </mat-form-field>
+                            </span>
+                            <span class="p-4" *ngIf="selectedView === 'grid'" style="height: 50px;">
+                                <mat-form-field class="example-full-width" fxFlex="95">
+                                    <input matInput (input)="onQuickFilterChanged()" [(ngModel)]="jobGridSearchFilter" placeholder="Search for a Job">
+                                    <button style="color: red !important;" mat-button *ngIf="jobGridSearchFilter" matSuffix mat-icon-button aria-label="Clear" (click)="jobGridSearchFilter='';onQuickFilterChanged()">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                </mat-form-field>
+                            </span>
+                            <br>
+                            <div style="margin-bottom:10px">
+                                <mat-radio-group style="display: grid; color: #0b6d6d !important; " (change)="activedeactiveradioValueCheck($event)">
+                                    <mat-radio-button style="margin-bottom: 5px; margin-left: 10px; font-size: 12px;" checked [value]="true">Active</mat-radio-button>
+                                    <mat-radio-button style="margin-left: 10px; font-size: 12px;" [value]="false">Archive</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                            <div class="pl-4"><b>Location(s)</b></div>
+                            <span class="p-4" style="height: 50px;">
+                                <mat-form-field class="example-full-width" fxFlex="95">
+                                    <input matInput [(ngModel)]="locationFilter" placeholder="Search Location">
+                                    <button style="color: red !important;" mat-button *ngIf="locationFilter"
+                                            matSuffix mat-icon-button aria-label="Clear" (click)="locationFilter=''">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                </mat-form-field>
+                            </span>
+                        </div>
+                        <div>
+                            <div style="height: 150px !important; width: 220px !important;overflow: scroll !important;">
+                                <div class="pl-4">
+                                    <mat-checkbox [checked]="isLocationChecked()" style="font-size: 12px;"
+                                                  [indeterminate]="locationIndeterminate()" (change)="toggleAllFilters('locations',$event)">
+                                        <span class="searchLocationFilter" title="All">All</span>
+                                    </mat-checkbox>
+                                </div>
+                                <div class="pl-4" *ngFor="let lcs of this.Locations | candidateLocationFilter:locationFilter let i=index;">
+                                    <mat-checkbox style="font-size: 12px;" (click)="$event.stopPropagation()" [checked]="locationexists(lcs)" (change)="$event ? toggleFilters('locations', lcs, $event) : null;" [value]="lcs">
+                                        <span class="searchLocationFilter text-truncate" title="{{lcs}}">{{lcs}}</span>
+                                    </mat-checkbox>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:10px;">
+                            <div class="pl-4"><b>Skill(s)</b></div>
+                            <!-- <span class="p-4">
+                                <mat-form-field class="example-full-width" fxFlex="95">
+                                    <input matInput [(ngModel)]="skillFilter" placeholder="Search Skill">
+                                    <button style="color: red !important;" mat-button *ngIf="skillFilter" matSuffix mat-icon-button aria-label="Clear" (click)="skillsFilter=''">
+                                        <mat-icon>close</mat-icon>
+                                      </button>
+                                </mat-form-field>
+                            </span> -->
+                            <div style="height: 150px !important; width: 220px !important;overflow: scroll !important;">
+                                <div class="pl-4">
+                                    <mat-checkbox [checked]="isSkillsChecked()" [indeterminate]="skillIndeterminate()" style="font-size: 12px;"
+                                                  (change)="$event ? toggleAllFilters('skills', $event) : 'All'">
+                                        <span class="searchSkillFilter" title="All">All</span>
+                                    </mat-checkbox>
+                                </div>
+                                <div class="pl-4" *ngFor="let skill of this.Skills | candidateSkillsFilter:skillFilter let i=index">
+                                    <mat-checkbox (click)="$event.stopPropagation()" [checked]="skillexists(skill)" style="font-size: 12px;"
+                                                  (change)="$event ? toggleFilters('skills', skill, $event) : null;" [value]="skill">
+                                        <span class="searchSkillFilter" title="{{skill}}">{{skill}}</span>
+                                    </mat-checkbox>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top : 10px;">
+                            <div class="pl-4"><b>Designation(s)</b></div>
+                            <!-- <span class="p-4">
+                                <mat-form-field class="example-full-width" fxFlex="95">
+                                    <input matInput [(ngModel)]="designationFilter" placeholder="Search Designation">
+                                    <button style="color: red !important;" mat-button *ngIf="designationFilter" matSuffix mat-icon-button aria-label="Clear" (click)="designationsFilter=''">
+                                        <mat-icon>close</mat-icon>
+                                      </button>
+                                </mat-form-field>
+                            </span> -->
+                            <div style="height: 150px !important; width: 220px !important;overflow: scroll !important;">
+                                <div class="pl-4">
+                                    <mat-checkbox [checked]="isDesignationssChecked()" [indeterminate]="designationIndeterminate()" style="font-size: 12px;"
+                                                  (change)="$event ? toggleAllFilters('designations', $event) : 'All'">
+                                        <span class="searchDesignationFilter" title="All">All</span>
+                                    </mat-checkbox>
+                                </div>
+                                <div class="pl-4" *ngFor="let designation of this.Designations | candidateDesignationsFilter:designationFilter let i=index">
+                                    <mat-checkbox (click)="$event.stopPropagation()" [checked]="designationexists(designation)" style="font-size: 12px;"
+                                                  (change)="$event ? toggleFilters('designations', designation, $event) : null;" [value]="designation">
+                                        <span class="searchDesignationFilter" title="{{designation}}">{{designation}}</span>
+                                    </mat-checkbox>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top : 10px;" *ngIf="this.folderList.length > 0">
+                            <div class="pl-4"><b>Folder(s)</b></div>
+                            <div style="height: 150px !important; width: 220px !important;overflow: scroll !important;">
+                                <div class="pl-4">
+                                    <mat-checkbox [checked]="isFoldersChecked()" [indeterminate]="folderIndeterminate()" style="font-size: 12px;"
+                                                  (change)="$event ? toggleAllFilters('folders', $event) : 'All'">
+                                        <span class="searchDesignationFilter" title="All">All</span>
+                                    </mat-checkbox>
+                                </div>
+                                <div class="pl-4" *ngFor="let folder of this.folderList let i=index">
+                                    <mat-checkbox (click)="$event.stopPropagation()" [checked]="foldersexists(folder.folderName)" style="font-size: 12px;"
+                                                  (change)="$event ? toggleFilters('folders', folder.folderName, $event) : null;" [value]="folder.folderName">
+                                        <span class="searchDesignationFilter" title="{{folder.folderName}}">{{folder.folderName}}</span>
+                                    </mat-checkbox>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fuse-sidebar>
+        <div class="center" fxFlex="100" style="border-radius: 20px;
+        box-shadow: rgba(18, 18, 43, 0.2) 0px 7px 20px 0px;
+        margin: 22px;
+        flex: 1 1 100%;
+        box-sizing: border-box;
+        max-width: 100%;
+        padding: 27px;">
+
+<div class="sub-card-header">
+    <div fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex="60">
+            <div class="px-25">
+                <span *ngIf="this.selectedView == 'list'" class="mat-accent compose-dialog-button w-100-p" style="color:#0b6d6d;"><h2><b>Candidates ({{paginationTotalRecords}})</b></h2></span>
+                <span *ngIf="this.selectedView == 'grid'" class="mat-accent compose-dialog-button w-100-p" style="color: #0b6d6d;"><h2><b>Candidates ({{paginationTotalRecords}})</b></h2></span>
+            </div>
+        </div>
+        <!-- Eswari -->
+        <div fxFlex="30">
+            <div class="px-12 pb-12" style="margin-top:2% !important;">
+                <!-- <button mat-raised-button class="mat-accent compose-dialog-button w-100-p" aria-label="Compose"
+                style="background: #039be5 !important;color: #fff;"
+                (click)="openDialogModal(CreateResumeParseDialog, '1800px','800px')" title="Resume Parse">
+                    Resume Parsing
+                </button> -->
+                <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                        (click)="openDialogModal(CreateResumeParseDialog, '1800px','800px')" title="Resume Parse">
+                    Resume Parsing
+                </button>
+            </div>
+        </div>
+<div>
+    <!-- Button to trigger the popup -->
+<button mat-raised-button color="primary" (click)="openPopup(CreateCandidatefileDropDown ,  '1000px','500px' )" hidden>Open Popup</button>
+
+<!-- Popup Modal -->
+<mat-dialog-container *ngIf="showPopup" class="popup">
+  <div class="popup-content">
+    <span class="close" (click)="closePopup()">&times;</span>
+    <!-- Provided Code -->
+    <iframe *ngIf="IsDoc && docpath" [src]="docpath" viewer="url" style="width:100%;height:100vh;"></iframe>
+    <mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span style="color: #257DFD;">Extract Resume &nbsp;({{candidateFolderList.length}})</span>
+        </ng-template>
+        <div fxLayout="row" class="col1row4" fxLayout.lt-md="column" style="margin-bottom: 10px;">
+          <mat-accordion fxFlex="100">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <div fxLayout="row" fxFlex="100">
+                  <div fxLayout="row" fxFlex="80" style="font-weight: bold;color: #449DED !important">Resume ({{resumeList.length}})</div>
+                  <div fxLayout="row" fxFlex="20" style="float:right !important;">
+                    <input type='file' #resumeInput (change)="onBlobFileInput($event)" accept="application/msword,text/plain,application/pdf" style="display:none;">
+                    <a (click)="resumeInput.click()" class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" style="height: 34px;padding-top: 5px;width: 150px;padding-left: 10px;" title="Add Resume"> Attachment </a>
+                  </div>
+                </div>
+              </mat-expansion-panel-header>
+              <div fxFlex="100" fxLayout="column">
+                <div *ngIf="resumeList.length == 0" fxLayout="row" fxFlex="100" style="display: contents !important;">
+                  <span style="font-weight: 700; text-align: center !important;">
+                    No Resume Added
+                  </span>
+                </div>
+                <div *ngIf="resumeList.length != 0" style="overflow-y: scroll;">
+                  <div fxLayout="row" *ngFor="let resume of resumeList">
+                    <div fxLayout="row" class="mat-caption" style="max-width: 45% !important;align-items: center !important;">
+                      <button type="submit" [ngStyle]="{'font-weight': selectCurrentResume === resume.ResumeName ? 'bold' : '100' }" style="cursor: pointer !important;color: #000 !important;border:none; background: none;" class="text-truncate button btn btn-primary" color="primary" (click)="ResumeClick(resume)" title="{{resume.ResumeName}} {{resume.CreatedDate | date:'dd/MM/yyyy'}}">{{resume.ResumeName}} {{resume.CreatedDate | date:'dd/MM/yyyy'}}</button>
+                    </div>
+                    <div fxLayout="row" class="mat-caption" style="align-items: center !important;">
+                      <button (click)="DownloadResume(resume)" mat-icon-button title="Download Resume">
+                        <i style="color: #000 !important;vertical-align: baseline !important;" class="material-icons">save_alt</i>
+                      </button>
+                      <i class="material-icons" title="Print Resume" (click)="print(resume)" style="color: #000 !important;cursor: pointer !important;">print</i>
+                      <i class="material-icons" title="Share Resume" (click)="openResumeDialogModal(ShareCandidateResumeDialog, '500px', '250px', resume)" style="color: #000 !important;cursor: pointer !important;">share</i>
+                      <button title="Delete Resume" id="dvDeleteResume" (click)="deleteblobresumefile(resume.Id, resume)" mat-icon-button>
+                        <i style="color: #000 !important;vertical-align: baseline !important;" class="material-icons">delete_outline</i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </mat-tab>
+      <iframe *ngIf="IsPdf && filepath" style="height: 100vh; width:100%; display: block;" ngx-document [src]="filepath" provider="google"></iframe>
+    </mat-tab-group>
+  </div>
+</mat-dialog-container>
+
+
+</div>
+        
+        <!-- eswari -->
+        <div fxFlex="30">
+            <div class="px-2 pb-12" style="margin-top:2% !important;">
+                <!-- <button mat-raised-button class="mat-accent compose-dialog-button w-100-p" aria-label="Compose"
+                style="background: #039be5 !important;color: #fff;"
+                        (click)="openDialogModal(CreateCandidateDialog, '1800px','800px')" title="Add a new candidate">
+                    Add New Candidate
+                </button> -->
+                <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                        (click)="openDialogModal(CreateCandidateDialog, '1800px','800px')" title="Add a new candidate">
+                    Add New Candidate
+                </button>
+            </div>
+        </div>
+        <div fxFlex="10">
+            <!-- TODO use ngclass -->
+            <span *ngIf="selectedView === 'grid'">
+                <mat-icon class="nav-link-icon" style="cursor:pointer;" title="List View" (click)="showView('list')">list</mat-icon> &nbsp;&nbsp;
+                <mat-icon class="nav-link-icon accent" style="cursor:pointer;" title="Grid View" (click)="showView('grid')">table_chart</mat-icon>
+            </span>
+            <span *ngIf="selectedView === 'list'">
+                <mat-icon class="nav-link-icon accent" style="cursor:pointer;" title="List View" (click)="showView('list')">list</mat-icon> &nbsp;&nbsp;
+                <mat-icon class="nav-link-icon" style="cursor:pointer;" title="Grid View" (click)="showView('grid')">table_chart</mat-icon>
+            </span>
+        </div>
+    </div>
+    <div *ngIf="selectedView === 'list'" fxLayout="row" fxLayoutAlign="start center" style=" justify-content: space-between ; margin-top:-1% !important;">
+        <div style="margin-left: 1% !important; display: flex;align-items: center;" fxFlex="20">
+            <mat-checkbox *ngIf="IsCandidateActivate" (change)="allActivesChecked($event)"></mat-checkbox>
+            <mat-checkbox *ngIf="!IsCandidateActivate" (change)="allInActivesChecked($event)"></mat-checkbox>&nbsp;&nbsp;
+            <span>{{selectedCount}} Selected</span>&nbsp;&nbsp;
+
+        </div>
+        <div fxFlex="25">
+            <mat-form-field *ngIf="selectedView === 'list'" style="width: 70% !important;">
+                <mat-label>Sort by</mat-label>
+                <mat-select matNativeControl (selectionChange)="sortChanged($event)">
+                    <mat-option *ngFor="let sort of searchFills.SortBy" [value]="sort.value">
+                        {{sort.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-select [(value)]="defaultSort" (selectionChange)="sortChanged($event)">
+                    <mat-option value="Name">Name</mat-option>
+                    <mat-option value="NewesttoOldest" selected=true>Newest to Oldest</mat-option>
+                    <mat-option value="OldesttoNewest">Oldest to Newest</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxFlex style="display: flex !important;">
+            <mat-paginator [length]="paginationTotalRecords" style="background: none !important;"
+                           [pageSize]="5"
+                           [pageSizeOptions]="[5]"
+                           [pageIndex]="paginationCurrentPage"
+                           (page)="pageEvent = $event; onPaginateChange($event)">
+            </mat-paginator>
+        </div>
+    </div>
+
+
+            <div fxLayout="row" style="margin-bottom: 10px;">
+                <div fxFlex="100">
+                    <div class="example-button-row">
+                        <span>
+                            <a style="cursor: pointer !important;" *ngIf="!IsCandidateActivate && selectedCandidateIds.length !=0" (click)="ChangeCandidateStatus(true)"> Activate</a>
+                            <a style="cursor: pointer !important;" *ngIf="IsCandidateActivate && selectedCandidateIds.length !=0" (click)="ChangeCandidateStatus(false)"> Archive</a>
+                            &nbsp;&nbsp;<a style="cursor: pointer !important;" *ngIf="IsCandidateActivate && selectedCandidateIds.length !=0" (click)="openModal(Recruiters)"> Assign</a>
+                            &nbsp;&nbsp;<a style="cursor: pointer !important;" *ngIf="IsCandidateActivate && selectedCandidateIds.length !=0"
+                                           (click)="openDialogModal(ShareJobDialog, '500px', '250px')">Share</a>
+                            &nbsp;&nbsp;<a style="cursor: pointer !important;" *ngIf="IsCandidateActivate && selectedCandidateIds.length !=0"
+                                           (click)="openDialogModal(TagJobDialog, '500px', '250px')">Tag a Job</a>
+                            &nbsp;&nbsp;<a style="cursor: pointer !important;" *ngIf="IsCandidateActivate && selectedCandidateIds.length !=0"
+                                           (click)="openDialogModal(NewFolderDialog, '950px', '550px')">Add to Folder</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="content-card ">
+                <!-- <mat-progress-bar mode="indeterminate" color = 'primary' *ngIf="candidatelistLoader"></mat-progress-bar> -->
+                <div style="align-items: center !important;text-align: center;" *ngIf="!AllCandidates">
+                    <span style="font-size: 14px;">There are no records to display for the selected criteria.</span>
+                </div>
+                <div class="content" fxLayout="row">
+                    <div id='divList' fxFlex="50" *ngIf="selectedView === 'list'" class="mail-list-parent"
+                         fusePerfectScrollbar fxFlex>
+                        <div class="mail-list-1" *ngIf="this.AllCandidates">
+                            <candidate-list-item matRipple
+                                                 *ngFor="let candidate of this.AllCandidates | candidateSearchFilter:candidateListSearchFilter let i = index;" (selected)="candidate && i == 0"
+                                                 [candidate]="formatRecord(candidate)" (click)="viewCandidate(candidate)" (onChecked)="childOnChecked($event,candidate.Id)"
+                                                 [ngClass]="{'current-mail':candidate?.Id == selectedCandidate?.Id}">
+                            </candidate-list-item>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center" *ngIf="!isVisible && this.AllCandidates.length == 0">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only" id="loading"></span>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" *ngIf="selectedView === 'grid'" class="content-card" style="overflow: scroll !important;">
+                <div fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+
+                        <div fxFlex="45" style="margin-left: 15px; margin-top: 5px;">
+                            <mat-form-field fxFlex="60">
+                                <mat-label>Show/Hide Columns</mat-label>
+                                <mat-select [formControl]="candidatesDrpdwnformControl" multiple>
+                                    <mat-select-trigger>
+                                        {{candidatesDrpdwnformControl.value ? candidatesDrpdwnformControl.value[0] : ''}}
+                                        <span *ngIf="candidatesDrpdwnformControl.value?.length > 1" class="example-additional-selection">
+                                            (+{{candidatesDrpdwnformControl.value.length - 1}} {{candidatesDrpdwnformControl.value?.length === 2 ? 'other' : 'others'}})
+                                        </span>
+                                    </mat-select-trigger>
+
+                                    <mat-option (onSelectionChange)="change($event)"
+                                                *ngFor="let candidateCol of candidatesDrpdwnColumns"
+                                                [value]="candidateCol.field">
+                                        {{candidateCol.field}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="40">
+                            <mat-form-field class="example-full-width" fxFlex="40">
+                                <input matInput (input)="onQuickFilterChanged()" [(ngModel)]="candidateGridSearchFilter"
+                                       placeholder="Search for a Candidate">
+                                <button style="color: red !important;" mat-button *ngIf="candidateGridSearchFilter" matSuffix
+                                        mat-icon-button aria-label="Clear"
+                                        (click)="candidateGridSearchFilter='';onQuickFilterChanged()">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field>
+                            &nbsp;&nbsp;&nbsp;
+                            <mat-form-field>
+                                <mat-label>My Views</mat-label>
+                                <select matNativeControl [(ngModel)]="selectedUserView" (change)="showUserView()">
+                                    <option value="defaultUserView">Default View</option>
+                                    <option *ngFor="let item of userSavedViews" [value]="item['Id']">{{item['ViewName']}}</option>
+                                </select>
+                            </mat-form-field>
+                            &nbsp; <button mat-button (click)="saveUserView()">Add View</button>
+                        </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="start center" style="height: 20px;margin-left: 15px; margin-bottom: 10px;">
+                        <div fxFlex="100">
+                            <span *ngIf="selectedRowsCnt > 0">
+                                Selected Records : {{selectedRowsCnt}} &nbsp; &nbsp;
+                                <button mat-menu-item style="width: 100px; display: contents;" (click)="ChangeGridCandidateStatus(false)">Archive  &nbsp; &nbsp;</button>
+                                <button mat-menu-item style="width: 100px; display: contents;" (click)="openModal(Recruiters)">Assign  &nbsp; &nbsp;</button>
+                                <button mat-menu-item style="width: 100px; display: contents;" (click)="openDialogModal(ShareJobDialog, '500px', '250px')">Share Job  &nbsp; &nbsp;</button>
+                                <button mat-menu-item style="width: 100px; display: contents;" (click)="openDialogModal(TagJobDialog, '500px', '250px')">Tag a Job  &nbsp; &nbsp;</button>
+                            </span>
+                        </div>
+                    </div>
+                    <mat-progress-bar mode="indeterminate" color='primary' *ngIf="candidatesGridLoader"></mat-progress-bar>
+                    <ag-grid-angular #agGrid style="height: 400px; background-color: red;" id="myGrid" class="ag-theme-alpine custom-header"  [context]="context"
+                                     [gridOptions]="gridOptions" [rowData]="rowData" (gridReady)="onGridReady($event)"
+                                     (filterChanged)="onGridFilterChanged()" [defaultColDef]="defaultColDef" [rowSelection]="rowSelection"
+                                     [frameworkComponents]="frameworkComponents" (selectionChanged)="onSelectionChanged($event)">
+                    </ag-grid-angular>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #Recruiters>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayout.gt-xs="column" fxLayout.gt-md="row">
+                    <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                        <div fxFlex="90">
+                            <span>Select Recruiter</span>
+                        </div>
+                        <div fxFlex="2">
+                            <button mat-raised-button color="warn" mat-dialog-close tabindex="-1"
+                                    style="cursor:pointer;">
+                                <svg class="mat_icon_svg" style="height: 20px;width: 20px;"
+                                     aria-hidden="true">
+                                    <use matTooltip="close" height="20" width="20" fill="white"
+                                         xlink:href="assets/icons/material-icons/maticons.svg#icon-clear">
+                                    </use>
+                                </svg>
+                            </button>
+                        </div>
+                        <div fxFlex="3">
+                        </div>
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="modal-body mail-details1">
+                <div class="mail-content">
+                    <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                        <mat-form-field appearance="outline" fxFlex="100" class="pr-4" *ngIf="recruitersList">
+                            <mat-label>Recruiter *</mat-label>
+                            <mat-select multiple (selectionChange)="selectedrecruiters($event)">
+                                <mat-option *ngFor="let _recruiter of recruitersList"
+                                            [value]="formatString(_recruiter.Id)">
+                                    {{_recruiter.FirstName}} {{_recruiter.LastName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <br>
+                <div style="text-align: center !important;">
+                    <button *ngIf="selectedView === 'list'" [disabled]="selectedRecruiters.length == 0"
+                            mat-raised-button color="primary" (click)="bulkAssignListCandidates()">
+                        <span>Save</span>
+                    </button>&nbsp;&nbsp;
+                    <button *ngIf="selectedView === 'grid'" [disabled]="selectedRecruiters.length == 0"
+                            mat-raised-button color="primary" (click)="bulkAssignGridCandidates()">
+                        <span>Save</span>
+                    </button>
+                    &nbsp;&nbsp;
+                    <button mat-raised-button color="primary" id="btnCancelDialog" mat-dialog-close>
+                        <span>Close</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <!-- Share Job -->
+    <ng-template #ShareJobDialog>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayout.gt-xs="column" fxLayout.gt-md="row">
+                    <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                        <div fxFlex="90">
+                            <span>Select Recruiter(s) to share the candidate details</span>
+                        </div>
+                        <div fxFlex="2">
+                            <button mat-raised-button color="warn" mat-dialog-close tabindex="-1"
+                                    style="cursor:pointer;">
+                                <svg class="mat_icon_svg" style="height: 20px;width: 20px;" aria-hidden="true">
+                                    <use matTooltip="close" height="20" width="20" fill="white"
+                                         xlink:href="assets/icons/material-icons/maticons.svg#icon-clear"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <div fxFlex="3">
+                        </div>&nbsp;
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="modal-body mail-details1">
+                <div class="mail-content">
+                    <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                        <mat-form-field appearance="outline" fxFlex="100" class="pr-4" *ngIf="recruitersList">
+                            <mat-label>Recruiter(s) *</mat-label>
+                            <mat-select multiple (selectionChange)="selectedrecruiters($event)">
+                                <mat-option *ngFor="let _recruiter of recruitersList"
+                                            [value]="formatString(_recruiter.Id)">
+                                    {{_recruiter.FirstName}} {{_recruiter.LastName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <br>
+                <div style="text-align: center !important;">
+                    <button [disabled]="selectedRecruiters.length == 0" mat-raised-button color="primary"
+                            (click)="shareCandidate()">
+                        <span>Share</span>
+                    </button>&nbsp;&nbsp;
+                    <button mat-raised-button color="primary" id="btnCancelDialog1" mat-dialog-close>
+                        <span>Close</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #TagJobDialog>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayout.gt-xs="column" fxLayout.gt-md="row">
+                    <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                        <div fxFlex="90">
+                            <span>Select Job(s) to share the candidate details</span>
+                        </div>
+                        <div fxFlex="2">
+                            <button mat-raised-button color="warn" mat-dialog-close tabindex="-1"
+                                    style="cursor:pointer;">
+                                <svg class="mat_icon_svg" style="height: 20px;width: 20px;" aria-hidden="true">
+                                    <use matTooltip="close" height="20" width="20" fill="white"
+                                         xlink:href="assets/icons/material-icons/maticons.svg#icon-clear"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <div fxFlex="3">
+                        </div>&nbsp;
+                    </div>
+                </div>
+
+            </div>
+            <br>
+            <div class="modal-body mail-details1">
+                <div class="mail-content">
+                    <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                        <mat-form-field appearance="outline" fxFlex="100" class="pr-4" *ngIf="openJobsList">
+                            <mat-label>Jobs(s) *</mat-label>
+                            <mat-select multiple (selectionChange)="selectedopenjobs($event)">
+                                <mat-option *ngFor="let _openjob of openJobsList"
+                                            [value]="formatString(_openjob.Id)">
+                                    {{_openjob.Title}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <br>
+                <div style="text-align: center !important;">
+                    <button [disabled]="selectedOpenJobs.length == 0" mat-raised-button color="primary"
+                            (click)="TagOpenJobCandidate()">
+                        <span>Tag</span>
+                    </button>&nbsp;&nbsp;
+                    <button mat-raised-button color="primary" id="btnCancelDialog1" mat-dialog-close>
+                        <span>Close</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <!-- Eswari -->
+    <ng-template #CreateResumeParseDialog>
+
+        <!-- <mat-progress-bar mode="indeterminate" color = 'primary' *ngIf="ResumeParsingLoader"></mat-progress-bar> -->
+        <div class="d-flex justify-content-center" *ngIf="!isVisible && this.ResumeParseData.length == 0">
+            <div class="spinner-border" role="status">
+                <span class="sr-only" id="loading"></span>
+            </div>
+        </div>
+        <div class="modal-content">
+
+            <!-- <div fxLayout="row" fxLayoutAlign="start center" fxLayout.gt-xs="column" fxLayout.gt-md="row">
+                <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex="80">
+                        <span style="font-size: large;">Resume Details</span>
+                    </div>
+                    <div fxFlex="40">
+                        
+                        <label for="file">Choose File</label>
+                        <input type="file" (change)="handleFileInput($event.target.files)"
+                               [min]="1" [max]="5" #fileInput>
+                        {{this.ResumefieldName}}
+                 
+                    </div>
+                    <div fxFlex="20" style="float: right !important;">
+                        <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                                (click)="GetResumeData()">
+                            <span>Get Data</span>
+                        </button>&nbsp;&nbsp;
+                        <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                                (click)="ClearResumeData()" id="btnCancelDialog2" mat-dialog-close>
+                            <span>Close</span>
+                        </button>
+                    </div>
+        
+                </div>
+            </div> -->
+
+
+
+            <div style="width: 100%;">
+                <div >
+                    <div >
+                        <span style="font-size: large;">Resume Details</span>
+                    </div>
+                    <div>
+                        <div class="dropzone" fileDragDrop (filesChangeEmiter)="handleFileInput($event)" (change)="onFileChange($event)"  (dragover)="onDragOver($event)"  (drop)="onDrop($event)">
+                            <div class="text-wrapper">
+                                <div class="centered">
+                                    <input type="file" name="file" id="file"  multiple>
+                                    <label for="file"><span class="textLink">Select your file</span> or Drop it here!</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 <br><br>
+                    <div style="float: right !important;">
+                        <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                                (click)="GetResumeData()">
+                            <span>Get Data</span>
+                        </button>&nbsp;&nbsp;
+                        <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                                (click)="ClearResumeData()" id="btnCancelDialog2" mat-dialog-close>
+                            <span>Close</span>
+                        </button>
+                    </div>
+                    
+                </div>
+            </div>
+
+
+
+            <br>
+            <br>
+            <div class="modal-body mail-details1">
+                <div class="mail-list-1" *ngIf="this.ResumeParseData"></div>
+                <!-- <table style="width: 100%;" class=t1>
+                    <tr>
+                        <td>
+                            <table class="t2 t3 brd">
+                                <tr>
+                                    <td id="tdresume" style="display: none;">
+                                <tr class="brd1">
+                                    <br>
+                                    <br>
+                                </tr>
+                                <tr class="brd2">
+                                    <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                                        <input matInput value="Candidate Name" disabled style="color: black;">
+                                    </mat-form-field>
+                                </tr>
+                                <tr class="brd2">
+                                    <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                                        <input matInput value="Email" disabled style="color: black;">
+                                    </mat-form-field>
+                                </tr>
+                                <tr class="brd2">
+                                    <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                                        <input matInput value="Mobile Number" disabled style="color: black;">
+                                    </mat-form-field>
+                                </tr>
+                                <tr class="brd2">
+                                    <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important; ">
+                                        <input matInput value="Designation" disabled style="color: black;">
+                                    </mat-form-field>
+                                </tr>
+                                <tr class="brd2">
+                                    <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                                        <input matInput value="Experiance" disabled style="color: black;">
+                                    </mat-form-field>
+                                </tr>
+                                <tr class="brd" style="background-color:darkgray">
+                                    <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                                        <input matInput value="Skills" style="color: black;">
+                                    </mat-form-field>
+                                </tr>
+                                <tr>
+                                </tr>
+                        </td>
+                        <td *ngFor="let Resumedata of ResumeParseData;let i = index " id="tdresume1">
+
+                    <tr class="brd1">
+                        Resume {{i}} 
+                        <br>
+                        {{this.resumeselectedFiles[0].name}}
+                    </tr>
+                    <tr class="brd1">
+                        <mat-form-field appearance="outline">
+                            <input id="resumename" matInput #resumename tabindex="1"
+                                   autofocus="autofocus" required minlength="5" maxlength="50" type="text"
+                                   pattern="[a-zA-Z]+([\s][a-zA-Z]+)*" [value]="Resumedata.name">
+                        </mat-form-field>
+                    </tr>
+                    <tr class="brd1">
+                        <mat-form-field appearance="outline">
+                            <input matInput placeholder="Email" tabindex="2" #resumeemail
+                                   required [value]="Resumedata.email">
+                        </mat-form-field>
+                    </tr>
+                    <tr class="brd1">
+                        <mat-form-field appearance="outline">
+                            <input matInput #resumemobileno tabindex="3" required
+                                   minlength="10" maxlength="10" pattern="[789]\d{9}$" [value]="Resumedata.contactDetails"
+                                   oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                        </mat-form-field>
+                    </tr>
+                    <tr class="brd1" matTooltip="{{Resumedata.designation}}">
+                        <mat-form-field appearance="outline">
+                            <input matInput placeholder="Designation" tabindex="4" #resumeDesignation class="ellipsis"
+                                   required [value]="Resumedata.designation">
+                        </mat-form-field>
+                    </tr>
+                    <tr class="brd1" matTooltip="{{Resumedata.experience}}">
+                        <mat-form-field appearance="outline">
+                            <input matInput placeholder="Experince" tabindex="4" #resumeExperince class="ellipsis"
+                                   required [value]="Resumedata.experience">
+                        </mat-form-field>
+                    </tr>
+                    <tr class="brd" matTooltip="{{Resumedata.skills}}">
+                        <mat-form-field appearance="outline">
+                            <input matInput placeholder="Skills" tabindex="5" #resumeskills class="ellipsis"
+                                   required [value]="Resumedata.skills">
+                        </mat-form-field>
+                    </tr>
+                    <br>
+                    <tr>
+                        <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                                (click)="SubmitResumeData(Resumedata,i)">
+                            <span>Save</span>
+                        </button>
+                  removed commented line      <button mat-raised-button color="accent" (click)="EditResumeData(Resumedata,i)"><span>Edit</span></button>&nbsp;&nbsp;
+                        <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                                (click)="EditResumeDate(Resumedata,i)"
+                                (click)="openDialogModal(CreateCandidateDialog, '1800px','800px')" title="Edit Resume Data">
+                            Edit
+                        </button>
+                        <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                                (click)="DeleteResumeData(Resumedata,i)">
+                            <span>Reject</span>
+                        </button>
+                    </tr>
+
+                    </td>
+                    </tr>
+                </table>
+
+                </td>
+                </tr>
+                </table> -->
+
+
+
+
+
+
+
+
+                <div *ngFor="let Resumedata of ResumeParseData;let i = index" style="display: flex;justify-content: center; width: 100%;">
+                    <mat-card  class="cards-info">
+                      <mat-card-header>
+                        <mat-card-title>Resume Parsing - {{ i + 1 }}</mat-card-title>
+                      </mat-card-header>
+                      <mat-card-content>
+                        <div class="form-row">
+                            <div style="width: 100%; justify-content: space-between; display: flex;">
+                                    <mat-form-field appearance="fill" class="form-field">
+                                        <mat-label>Name</mat-label>
+                                        <input id="resumename" matInput #resumename tabindex="1" autofocus="autofocus" required minlength="5"
+                                            maxlength="50" type="text" pattern="[a-zA-Z]+([\s][a-zA-Z]+)*" [value]="Resumedata.name">
+                                    </mat-form-field>
+                                <mat-form-field appearance="fill" class="form-field">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput placeholder="Email" tabindex="2" #resumeemail required [value]="Resumedata.email">
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="form-field">
+                                    <mat-label>Contact Details</mat-label>
+                                    <input matInput #resumemobileno tabindex="3" required minlength="10" maxlength="10" pattern="[789]\d{9}$"
+                                        [value]="Resumedata.contactDetails"
+                                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                                </mat-form-field>
+                            </div>
+                            <div style="width: 100%; justify-content: space-between; display: flex;">
+                                <div class="form-field"  matTooltip="{{Resumedata.designation}}">
+                                <mat-form-field appearance="fill" style="width: 100%;" >
+                                    <mat-label>Designation</mat-label>
+                                    <input matInput placeholder="Designation" tabindex="4" #resumeDesignation class="ellipsis" required
+                                      [value]="Resumedata.designation">
+                                  </mat-form-field>
+                                </div>
+                                  <div class="form-field"  matTooltip="{{Resumedata.experience}}">
+                                  <mat-form-field appearance="fill" style="width: 100%;" >
+                                    <mat-label>Experience</mat-label>
+                                    <textarea matInput placeholder="Experince" tabindex="4" #resumeExperince class="ellipsis" required
+                                      [value]="Resumedata.experience"></textarea>
+                                  </mat-form-field>
+                                </div>
+                                  <div class="form-field" matTooltip="{{Resumedata.skills}}">
+                                  <mat-form-field appearance="fill" style="width: 100%;" >
+                                    <mat-label>Skills</mat-label>
+                                    <textarea matInput placeholder="Skills" tabindex="5" #resumeskills class="ellipsis" required
+                                      [value]="Resumedata.skills"></textarea>
+                                  </mat-form-field>
+                                </div>
+                            </div>
+                          <div style=" width: 40%; display: flex; justify-content: space-between;">
+                            <button style="width: 150px;"
+                            class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                            (click)="SubmitResumeData(Resumedata,i)">
+                            <span>Save</span>
+                          </button>
+                          <!-- comment opend need comment <button mat-raised-button color="accent"
+                            (click)="EditResumeData(Resumedata,i)"><span>Edit</span></button>&nbsp;&nbsp; -->
+                          <button style="width: 150px;"
+                            class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                            (click)="EditResumeDate(Resumedata,i)" (click)="openDialogModal(CreateCandidateDialog, '1800px','800px')"
+                            title="Edit Resume Data">
+                            Edit
+                          </button>
+                          <button style="width: 150px;"
+                            class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                            (click)="DeleteResumeData(Resumedata,i)">
+                            <span>Reject</span>
+                          </button>
+                          </div>
+                  
+                          <!-- <mat-form-field appearance="fill" class="form-field" >
+                                              <mat-label>Education</mat-label>
+                                              <input matInput formControlName="education">
+                                            </mat-form-field>
+                                            
+                                          </div>
+                                
+                                          <div class="form-row">
+                                            <mat-form-field appearance="fill" class="form-field" >
+                                              <mat-label>Languages</mat-label>
+                                              <input matInput formControlName="languages">
+                                            </mat-form-field>
+                                            
+                                          </div>
+                                          <div class="form-row">
+                                            <mat-form-field appearance="fill" class="form-field" >
+                                              <mat-label>Certifications</mat-label>
+                                              <input matInput formControlName="certifications">
+                                            </mat-form-field>
+                                       
+                                            <mat-form-field appearance="fill" class="form-field" >
+                                              <mat-label>Current Employer</mat-label>
+                                              <input matInput formControlName="currentEmployer">
+                                            </mat-form-field>
+                                          </div> -->
+                  
+                          <!-- Add other form fields as needed -->
+                  
+                          <!-- <div class="form-actions">
+                            <button mat-raised-button color="primary" type="submit" (click)="saveResume()">Save</button>
+                            <button mat-raised-button color="warn" type="button" (click)="cancel()">Cancel</button>
+                          </div> -->
+                          </div>
+                      </mat-card-content>
+                    </mat-card>
+                  </div>
+                  
+<!-- Routing Links -->
+<a mat-button routerLink="/link1" style="color: inherit; text-decoration: none;"
+   (mouseover)="this.style.backgroundColor='blue'; this.style.color='white';"
+   (mouseout)="this.style.backgroundColor=''; this.style.color='inherit';">
+   I don't have a resume
+</a>
+
+<a mat-button routerLink="/link2" style="color: inherit; text-decoration: none;"
+   (mouseover)="this.style.backgroundColor='blue'; this.style.color='white';"
+   (mouseout)="this.style.backgroundColor=''; this.style.color='inherit';">
+   I have a resume in text format
+</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!-- <div class="row-1" fxLayout="column" *ngFor="let Resumedata of ResumeParseData" style="border: 1px solid rgba(0, 0, 0, 0.12);">
+                    <div fxLayout="row" fxFlex="100">
+
+                        <div fxLayout="column" fxFlex="20">
+                        <div fxLayout="row">
+                        <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                            <input id="resumename" matInput #resumename formControlName="resumename" tabindex="1"
+                                autofocus="autofocus" required minlength="5" maxlength="20"
+                                pattern="[a-zA-Z]+([\s][a-zA-Z]+)*" [value]="Resumedata.Name" >
+                        </mat-form-field>
+                        </div>
+
+                    <div fxLayout="row">
+                        <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                            <textarea matInput rows="5" cols="30" placeholder="Email" tabindex="21" #resumeemail
+                                formControlName="resumeemail" required [value]="Resumedata.Email"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row">
+                        <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                            <input matInput #resumemobileno  formControlName="resumemobileno" tabindex="3" required
+                            minlength="10" maxlength="10" pattern="[789]\d{9}$" [value]="Resumedata.Mobile"
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                        </mat-form-field>
+                    </div>
+
+
+                    <div fxLayout="row" >
+                        <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                                <textarea matInput rows="5" cols="40" placeholder="Skills" tabindex="21" #resumeskills
+                                formControlName="resumeskills" required [value]="Resumedata.Skills"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="17" style="float: right !important; padding-top: 20px;">
+                        <button mat-raised-button color="accent" (click)="SubmitResumeData($event)"><span>Save</span></button>&nbsp;&nbsp;
+                        <button mat-raised-button color="accent" (click)="DeleteResumeData($event)"><span>Delete</span></button>
+                    </div>
+                </div>
+                </div>
+                </div> -->
+                <!-- </form> -->
+            </div>
+        </div>
+    </ng-template>
+    <!-- Eswari -->
+    <ng-template #CreateCandidateDialog>
+        <div class="modal-content">
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayout.gt-xs="column" fxLayout.gt-md="row">
+                <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex="83">
+                        <span style="font-weight: bolder;font-size: large;">Add Candidate</span>
+                    </div>
+                    <div fxFlex="17" style="float: right !important;">
+
+                        <button [disabled]="this.firstFormGroup.invalid || Educationform.invalid || Experianceform.invalid || Awardsform.invalid"
+                                class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                                (click)="submitForm1()">
+                            <span>Save</span>
+                        </button>
+                        &nbsp;&nbsp;
+                        <button class="mr-2 bg-transparent hover:bg-red-800
+                        text-red-700 hover:text-white py-2 px-4 border
+                        border-red-500 hover:border-transparent rounded"
+                                id="btnCancelDialog1" mat-dialog-close>
+                            Close
+                        </button>
+                    </div>
+                    <div fxFlex="3">
+                    </div>&nbsp;
+                </div>
+            </div>
+            <br>
+            <div class="modal-body mail-details1">
+                <form class="w-full mr-10" fxLayout="column" [formGroup]="firstFormGroup">
+                    <span *ngIf="this.firstFormGroup.invalid" style="text-align-last: right !important; margin-right:2% !important; margin-bottom: 5px !important; font-size: 15px !important; color:red !important;">* Please enter all required fields</span>
+                    <div class="w-full mr-10">
+                        <div>
+                            <div>
+                                <div class="flex flex-wrap mb-5">
+
+
+                                    <div class="card-avatar" style="text-align-last: left !important;display: flex; align-items: center; justify-content: center;">
+                                        <div style="text-align: center;">
+                                            <img *ngIf="!candidateprofileimageURL" class="img-circle" style="margin-bottom: 5px; height: 80px; vertical-align: top; border: none; border-radius: 50%; width: 80px;"
+                                                 src="../../../../assets/images/avatars/profile.jpg" />
+                                            <img *ngIf="candidateprofileimageURL" [src]="candidateprofileimageURL" class="img-circle" style="margin-bottom: 5px; height: 80px; vertical-align: top; border: none; border-radius: 50%; width: 80px;" />
+                                        </div>
+                                        <div style="margin-left: 10px;">
+                                            <input #profileInput type="file" id="fileInput" (change)="onFileInput($event)" style="display:none;" />
+                                            <div *ngIf="!candidateprofileimageURL">
+                                                <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
+                                                        mat-raised-button color="primary" (click)="profileInput.click()">
+                                                    Add Profile Image
+                                                </button>
+                                            </div>
+                                            <div *ngIf="candidateprofileimageURL">
+                                                <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                                                        mat-raised-button color="primary" (click)="profileInput.click()">
+                                                    Change
+                                                </button>
+                                                <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                                                        mat-raised-button color="warn" (click)="removeProfileImage()">
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="flex flex-wrap mb-4">
+                                <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                    <mat-form-field appearance="outline" autofocus="autofocus">
+                                        <mat-label>Candidate Name (First Name & Last Name)</mat-label>
+                                        <input matInput #candidatename formControlName="candidateName" tabindex="1" autofocus="autofocus" required type="text" minlength="5"
+                                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                               pattern="[a-zA-Z]+([\s][a-zA-Z]+)*" maxlength="50">
+                                        <mat-error *ngIf="firstFormGroup.get('candidateName').hasError('pattern')">Please enter valid name.</mat-error>
+                                        <mat-error *ngIf="firstFormGroup.get('candidateName').hasError('required')">Candidate Name required.</mat-error>
+                                        <mat-error *ngIf="firstFormGroup.get('candidateName').hasError('minlength')">Candidate Name is too short.</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex-1 h-12 mb-5" style="margin-left: 10px;">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Designation</mat-label>
+                                        <input matInput formControlName="designation" tabindex="2" required pattern="^[a-zA-Z ]*$"
+                                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                               maxlength="50" minlength="5">
+                                        <mat-error *ngIf="firstFormGroup.get('designation').hasError('required')">Designation is required</mat-error>
+                                        <mat-error *ngIf="firstFormGroup.get('designation').hasError('minlength')">Designation is too short</mat-error>
+                                        <mat-error *ngIf="firstFormGroup.get('designation').hasError('pattern')">Only characters are allowed</mat-error>
+
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex-1 h-12 mb-5" style="margin-left: 10px;">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Current Employer</mat-label>
+                                        <input matInput #currentemployer formControlName="currentEmployer" tabindex="3" required type="text"
+                                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                               pattern="^[a-zA-Z ]*$" minlength="5" maxlength="50">
+                                        <mat-error *ngIf="firstFormGroup.get('currentEmployer').hasError('pattern')">CurrentEmployer Allows Alphabits only.</mat-error>
+                                        <mat-error *ngIf="firstFormGroup.get('currentEmployer').hasError('required')">CurrentEmployer required.</mat-error>
+                                        <mat-error *ngIf="firstFormGroup.get('currentEmployer').hasError('minlength')">CurrentEmployer is too short.</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Email</mat-label>
+                                        <input matInput #email formControlName="email" tabindex="5" required minlength="10"
+                                               maxlength="50" pattern="\w+\D*\w+@\w+[-]?\w+?\.((\w{2,3})|(\w{2}\.\w{2}))"
+                                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                                        <mat-error *ngIf="firstFormGroup.get('email').hasError('pattern')">Enter Valid Email.</mat-error>
+                                        <mat-error *ngIf="firstFormGroup.get('email').hasError('required')">Email is required.</mat-error>
+                                        <mat-error *ngIf="firstFormGroup.get('email').hasError('minlength')">Email is too short.</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+
+
+                            <div class="flex flex-wrap mb-4">
+
+                                <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                    <mat-form-field *ngIf="IsEdit" appearance="outline">
+                                        <mat-label>Relocate</mat-label>
+                                        <mat-select *ngIf="IsRelocate" formControlName="relocate" tabindex="6" (selectionChange)="selectedrelocate($event)" required>
+                                            <mat-option [value]="true">Yes</mat-option>
+                                            <mat-option [value]="false">No</mat-option>
+                                        </mat-select>
+                                        <mat-select *ngIf="!IsRelocate" formControlName="relocate" tabindex="6" (selectionChange)="selectedrelocate($event)" required>
+                                            <mat-option [value]="false">No</mat-option>
+                                            <mat-option [value]="true">Yes</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field *ngIf="!IsEdit" appearance="outline">
+                                        <mat-label>Relocate</mat-label>
+                                        <mat-select formControlName="relocate" tabindex="6" (selectionChange)="selectedrelocate($event)" required>
+                                            <mat-option *ngFor="let relocate of searchFills.relocateState" [value]="relocate.value">
+                                                {{relocate.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Date of Birth(MM/DD/YYYY)</mat-label>
+                                        <input matInput [matDatepicker]="dob" formControlName="dob" name="dob" tabindex="7" (dateInput)="addEvent('input', $event)"
+                                               [max]="today">
+                                        <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                                        <mat-datepicker #dob color="primary"></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Mobile Number</mat-label>
+                                        <input matInput #mobileno formControlName="mobileno" tabindex="8" required type="number"
+                                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                               maxlength="10" pattern="[789]\d{9}$">
+                                        <mat-error *ngIf="firstFormGroup.get('mobileno').hasError('pattern')">Enter Valid MobileNo.</mat-error>
+                                        <mat-error *ngIf="firstFormGroup.get('mobileno').hasError('required')">MobleNo. is required</mat-error>
+
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Experience</mat-label>
+                                        <mat-select formControlName="experience" tabindex="10" (selectionChange)="selectedAreas($event)" required>
+                                            <mat-option *ngFor="let experience of searchFills.Experience" [value]="experience.value">
+                                                {{experience.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+
+                            <div class="flex flex-wrap mb-3">
+                                <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                    <mat-form-field fxFlex="100" appearance="outline">
+                                        <!-- <mat-chip-list #taglist> -->
+                                        <!-- <mat-chip selected color="primary"
+                                                  *ngFor="let Tag of Tags"
+                                                  [selectable]="selectable"
+                                                  [removable]="removable"
+                                                  (removed)="remove(Tag)">
+                                            {{Tag}}
+                                            <mat-icon matChipRemove *ngIf="removable">cancel </mat-icon>
+                                        </mat-chip> -->
+                                        <mat-label>Job Skill(s)1</mat-label>
+                                        <mat-select formControlName="skills" multiple required
+                                                    (selectionChange)="selectedValue($event)">
+                                            <mat-option *ngFor="let Skill of candidateskills" [value]="Skill.Id">
+                                                {{Skill.Name}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <!-- </mat-chip-list> -->
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                    <mat-form-field fxFlex="100" appearance="outline">
+                                        <mat-label>Desired Salary</mat-label>
+                                        <input matInput #desiredsalary formControlName="desiredsalary" tabindex="11" required
+                                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                               minlength="2" maxlength="7" pattern="[1-9][0-9]*">
+                                        <mat-error *ngIf="firstFormGroup.get('desiredsalary').hasError('required')">desiredsalary is required</mat-error>
+                                        <mat-error *ngIf="firstFormGroup.get('desiredsalary').hasError('minlength')">desiredsalary is too short</mat-error>
+                                        <mat-error *ngIf="firstFormGroup.get('desiredsalary').hasError('pattern')">Please enter valid salary</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                    <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                                        <mat-label>Location</mat-label>
+                                        <input matInput formControlName="candidate_location" tabindex="4" required #search (keydown)="searchPlaces(search.value)" [matAutocomplete]="auto">
+                                        <br>
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                            <mat-option *ngFor="let option of location_options"
+                                                        [value]="locatinFormValue" (click)="selectedLocation(option)">
+                                                {{option['display_name']}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <mat-icon matSuffix class="disabled-text">location_on</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                    <span>
+                        <h2>
+                            <b style="
+                color: gray;
+            ">
+                                Education
+                                <button (click)="AddEducationItem()" style="color: blue  !important;background: white;border: none;font-size: 18px !important;font-weight: 500!important;margin-left: 0.5%;cursor: pointer;">+ Add </button>
+                            </b>
+                        </h2>
+                    </span>
+
+
+                    <div style="overflow-x: scroll;">
+                        <form class="w-full" [formGroup]="Educationform" style="display: flex; white-space: nowrap;">
+                            <div formArrayName="items">
+                                <div *ngFor="let item of Educationform.controls.items['controls']; let i=index" [formGroupName]="i" style="display: block;margin-bottom: -20px;">
+                                    <div style="display: flex;">
+                                        <div class="flex-1">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>From Year</mat-label>
+                                                <input matInput formControlName="item_From_Year" placeholder="From Year" tabindex="10"
+                                                       oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       required minlength="4" maxlength="4" (input)="ValidateYear($event)" pattern="^[0-9]\d*$">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="flex-1">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>To Year</mat-label>
+                                                <input matInput formControlName="item_To_Year" placeholder="To Year" tabindex="10"
+                                                       oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       required minlength="4" maxlength="4" (input)="ValidateYear($event)" pattern="^[0-9]\d*$">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="flex-1">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Qualification</mat-label>
+                                                <input matInput formControlName="Item_Qualification" placeholder="Qualification" tabindex="10"
+                                                       minlength="4" maxlength="50" required pattern="^[a-zA-Z.() ]*$">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="flex-1">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>University and Place</mat-label>
+                                                <input matInput placeholder="University and Place" formControlName="item_College_University" tabindex="11"
+                                                       minlength="4" maxlength="50" required pattern="^[a-zA-Z.() ]*$">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="flex-1">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Score %</mat-label>
+                                                <input matInput placeholder="Score %" formControlName="item_Score" tabindex="12"
+                                                       required minlength="2" maxlength="3" pattern="^[0-9]\d*$">
+                                            </mat-form-field>
+                                            <button matSuffix mat-icon-button aria-label="Clear" (click)="RemoveEducationItem(i)">
+                                                <mat-icon style="font-size: 25px !important; color: red !important;">close</mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <br>
+
+
+                    <span>
+                        <h2>
+                            <b style="
+                    color: gray;
+                ">
+                                Work Experience
+                                <button (click)="ExperianceformAddItem()" style="color: blue  !important;background: white;border: none;font-size: 18px !important;font-weight: 500!important;margin-left: 1%;cursor: pointer;">+ Add </button>
+                            </b>
+                        </h2>
+                    </span>
+                    <div style="overflow-x: scroll;">
+
+                        <form class="w-full" [formGroup]="Experianceform" style="display: flex; white-space: nowrap;">
+                            <div formArrayName="items">
+                                <div *ngFor="let item of Experianceform.controls.items['controls']; let i=index " [formGroupName]="i" style="display: block;margin-bottom: -20px;">
+
+
+
+                                    <div style="display: flex;">
+                                        <div class="flex-1 " style=" margin-left: 10px;">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Year of Joining</mat-label>
+                                                <input matInput formControlName="Joinned" placeholder="Joinned" minlength="4"
+                                                       pattern="^[0-9]\d*$" maxlength="4" (input)="ValidateYear($event)">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="flex-1" style=" margin-left: 10px;">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Year of relieving</mat-label>
+                                                <input matInput formControlName="Relived" placeholder="Relived" minlength="4"
+                                                       pattern="^[0-9]\d*$" maxlength="4" (input)="ValidateYear($event)">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="flex-1 " style=" margin-left: 10px;">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Company Name</mat-label>
+                                                <input matInput formControlName="CompanyName" placeholder="Company Name "
+                                                       minlength="4" maxlength="50" required pattern="^[a-zA-Z.() ]*$">
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="flex-1 " style=" margin-left: 10px;">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Place</mat-label>
+                                                <input matInput formControlName="Place" placeholder="Place"
+                                                       minlength="4" maxlength="50" required pattern="^[a-zA-Z.() ]*$">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="flex-1 " style=" margin-left: 10px;">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Designation</mat-label>
+                                                <input matInput formControlName="Designation" placeholder="Designation"
+                                                       minlength="4" maxlength="50" required pattern="^[a-zA-Z. ]*$">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="flex-1 " style=" margin-left: 10px;">
+                                            <button matSuffix
+                                                    mat-icon-button aria-label="Clear"
+                                                    (click)="RemoveExperianceItem(i)">
+                                                <mat-icon style="font-size: 25px !important;color: red !important;">close</mat-icon>
+                                            </button>
+                                        </div>
+                                    </div> <br>
+                                </div>
+
+
+                            </div>
+
+                        </form>
+                    </div>
+                    <br>
+
+                    <span>
+                        <h2>
+                            <b style=" color: gray; ">
+                                Awards and  Certificates
+                                <button (click)="AwardsformAddItem()" style="color: blue  !important;background: white;border: none;font-size: 18px !important;font-weight: 500!important;margin-left: 1%;cursor: pointer;">+ Add </button>
+                            </b>
+                        </h2>
+                    </span>
+
+                    <div style="overflow-x: scroll;">
+                        <form class="w-full" [formGroup]="Awardsform" style="display: flex; white-space: nowrap;">
+                            <div formArrayName="items">
+                                <div *ngFor="let item of Awardsform.controls.items['controls']; let i=index " [formGroupName]="i" style="display: block;margin-bottom: 0px;">
+
+
+
+                                    <div style="display: flex;">
+                                        <div class="flex-1" style=" margin-left: 10px;">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Year </mat-label>
+                                                <input matInput formControlName="AwardYear" placeholder="Awarded Year  "
+                                                       minlength="4" maxlength="4" required pattern="^[0-9]\d*$" (input)="ValidateYear($event)">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="flex-1 h-12 mb-2" style=" margin-left: 10px;">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Awards or Certificate By </mat-label>
+                                                <input matInput formControlName="AwardsAndCertificate" placeholder="Awards or Certificate By "
+                                                       required minlength="3" maxlength="50" pattern="^[a-zA-Z. ]*$">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="flex-1 h-12 mb-2" style=" margin-left: 10px;">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Awards or Certificate Details </mat-label>
+                                                <input matInput formControlName="AwardsAndCertificateDetails" placeholder="Awards or Certificate Details "
+                                                       required minlength="3" maxlength="50" pattern="^[a-zA-Z. ]*$">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="flex-1 h-12 mb-2" style=" margin-left: 10px;">
+                                            <button matSuffix
+                                                    mat-icon-button aria-label="Clear"
+                                                    (click)="RemoveAwardsformItem(i)">
+                                                <mat-icon style="font-size: 25px !important;color: red !important;">close</mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <br>
+                            </div>
+                        </form>
+                    </div>
+                    <br>
+
+
+
+                    <div class="flex flex-wrap mb-3">
+                        <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;width: 60%;">
+                            <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                                <mat-label>Facebook</mat-label>
+                                <input matInput formControlName="facebook" tabindex="12">
+
+                            </mat-form-field>
+                        </div>
+                        <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;flex-basis: 60%;">
+                            <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                                <mat-label>Linkedin</mat-label>
+                                <input matInput formControlName="linkedin" tabindex="13">
+
+                            </mat-form-field>
+                        </div>
+                        <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;flex-basis: 60%;">
+                            <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                                <mat-label>Twitter</mat-label>
+                                <input matInput formControlName="twitter" tabindex="14">
+
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+
+                    <div class="flex flex-wrap mb-2">
+                        <div class="flex-1 h-12 mb-5">
+                            <mat-form-field fxFlex="100" appearance="outline">
+                                <mat-label>Github</mat-label>
+                                <input matInput formControlName="github" tabindex="15">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex-1 h-12 mb-5">
+                            <mat-form-field fxFlex="100" appearance="outline">
+                                <mat-label>Stackoverflow</mat-label>
+                                <input matInput formControlName="stackoverflow" tabindex="16">
+
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+
+                    <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                        <mat-form-field appearance="outline" fxFlex="100" class="pr-4">
+                            <mat-label>Overview</mat-label>
+                            <textarea matInput rows="5" cols="40" placeholder="Overview" tabindex="17" #overview formControlName="overview" required></textarea>
+                        </mat-form-field>
+                    </div>
+                </form>
+                <div>
+                    <button [disabled]="this.firstFormGroup.invalid || Educationform.invalid || Experianceform.invalid || Awardsform.invalid "
+                            class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                            (click)="submitForm1()">
+                        <span> Save </span>
+                    </button>&nbsp;&nbsp;
+                    <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                            id="btnCancelDialog1" mat-dialog-close>
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #NewFolderDialog>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div fxLayout="row" style="border-bottom: 1px solid#5D5D5D;" fxLayoutAlign="start center" fxLayout.gt-xs="column" fxLayout.gt-md="row">
+                    <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                        <div fxFlex="80" fxLayout="row">
+                            <div fxFlex="15" fxLayout="row">
+                                <span style="color: #474747;"><h2><b>New Folder</b></h2></span>
+                            </div>
+                        </div>
+                        <div fxFlex="20">
+                            <button mat-raised-button mat-dialog-close [disabled]="this.newFolderFormGroup.invalid" color="accent" (click)="createNewFolder()">Save</button>&nbsp;&nbsp;
+                            <button mat-raised-button color="warn" mat-dialog-close tabindex="-1" (click)="this.reloadCandidatesPaginationList()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="modal-body mail-details1" fxLayout="column">
+                <form fxLayout="column" [formGroup]="newFolderFormGroup">
+                    <div fxLayout="column">
+                        <div style="margin-bottom:10px" fxLayout="column">
+                            <mat-radio-group (change)="chkfolderStatus($event)">
+                                <mat-radio-button style="margin-bottom: 5px; margin-left: 10px; font-size: 12px;" checked [value]="true">New</mat-radio-button>
+                                <mat-radio-button style="margin-left: 10px; font-size: 12px;" [value]="false">Add to existing</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="mail-content" fxLayout="row">
+                            <div fxLayout="row" fxFlex="40" *ngIf="isNewFolder">
+                                <mat-form-field fxFlex="100" appearance="outline" class="pr-4" class="example-full-width">
+                                    <mat-label>New folder</mat-label>
+                                    <input matInput tabindex="1" formControlName="newfolder" required>
+                                </mat-form-field>
+                            </div>
+                            <div fxLayout="row" fxFlex="40" *ngIf="!isNewFolder">
+                                <mat-form-field fxFlex="100" appearance="outline" class="pr-4" class="example-full-width">
+                                    <mat-label>Add to existing folder</mat-label>
+                                    <mat-select formControlName="newfolder">
+                                        <mat-option *ngFor="let folder of folderList"
+                                                    [value]="folder.folderName">
+                                            {{folder.FolderName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <!-- <div fxLayout="row" fxFlex="5"></div>
+                            <div fxLayout="row" fxFlex="20">
+                                <mat-form-field fxFlex="100" appearance="outline" class="pr-4">
+                                    <mat-label>Folder status</mat-label>
+                                    <mat-select [(value)]="defaultStatus" formControlName="status">
+                                        <mat-option [value]="1">Active</mat-option>
+                                        <mat-option [value]="0">Archive</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div style="text-align: center !important;" class="mail-list-1" *ngIf="this.selectedCandidates.length == 0">
+                        <span>No candidates added</span>
+                    </div>
+                    <div class="mail-list-1" *ngIf="this.selectedCandidates">
+                        <div class="row-1" fxLayout="column" *ngFor="let candidate of selectedCandidates" style="border: 1px solid rgba(0, 0, 0, 0.12);">
+                            <div class="name" fxLayout="row" fxLayoutAlign="start center" fxFlex title="Name: {{candidate['Name']}}" style="margin-left: 1%;margin-top:1%;text-overflow: ellipsis;white-space: nowrap;">
+                                <div fxLayoutAlign="start center" fxLayout="row" fxFlex="95">
+                                    <div *ngIf="!candidate['ProfileImage']" class="avatar accent" style="border-radius: 50px !important">{{candidate['Name'][0]}}</div>
+                                    <div *ngIf="candidate['ProfileImage']" class="avatar">
+                                        <img class="img" [src]="candidate['ProfileImage']" class="img-circle" width="180" style="vertical-align: middle !important; border-radius: 50px !important" />
+                                    </div>
+                                    <span class="text-truncate" style="font-weight: 600 !important;font-size: 18px !important;"><a style="color: rgb(17, 111, 191) !important;">{{candidate['Name']}}</a></span>
+                                    <span class="text-truncate" style="font-weight: 600 !important;font-size: 18px !important;"><a style="color: #000 !important;font-size: 15px;text-decoration: none;">, {{candidate['Designation']}}</a></span>
+                                </div>
+                                <div fxLayout="row" fxFlex="5">
+                                    <button matSuffix
+                                            mat-icon-button aria-label="Clear"
+                                            (click)="RemoveCandidate(candidate['Id'],'Edit')">
+                                        <mat-icon style="font-size: 25px !important;color: red !important;">close</mat-icon>
+                                    </button>
+                                </div>
+                            </div><br>
+                            <div class="row-2" fxLayout="row" fxLayoutAlign="start center">
+                                <div style="padding-left: 50px;height: 25px; flex-direction: column;box-sizing: border-box;display: grid;place-content: flex-start;align-items: flex-start;">
+                                    <div class="subject text-truncate" style="font-size:12px;">
+                                        <span style="color:black !important;" class="truncate" title="CurrentEmployer:&nbsp;{{candidate['CurrentEmployer']}}"><b><span style="color:#000 !important" class="material-icons">business</span>  &nbsp;{{candidate['CurrentEmployer']}},</b></span>
+                                        &nbsp;&nbsp;
+                                        <span title="Location: {{Location}}"><span style="color:#000 !important" class="material-icons">location_on</span>&nbsp; <span style="color:black !important;">{{Location}},</span></span>
+                                        &nbsp;
+                                        <span>{{candidate['CreatedDate'] | date:'shortDate'}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row-3" fxLayout="row" fxLayoutAlign="start center">
+                                <div style="padding-left: 50px;height:30px; flex-direction: column;box-sizing: border-box;display: initial;place-content: flex-start;align-items: flex-start;width: 100%;">
+                                    <span fxFlex="80" style=" font-size: 15px; color: rgb(17, 111, 191) !important;margin-right: 50px;" class="truncate" title="Email:&nbsp;{{candidate['Email']}}"><b><span style="color:#000 !important" class="material-icons">email</span></b> &nbsp;{{candidate['Email']}}</span>
+                                    <span fxFlex="20" style="font-size: 15px; color: rgb(17, 111, 191) !important;" class="truncate" title="Mobile Number:&nbsp;{{candidate['MobileNumber']}}"><b><span style="color:#000 !important" class="material-icons">call</span></b> &nbsp;{{candidate['MobileNumber']}}</span>
+                                    &nbsp;
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-template>
+
+
+    <ng-template #CreateCandidatefileDropDown>
+ <h1>Resume Extraction</h1>
+ <div style="padding: 15px;">
+	<div>
+		<div class="dropzone" fileDragDrop (filesChangeEmiter)="onFileChange($event)" (change)="onFileChange($event)"  (dragover)="onDragOver($event)"  (drop)="onDrop($event)">
+			<div class="text-wrapper">
+				<div class="centered">
+					<input type="file" name="file" id="file"  multiple>
+					<label for="file"><span class="textLink">Select your file</span> or Drop it here!</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<h3 mat-subheader>Files</h3>
+	<div class="row fileItem" *ngFor="let f of files; let ind = index">
+		<div class="col-sm-12 fileItemIconDiv" (click)="openConfirmDialog(ind);">
+			<i class="fa-6x fileItemIcon"></i>
+		</div>
+		<div class="col-sm-12 fileItemText">
+			<span>{{f.name}}</span>
+		</div>
+	</div>
+
+</div>
+    </ng-template>

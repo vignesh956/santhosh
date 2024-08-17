@@ -1,0 +1,238 @@
+.ck.ck-content {
+    height: 120px!important;
+}
+.bottom-right {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 20px; /* Adjust as needed */
+  }
+  
+  .ck.ck-content {
+    height: 120px !important;
+}
+
+.bottom-right {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 20px;
+    /* Adjust as needed */
+}
+
+.job-overview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.right-side-content {
+    /* height: 100vh; */
+    width: 30%;
+    background-color: whitesmoke;
+}
+
+.steper-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pay-box {
+    border: 2px solid whitesmoke;
+    border-radius: 13px;
+    padding: 32px;
+}
+
+.radios-label {
+    display: flex;
+    align-items: center;
+}
+
+.example-section {
+    position: relative;
+    bottom: 22px;
+}
+
+.mat-form-field-disabled .mat-input-element {
+    color: #757575 !important;
+    /* Change the color to your desired color */
+}
+
+.content-job-posts {
+    border: 2px solid whitesmoke;
+    padding: 10px;
+    background: whitesmoke;
+}
+
+.matheader-card {
+    background: whitesmoke;
+    padding: 14px !important;
+}
+
+.card-content-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.qualification-description {
+    background: whitesmoke;
+    /* padding: 16px; */
+    border-radius: 10px;
+}
+
+textarea {
+    border: 2px solid;
+    padding: 5px;
+} 
+
+
+  .mdc-floating-label--required:not(.mdc-floating-label--hide-required-marker)::after {
+    color: red; 
+  }
+
+  /* .titleInfo{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .divJobTitle{
+    width: 100%;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .title{
+    font-size: 18px;
+        font-weight: 600;
+        color: #116fbf;
+        font-family: serif;
+  }
+  .jobSkillsInfo{
+    border: 1px black solid !important;
+    padding: 1% 10px;
+    color: darkblue !important;
+  }
+  .jobSkillsInfoDetails{
+    border-radius: 2px;
+padding: 4px 2px;
+margin: 0 4px;
+font-size: 11px;
+font-weight: 500;
+white-space: nowrap;
+background-color: rgba(0, 0, 0, 0.12);
+color: rgba(0, 0, 0, 0.54);
+  } */
+
+
+
+
+
+
+  .divJobTitle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #116fbf;
+    font-family: serif;
+}
+
+.closeButton {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.closeButton:hover {
+    background-color: #d32f2f;
+}
+
+.titleInfo {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.jobSkillsInfo {
+    border: 1px solid black;
+    padding: 1% 10px;
+    color: darkblue;
+}
+
+.jobSkillsInfoDetails {
+    border-radius: 2px;
+    padding: 4px 8px;
+    margin-right: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    background-color: rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 0.54);
+    margin-right: 10px;
+}
+
+.divider {
+    color: rgba(0, 0, 0, 0.87);
+    margin: 10px 0;
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.87);
+
+}
+
+.location-hiring-details {
+    margin-bottom: 20px;
+}
+
+.detailTitle {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.recruiters {
+    color: #00008b;
+    font-size: 14px;
+}
+
+.section {
+    padding-bottom: 10px;
+}
+
+.detailTitle {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.buttonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.closeButtonAction {
+    color: white;
+    background-color: #607d8b;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    border: none;
+}
+
+.closeButtonAction:hover {
+    background-color: #455a64;
+}

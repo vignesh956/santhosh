@@ -1,0 +1,16 @@
+:host ::ng-deep .ag-theme-alpine.custom-header .ag-header {
+    --ag-foreground-color: rgb(252, 252, 252);
+    --ag-background-color: rgb(249, 245, 227);
+    --ag-header-foreground-color: rgb(255, 255, 255);
+    --ag-header-background-color: #043535;
+    --ag-odd-row-background-color: rgba(73, 70, 70, 0.03);
+    --ag-header-column-resize-handle-color: rgb(250, 247, 250);
+    --ag-row-border-width: 5px;
+    --ag-font-size: 17px;
+    --ag-font-family: monospace;
+  }
+  
+  :host ::ng-deep .ag-theme-alpine.custom-header {
+    border-radius: 15px; /* Adjust the value to your preference */
+    overflow: hidden; /* Ensures content doesn't overflow the rounded corners */
+  }

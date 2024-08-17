@@ -1,0 +1,101 @@
+
+job-list-item {
+    flex-shrink: 0;
+    position: static;
+    padding: 10px 10px;
+    border-bottom: 1px solid;
+    cursor: default;
+
+    &.unread {
+
+        .info {
+
+            .name {
+                font-weight: 500;
+            }
+
+            .row-2 {
+
+                .subject {
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
+    .info {
+        overflow: hidden;
+        width: 0;
+        margin-left: 16px;
+        position: relative;
+
+        .row-1 {
+            margin-bottom: 1px;
+
+            .name {
+                font-size: 14px;
+                font-weight: 600;
+
+                .avatar {
+                    min-width: 32px;
+                    width: 32px;
+                    height: 32px;
+                    line-height: 32px;
+                }
+            }
+
+            .actions {
+                margin-left: 4px;
+
+                .mat-icon-button {
+                    width: 32px;
+                    height: 32px;
+                    line-height: 1;
+                }
+            }
+        }
+
+        .row-2 {
+
+            .subject,
+            .message {
+                width: 100%;
+            }
+
+            .message {
+                position: relative;
+            }
+
+            .labels {
+                margin-top: 8px;
+
+                .label {
+                    font-size: 11px;
+                    border-radius: 4px;
+                    margin: 0 4px 0 0;
+                    padding: 3px 8px;
+
+                    .label-color {
+                        width: 8px;
+                        height: 8px;
+                        margin-right: 8px;
+                        border-radius: 50%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.job-list-card-info{
+        border-radius: 20px;
+        padding: 22px;
+        overflow: hidden;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 20px 0px;
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.job-list-card-info:hover {
+    transform: scale(1.05);
+    border: solid !important;
+    transition: transform 0.3s ease; 
+  } 

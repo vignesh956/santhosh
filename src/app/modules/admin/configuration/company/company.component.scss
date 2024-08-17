@@ -1,0 +1,53 @@
+.grid-cell-centered {
+    text-align: center;
+  }
+  .circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #4285f4;
+  color: white;
+  font-size: 24px;
+  border-radius: 50%;
+}
+
+.upload-button button {
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.upload-button button:hover {
+  background-color: #0069d9;
+}
+
+@media screen and (max-width: 390px) {
+  .mx-screen {
+    margin-left: 4% !important;
+  }
+
+}
+:host ::ng-deep .ag-theme-alpine.custom-header .ag-header {
+  --ag-foreground-color: rgb(252, 252, 252);
+  --ag-background-color: rgb(249, 245, 227);
+  --ag-header-foreground-color: rgb(255, 255, 255);
+  --ag-header-background-color: #043535;
+  --ag-odd-row-background-color: rgba(253, 249, 249, 0.03);
+  --ag-header-column-resize-handle-color: rgb(254, 255, 255);
+  --ag-row-border-width: 5px;
+  --ag-font-size: 17px;
+  --ag-font-family: monospace;
+}
+
+:host ::ng-deep .ag-theme-alpine.custom-header {
+  border-radius: 15px; /* Adjust the value to your preference */
+  overflow: hidden; /* Ensures content doesn't overflow the rounded corners */
+}

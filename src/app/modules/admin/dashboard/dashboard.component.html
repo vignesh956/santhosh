@@ -1,0 +1,1001 @@
+<div class="bg-white" flexLayout="column" style="width:100%; ">
+    <div id="navbar" class="page-layout carded left-sidebar inner-scroll">
+
+        <div class="page-layout simple fullwidth docs" style="background-color: white !important;">
+            <div class="bg-white mt-5">
+
+                <div fxLayout="row" class="w-95 max-w-screen-xl mx-auto ml-3 mr-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full min-w-0" style="    padding: 15px;">
+                        <!-- Jobs -->
+                        <!-- <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" style="border: solid!important;border-color:gray!important;">
+                            <div class="flex items-start justify-between">
+                                <div class="text-lg font-medium tracking-tight leading-6 truncate">Jobs</div>
+                                <div class="ml-2 -mt-2 -mr-3">
+                                    <button routerLink="/post-job" class="mt-3" style="color: #080b0c !important;background: white;border: none;font-size: 14px !important;font-weight: 800!important;cursor: pointer;">
+                                        + Add
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center mt-1">
+                                <div *ngFor="let dashboardJobInfo of DashboardJobInfo" class="text-{{dashboardJobInfo.Color}}-500" class="text-7xl sm:text-8xl font-medium tracking-tight">
+                                    
+                                    <p  class="count" style="font-size: medium;">{{dashboardJobInfo.JobStatus}} : {{dashboardJobInfo.CountJobStatus}}</p>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- Candidates -->
+                        <!-- <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" style="border: solid!important;border-color:gray!important;">
+                            <div class="flex items-start justify-between">
+                                <div class="text-lg font-medium tracking-tight leading-6 truncate">Candidates</div>
+                                <div class="ml-2 -mt-2 -mr-3">
+                                    <button (click)="openDialogModal(CreateCandidateDialog, '1700px','700px')" class="mt-3" style="color: #080b0c!important;background: white;border: none;font-size: 14px !important;font-weight: 800!important;cursor: pointer;">
+                                        + Add
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center mt-2">
+                                <div *ngFor="let dashboardCandidatesInfo of DashboardCandidatesInfo" class="text-{{dashboardCandidatesInfo.Color}}-500" class="text-7xl sm:text-8xl font-medium tracking-tight">
+                                    <p  class="count" style="font-size: medium;">{{dashboardCandidatesInfo.Active}} : {{dashboardCandidatesInfo.CountCandidateStatus}}</p>
+                                    comment
+                                    <div class="text-green-500">
+                                        <p style="font-size: medium;">
+                                            Active : {{ dashboardCandidatesInfo.Active=='Active'?dashboardCandidatesInfo.CountCandidateStatus:0 }}
+                                        </p>
+                                    </div>
+                                    <div class="text-red-500">
+                                        <p style="font-size: medium;">
+                                            InActive : {{ dashboardCandidatesInfo.Active=='InActive'?dashboardCandidatesInfo.CountCandidateStatus:0 }}
+                                        </p>
+                                    </div>
+                                    comment
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- Onboarding -->
+                        <!-- <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" style="border: solid!important;border-color:gray!important;">
+                            <div class="flex items-start justify-between">
+                                <div class="text-lg font-medium tracking-tight leading-6 truncate">Onboarding</div>
+                            </div>
+                            <div class="flex flex-col items-center mt-2">
+                                <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium tracking-tight">
+                                    <div *ngIf="dashboardOnboardingInfo.Status=='In-progress'">
+                                    <div class="text-amber-500">
+                                        <p style="font-size: medium;">   
+                                            In-progress : {{ dashboardOnboardingInfo.Status=='In-progress'?dashboardOnboardingInfo.StatusCount:0 }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" >
+                                <div *ngIf="dashboardOnboardingInfo.Status=='Rejected'">    
+                                    <div class="text-red-500">
+                                        <p style="font-size: medium;">
+                                            Rejected : {{ dashboardOnboardingInfo.Status=='Rejected'?dashboardOnboardingInfo.StatusCount:0 }}
+                                        </p>
+                                    </div>
+                                </div>
+                                </div>
+                                <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium tracking-tight">
+                                    <div *ngIf="dashboardOnboardingInfo.Status=='Modified'"> 
+                                    <div class="text-yellow-500">
+                                        <p style="font-size: medium;">
+                                            Modified :  {{ dashboardOnboardingInfo.Status=='Modified'?dashboardOnboardingInfo.StatusCount:0 }}
+                                        </p>
+                                    </div>
+                                </div>
+                                </div>
+                                <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium tracking-tight">
+                                    <div *ngIf="dashboardOnboardingInfo.Status=='Completed'"> 
+                                    <div class="text-blue-500">
+                                        <p style="font-size: medium;">
+                                            Completed : {{ dashboardOnboardingInfo.Status=='Completed'?dashboardOnboardingInfo.StatusCount:0 }}
+                                        </p>
+                                    </div>
+                                </div>
+                                </div>   
+                                <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium tracking-tight">
+                                    <div *ngIf="dashboardOnboardingInfo.Status=='Cancelled'"> 
+                                    <div class="text-slate-500">
+                                        <p style="font-size: medium;">
+                                            Cancelled : {{ dashboardOnboardingInfo.Status=='Cancelled'?dashboardOnboardingInfo.StatusCount:0 }}
+                                        </p>
+                                    </div>
+                                </div>
+                                </div>
+                                <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium tracking-tight">
+                                    <div *ngIf="dashboardOnboardingInfo.Status=='ScoreSubmitted'"> 
+                                    <div class="text-green-500">
+                                        <p style="font-size: medium;">
+                                            Score Submitted : {{ dashboardOnboardingInfo.Status=='ScoreSubmitted'?dashboardOnboardingInfo.StatusCount:0 }}
+                                        </p>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+
+
+
+<!-- ============================================================================= -->
+
+
+
+
+
+
+                        <!-- <div class="cards-info">
+                            <div class="flex items-start justify-between" style=" width: 420px; padding: 14px;">
+                                <div class="text-lg font-medium  leading-6 truncate" style="color: #080b0c; font-weight: bold; font-size: 17px; ">Jobs</div>
+                                <div class="ml-2 -mt-2 -mr-3">
+                                    <button routerLink="/post-job" class="mt-3" style="color: #080b0c !important;background: white;border: none;font-size: 14px !important;font-weight: 800!important;cursor: pointer;">
+                                        + Add
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center mt-1">
+                                <div *ngFor="let dashboardJobInfo of DashboardJobInfo" style="color: #67748e;" class="text-7xl sm:text-8xl font-medium  ">
+                                    
+                                    <p  class="count" style="font-size: medium;">{{dashboardJobInfo.JobStatus}} : {{dashboardJobInfo.CountJobStatus}}</p>
+                                </div>
+                            </div>
+                        </div> -->
+
+
+
+
+                        <div class="dropdown"  (mouseenter)="toggleDropdown('jobs')" 
+                        (mouseleave) ="toggleDropdownClose()">
+                       <div style="justify-content: space-between; display: flex;">
+                        <button class="dropdown-button">Jobs</button>
+                        <button routerLink="/post-job" class="mt-3" style="color: #080b0c !important;background: white;border: none;font-size: 14px !important;font-weight: 800!important;cursor: pointer;">
+                            + Add
+                        </button>
+                       </div>
+                            <div class="dropdown-content" *ngIf="openDropdown === 'jobs'">
+                                <a href="#" *ngFor="let dashboardJobInfo of DashboardJobInfo">
+                                    <p  class="count" style="font-size: medium;">{{dashboardJobInfo.JobStatus}} : {{dashboardJobInfo.CountJobStatus}}</p>
+                                </a>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <!-- ============================================================================= -->
+
+                        <!-- 2 -->
+
+                         <!-- Candidates -->
+                         <!-- <div  class="cards-info">
+                            <div class="flex items-start justify-between" style=" width: 420px; padding: 14px;">
+                                <div class="text-lg font-medium  leading-6 truncate" style="color: #080b0c; font-weight: bold; font-size: 17px;">Candidates</div>
+                                <div class="ml-2 -mt-2 -mr-3">
+                                    <button (click)="openDialogModal(CreateCandidateDialog, '1700px','700px')" class="mt-3" style="color: #080b0c!important;background: white;border: none;font-size: 14px !important;font-weight: 800!important;cursor: pointer;">
+                                        + Add
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center mt-2">
+                                <div *ngFor="let dashboardCandidatesInfo of DashboardCandidatesInfo" style="color: #67748e;" class="text-7xl sm:text-8xl font-medium ">
+                                    <p  class="count" style="font-size: medium;">{{dashboardCandidatesInfo.Active}} : {{dashboardCandidatesInfo.CountCandidateStatus}}</p>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="dropdown"  (mouseenter)="toggleDropdown('candidates')" 
+                        (mouseleave) ="toggleDropdownClose()">
+                       <div style="justify-content: space-between; display: flex;">
+                        <button class="dropdown-button">Candidates</button>
+                        <button (click)="openDialogModal(CreateCandidateDialog, '1700px','700px')" class="mt-3" style="color: #080b0c!important;background: white;border: none;font-size: 14px !important;font-weight: 800!important;cursor: pointer;">
+                            + Add
+                        </button>
+                       </div>
+                            <div class="dropdown-content" *ngIf="openDropdown === 'candidates'">
+                                <a href="#" *ngFor="let dashboardCandidatesInfo of DashboardCandidatesInfo">
+                                    <p  class="count" style="font-size: medium;">{{dashboardCandidatesInfo.Active}} : {{dashboardCandidatesInfo.CountCandidateStatus}}</p>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 3 -->
+                        <!-- <div class="cards-info">
+                            <div class="flex items-start justify-between" style="  padding: 14px;">
+                                <div class="text-lg font-medium  leading-6 truncate" style="color: #080b0c; font-weight: bold; font-size: 17px;">Onboarding</div>
+                            </div>
+                            <div class="flex flex-col items-center mt-2">
+                                <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium ">
+                                    <div *ngIf="dashboardOnboardingInfo.Status=='In-progress'">
+                                    <div style="color: #67748e;" >
+                                        <p style="font-size: medium;">   
+                                            In-progress : {{ dashboardOnboardingInfo.Status=='In-progress'?dashboardOnboardingInfo.StatusCount:0 }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium " >
+                                <div *ngIf="dashboardOnboardingInfo.Status=='Rejected'">    
+                                    <div style="color: #67748e;" >
+                                        <p style="font-size: medium;">
+                                            Rejected : {{ dashboardOnboardingInfo.Status=='Rejected'?dashboardOnboardingInfo.StatusCount:0 }}
+                                        </p>
+                                    </div>
+                                </div>
+                                </div>
+                                <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium ">
+                                    <div *ngIf="dashboardOnboardingInfo.Status=='Modified'"> 
+                                    <div style="color: #67748e;" >
+                                        <p style="font-size: medium;">
+                                            Modified :  {{ dashboardOnboardingInfo.Status=='Modified'?dashboardOnboardingInfo.StatusCount:0 }}
+                                        </p>
+                                    </div>
+                                </div>
+                                </div>
+                                <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium ">
+                                    <div *ngIf="dashboardOnboardingInfo.Status=='Completed'"> 
+                                    <div style="color: #67748e;">
+                                        <p style="font-size: medium;">
+                                            Completed : {{ dashboardOnboardingInfo.Status=='Completed'?dashboardOnboardingInfo.StatusCount:0 }}
+                                        </p>
+                                    </div>
+                                </div>
+                                </div>   
+                                <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium ">
+                                    <div *ngIf="dashboardOnboardingInfo.Status=='Cancelled'"> 
+                                    <div style="color: #67748e;">
+                                        <p style="font-size: medium;">
+                                            Cancelled : {{ dashboardOnboardingInfo.Status=='Cancelled'?dashboardOnboardingInfo.StatusCount:0 }}
+                                        </p>
+                                    </div>
+                                </div>
+                                </div>
+                                <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium ">
+                                    <div *ngIf="dashboardOnboardingInfo.Status=='ScoreSubmitted'"> 
+                                    <div style="color: #67748e;">
+                                        <p style="font-size: medium;">
+                                            Score Submitted : {{ dashboardOnboardingInfo.Status=='ScoreSubmitted'?dashboardOnboardingInfo.StatusCount:0 }}
+                                        </p>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="dropdown"  (mouseenter)="toggleDropdown('onboarding')" 
+                        (mouseleave) ="toggleDropdownClose()">
+                       <div style="justify-content: space-between; display: flex;">
+                        <button class="dropdown-button">Onboarding</button>
+                        <!-- <button (click)="openDialogModal(CreateCandidateDialog, '1700px','700px')" class="mt-3" style="color: #080b0c!important;background: white;border: none;font-size: 14px !important;font-weight: 800!important;cursor: pointer;">
+                            + Add
+                        </button> -->
+                       </div>
+                            <div class="dropdown-content" *ngIf="openDropdown === 'onboarding'">
+                                <div class="flex flex-col items-center mt-2">
+                                    <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium ">
+                                        <div *ngIf="dashboardOnboardingInfo.Status=='In-progress'">
+                                        <div style="color: #67748e;" >
+                                            <p style="font-size: medium;">   
+                                                In-progress : {{ dashboardOnboardingInfo.Status=='In-progress'?dashboardOnboardingInfo.StatusCount:0 }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium " >
+                                    <div *ngIf="dashboardOnboardingInfo.Status=='Rejected'">    
+                                        <div style="color: #67748e;" >
+                                            <p style="font-size: medium;">
+                                                Rejected : {{ dashboardOnboardingInfo.Status=='Rejected'?dashboardOnboardingInfo.StatusCount:0 }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium ">
+                                        <div *ngIf="dashboardOnboardingInfo.Status=='Modified'"> 
+                                        <div style="color: #67748e;" >
+                                            <p style="font-size: medium;">
+                                                Modified :  {{ dashboardOnboardingInfo.Status=='Modified'?dashboardOnboardingInfo.StatusCount:0 }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium ">
+                                        <div *ngIf="dashboardOnboardingInfo.Status=='Completed'"> 
+                                        <div style="color: #67748e;">
+                                            <p style="font-size: medium;">
+                                                Completed : {{ dashboardOnboardingInfo.Status=='Completed'?dashboardOnboardingInfo.StatusCount:0 }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    </div>   
+                                    <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium ">
+                                        <div *ngIf="dashboardOnboardingInfo.Status=='Cancelled'"> 
+                                        <div style="color: #67748e;">
+                                            <p style="font-size: medium;">
+                                                Cancelled : {{ dashboardOnboardingInfo.Status=='Cancelled'?dashboardOnboardingInfo.StatusCount:0 }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div *ngFor="let dashboardOnboardingInfo of DashboardOnboardingInfo" class="text-7xl sm:text-8xl font-medium ">
+                                        <div *ngIf="dashboardOnboardingInfo.Status=='ScoreSubmitted'"> 
+                                        <div style="color: #67748e;">
+                                            <p style="font-size: medium;">
+                                                Score Submitted : {{ dashboardOnboardingInfo.Status=='ScoreSubmitted'?dashboardOnboardingInfo.StatusCount:0 }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+
+                <div fxLayout="row" class="w-95 max-w-screen-xl mx-auto mt-3 ml-3 mr-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 w-full min-w-0" style="margin-left: 30px;">
+                        <!-- Screening -->
+                        <!-- <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-scroll" style="border: solid!important;border-color:gray!important;">
+                            <div class="text-lg font-medium tracking-tight leading-6 truncate">Screening</div>
+                            <br>
+                            <div style="display: flex;margin-left: 5%;">
+                                <div>
+                                    <span><b>Jobs</b></span>
+                                    <div *ngFor="let jobStatus of DashboardJobStatus" class="text-{{jobStatus.Color}}-500" class="text-7xl sm:text-8xl font-medium tracking-tight">
+                                        <div *ngIf="jobStatus.InterviewType=='ALL'" >
+                                            <p  class="count" style="font-size: medium;">{{jobStatus.Status}} : {{jobStatus.StatusCount}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-left: 5%;">
+                                    <div>
+                                        <span><b>HR</b></span>
+                                        <div *ngFor="let jobStatus of DashboardJobStatus" class="text-{{jobStatus.Color}}-500" class="text-7xl sm:text-8xl font-medium tracking-tight">
+                                            <div *ngIf="jobStatus.InterviewType=='HR'" >
+                                                <p  class="count" style="font-size: medium;">{{jobStatus.Status}} : {{jobStatus.StatusCount}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-left: 5%;">
+                                    <div>
+                                        <span><b>Technical</b></span>
+                                        <div *ngFor="let jobStatus of DashboardJobStatus" class="text-{{jobStatus.Color}}-500" class="text-7xl sm:text-8xl font-medium tracking-tight">
+                                            <div *ngIf="jobStatus.InterviewType=='Technical'">
+                                                <p  class="count" style="font-size: medium;">{{jobStatus.Status}} : {{jobStatus.StatusCount}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-left: 5%;">
+                                    <div>
+                                        <span><b>Assessment</b></span>
+                                        <div *ngFor="let jobStatus of DashboardJobStatus" class="text-{{jobStatus.Color}}-500" class="text-7xl sm:text-8xl font-medium tracking-tight">
+                                            <div *ngIf="jobStatus.InterviewType=='Assessment'">
+                                                <p  class="count" style="font-size: medium;">{{jobStatus.Status}} : {{jobStatus.StatusCount}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-left: 5%;">
+                                    <div>
+                                        <span><b>Assignment</b></span>
+                                        <div *ngFor="let jobStatus of DashboardJobStatus" class="text-{{jobStatus.Color}}-500" class="text-7xl sm:text-8xl font-medium tracking-tight">
+                                            <div *ngIf="jobStatus.InterviewType=='Assignment'">
+                                                <p  class="count" style="font-size: medium;">{{jobStatus.Status}} : {{jobStatus.StatusCount}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-left: 5%;margin: right 10px!important;">
+                                    <div>
+                                        <span><b>Management</b></span>
+                                        <div *ngFor="let jobStatus of DashboardJobStatus" class="text-{{jobStatus.Color}}-500" class="text-7xl sm:text-8xl font-medium tracking-tight">
+                                            <div *ngIf="jobStatus.InterviewType=='Management'">
+                                                <p  class="count" style="font-size: medium;">{{jobStatus.Status}} : {{jobStatus.StatusCount}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="cards-info" style="padding: 18px;">
+                            <div class="text-lg font-medium  leading-6 truncate">Screening</div>
+                            <br>
+                            <div style="display: flex;margin-left: 5%;">
+                                <div>
+                                    <span style="color: #080b0c; font-weight: bold; font-size: 17px; margin-bottom: 10px;"><b>Jobs</b></span>
+                                    <div *ngFor="let jobStatus of DashboardJobStatus" style="color: #67748e;" class="text-7xl sm:text-8xl font-medium ">
+                                        <div *ngIf="jobStatus.InterviewType=='ALL'" >
+                                            <p  class="count" style="font-size: medium;">{{jobStatus.Status}} : {{jobStatus.StatusCount}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-left: 5%;">
+                                    <div>
+                                        <span style="color: #080b0c; font-weight: bold; font-size: 17px; margin-bottom: 10px;"><b>HR</b></span>
+                                        <div *ngFor="let jobStatus of DashboardJobStatus" style="color: #67748e; " class="text-7xl sm:text-8xl font-medium ">
+                                            <div *ngIf="jobStatus.InterviewType=='HR'" >
+                                                <p  class="count" style="font-size: medium;">{{jobStatus.Status}} : {{jobStatus.StatusCount}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-left: 5%;">
+                                    <div>
+                                        <span style="color: #080b0c; font-weight: bold; font-size: 17px; margin-bottom: 10px;"><b>Technical</b></span>
+                                        <div *ngFor="let jobStatus of DashboardJobStatus" style="color: #67748e;" class="text-7xl sm:text-8xl font-medium ">
+                                            <div *ngIf="jobStatus.InterviewType=='Technical'">
+                                                <p  class="count" style="font-size: medium;">{{jobStatus.Status}} : {{jobStatus.StatusCount}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-left: 5%;">
+                                    <div>
+                                        <span style="color: #080b0c; font-weight: bold; font-size: 17px; margin-bottom: 10px;"><b>Assessment</b></span>
+                                        <div *ngFor="let jobStatus of DashboardJobStatus" style="color: #67748e;" class="text-7xl sm:text-8xl font-medium ">
+                                            <div *ngIf="jobStatus.InterviewType=='Assessment'">
+                                                <p  class="count" style="font-size: medium;">{{jobStatus.Status}} : {{jobStatus.StatusCount}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-left: 5%;">
+                                    <div>
+                                        <span style="color: #080b0c; font-weight: bold; font-size: 17px; margin-bottom: 10px;"><b>Assignment</b></span>
+                                        <div *ngFor="let jobStatus of DashboardJobStatus" style="color: #67748e;" class="text-7xl sm:text-8xl font-medium ">
+                                            <div *ngIf="jobStatus.InterviewType=='Assignment'">
+                                                <p  class="count" style="font-size: medium;">{{jobStatus.Status}} : {{jobStatus.StatusCount}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-left: 5%;margin: right 10px!important;">
+                                    <div>
+                                        <span style="color: #080b0c; font-weight: bold; font-size: 17px; margin-bottom: 10px;"><b>Management</b></span>
+                                        <div *ngFor="let jobStatus of DashboardJobStatus" style="color: #67748e;" class="text-7xl sm:text-8xl font-medium ">
+                                            <div *ngIf="jobStatus.InterviewType=='Management'">
+                                                <p  class="count" style="font-size: medium;">{{jobStatus.Status}} : {{jobStatus.StatusCount}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div fxLayout="row">
+                    <mat-card style="width: 98%;margin-top:15px;margin-left: 10px;height: auto;">
+                        <div>
+                            <div fxFlex="25">
+                                <mat-form-field class="example-full-width" fxFlex="95">
+                                    <input matInput [(ngModel)]="SearchFilter"
+                                           autofocus placeholder="Search for a Candidate or Job" (input)="onQuickFilterChanged()">
+                                    <!--<button *ngIf="SearchFilter" matSuffix mat-icon-button
+                                            aria-label="Clear" (click)="onQuickFilterChanged()">
+                                        <mat-icon>search</mat-icon>
+                                    </button>
+                                    <button style="color: red !important;" *ngIf="SearchFilter" matSuffix
+                                            mat-icon-button aria-label="Clear"
+                                            (click)="SearchFilter='';onQuickFilterChanged()">
+                                        <mat-icon>close</mat-icon>
+                                    </button>-->
+                                </mat-form-field>
+                            </div>
+
+                            <mat-form-field fxFlex="23" class="clsmatselect" style="margin-left: 52%;">
+                                <mat-select [(value)]="defaultAction" (selectionChange)="changestage($event.value)">
+                                    <mat-option value="200" selected=true> ALL </mat-option>
+                                    <mat-option value="0">Today</mat-option>
+                                    <mat-option value="7"> Week </mat-option>
+                                    <mat-option value="31"> Month </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+
+                        </div>
+                        <div class="bg-white" flexLayout="column" style="width:100%;">
+                            <ag-grid-angular #agGrid style="height: 400px; background-color: red;" id="myGrid" class="ag-theme-alpine custom-header" 
+    [context]="context" [gridOptions]="gridOptions" [rowData]="rowData" (gridReady)="onGridReady($event)"
+    (filterChanged)="onGridFilterChanged()" [defaultColDef]="defaultColDef" [rowSelection]="rowSelection"
+    [frameworkComponents]="frameworkComponents" (selectionChanged)="onSelectionChanged($event)" 
+    (cellClicked)='onCellClicked($event)'>
+</ag-grid-angular>
+
+                        </div>
+                    </mat-card>
+                </div>
+                <br>
+                <br>
+
+                <ng-template #CreateCandidateDialog>
+                    <div class="modal-content">
+                        <div fxLayout="row" fxLayoutAlign="start center" fxLayout.gt-xs="column" fxLayout.gt-md="row">
+                            <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                                <div fxFlex="83">
+                                    <span style="font-weight: bolder;font-size: large;">Add Candidate</span>
+                                </div>
+                                <div fxFlex="17" style="float: right !important;">
+                                    <button [disabled]="this.firstFormGroup.invalid|| Educationform.invalid || Experianceform.invalid || Awardsform.invalid"
+                                            class="bg-transparent hover:bg-blue-500
+            text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                                            (click)="submitForm1()">
+                                        <span>Save</span>
+                                    </button>&nbsp;&nbsp;
+                                    <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700
+        hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" id="btnCancelDialog1" mat-dialog-close>
+                                        <span>Close</span>
+                                    </button>
+                                </div>
+                                <div fxFlex="3">
+                                </div>&nbsp;
+                            </div>
+                        </div>
+                        <br>
+                        <div class="modal-body mail-details1">
+                            <form class="w-full mr-10" fxLayout="column" [formGroup]="firstFormGroup">
+                                <span *ngIf="this.firstFormGroup.invalid" style="text-align-last: right !important; margin-right:2% !important; margin-bottom: 5px !important; font-size: 15px !important; color:red !important;">* Please enter all required fields</span>
+                                <div class="w-full mr-10" >
+                        <div>
+                            <div >
+                                <div class="flex flex-wrap mb-5" >
+                                    
+                                    
+                                    <div class="card-avatar" style="text-align-last: left !important;display: flex; align-items: center; justify-content: center;">
+                                        <div style="text-align: center;">
+                                            <img *ngIf="!candidateprofileimageURL" class="img-circle" style="margin-bottom: 5px; height: 80px; vertical-align: top; border: none; border-radius: 50%; width: 80px;"
+                                                src="../../../../assets/images/avatars/profile.jpg" />
+                                            <img *ngIf="candidateprofileimageURL" [src]="candidateprofileimageURL" class="img-circle" style="margin-bottom: 5px; height: 80px; vertical-align: top; border: none; border-radius: 50%; width: 80px;"
+                                                />
+                                        </div>
+                                        <div style="margin-left: 10px;">
+                                            <input #profileInput type="file" id="fileInput" (change)="onFileInput($event)" style="display:none;" />
+                                            <div *ngIf="!candidateprofileimageURL">
+                                                <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-2 border border-blue-500 hover:border-transparent rounded"
+                                                    mat-raised-button color="primary" (click)="profileInput.click()">Add Profile Image</button>
+                                            </div>
+                                            <div *ngIf="candidateprofileimageURL">
+                                                <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                                                    mat-raised-button color="primary" (click)="profileInput.click()">Change</button>
+                                                <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" 
+                                                    mat-raised-button color="warn" (click)="removeProfileImage()">Remove</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                               
+                            </div>
+                           
+                                    
+                                        <div class="flex flex-wrap mb-4" >
+                                            <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                        <mat-form-field appearance="outline" autofocus="autofocus">
+                                            <mat-label>Candidate Name (First Name & Last Name)</mat-label>
+                                            <input matInput #candidatename formControlName="candidateName" tabindex="1" autofocus="autofocus" required type="text" minlength="5"
+                                                   oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                   pattern="[a-zA-Z]+([\s][a-zA-Z]+)*" maxlength="50">
+                                            <mat-error *ngIf="firstFormGroup.get('candidateName').hasError('pattern')">Please enter valid name.</mat-error>
+                                            <mat-error *ngIf="firstFormGroup.get('candidateName').hasError('required')">Candidate Name required.</mat-error>
+                                            <mat-error *ngIf="firstFormGroup.get('candidateName').hasError('minlength')">Candidate Name is too short.</mat-error>
+                                        </mat-form-field>
+                                            </div>
+                                        <div class="flex-1 h-12 mb-5" style="margin-left: 10px;">
+                                        <mat-form-field appearance="outline" >
+                                            <mat-label>Designation</mat-label>
+                                            <input matInput formControlName="designation" tabindex="2" required pattern="^[a-zA-Z ]*$"
+                                                   oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                   maxlength="50" minlength="5">
+                                            <mat-error *ngIf="firstFormGroup.get('designation').hasError('required')">Designation is required</mat-error>
+                                            <mat-error *ngIf="firstFormGroup.get('designation').hasError('minlength')">Designation is too short</mat-error>
+                                            <mat-error *ngIf="firstFormGroup.get('designation').hasError('pattern')">Only characters are allowed</mat-error>
+                                           
+                                        </mat-form-field>
+                                        </div>
+                                        <div class="flex-1 h-12 mb-5" style="margin-left: 10px;" >
+                                        <mat-form-field  appearance="outline">
+                                            <mat-label>Current Employer</mat-label>
+                                            <input matInput #currentemployer formControlName="currentEmployer" tabindex="3" required type="text"
+                                                   oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                   pattern="^[a-zA-Z ]*$" minlength="5" maxlength="50">
+                                            <mat-error *ngIf="firstFormGroup.get('currentEmployer').hasError('pattern')">CurrentEmployer Allows Alphabits only.</mat-error>
+                                            <mat-error *ngIf="firstFormGroup.get('currentEmployer').hasError('required')">CurrentEmployer required.</mat-error>
+                                            <mat-error *ngIf="firstFormGroup.get('currentEmployer').hasError('minlength')">CurrentEmployer is too short.</mat-error>
+                                        </mat-form-field>
+                                            </div>
+                                            <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                                <mat-form-field appearance="outline" >
+                                                    <mat-label>Email</mat-label>
+                                                    <input matInput #email formControlName="email" tabindex="5" required minlength="10"
+                                                           maxlength="50" pattern="\w+\D*\w+@\w+[-]?\w+?\.((\w{2,3})|(\w{2}\.\w{2}))"
+                                                           oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                                                    <mat-error *ngIf="firstFormGroup.get('email').hasError('pattern')">Enter Valid Email.</mat-error>
+                                                    <mat-error *ngIf="firstFormGroup.get('email').hasError('required')">Email is required.</mat-error>
+                                                    <mat-error *ngIf="firstFormGroup.get('email').hasError('minlength')">Email is too short.</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            
+                                        </div>
+                                    
+                                    
+                                        <div class="flex flex-wrap mb-4" >
+                                           
+                                            <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                                <mat-form-field *ngIf="IsEdit" appearance="outline" >
+                                                    <mat-label>Relocate</mat-label>
+                                                    <mat-select *ngIf="IsRelocate" formControlName="relocate" tabindex="6" (selectionChange)="selectedrelocate($event)" required>
+                                                        <mat-option [value]="true">Yes</mat-option>
+                                                        <mat-option [value]="false">No</mat-option>
+                                                    </mat-select>
+                                                    <mat-select *ngIf="!IsRelocate" formControlName="relocate" tabindex="6" (selectionChange)="selectedrelocate($event)" required>
+                                                        <mat-option [value]="false">No</mat-option>
+                                                        <mat-option [value]="true">Yes</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <mat-form-field *ngIf="!IsEdit" appearance="outline" >
+                                                    <mat-label>Relocate</mat-label>
+                                                    <mat-select formControlName="relocate" tabindex="6" (selectionChange)="selectedrelocate($event)" required>
+                                                        <mat-option *ngFor="let relocate of searchFills.relocateState" [value]="relocate.value">
+                                                            {{relocate.name}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                </div>
+                                                <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                                    <mat-form-field appearance="outline" >
+                                                        <mat-label>Date of Birth(MM/DD/YYYY)</mat-label>
+                                                        <input matInput [matDatepicker]="dob" formControlName="dob" name="dob" tabindex="7" (dateInput)="addEvent('input', $event)"
+                                                               [max]="today">
+                                                        <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                                                        <mat-datepicker #dob color="primary"></mat-datepicker>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                                    <mat-form-field appearance="outline" >
+                                                        <mat-label>Mobile Number</mat-label>
+                                                        <input matInput #mobileno formControlName="mobileno" tabindex="8" required type="number"
+                                                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                               maxlength="10" pattern="[789]\d{9}$">
+                                                        <mat-error *ngIf="firstFormGroup.get('mobileno').hasError('pattern')">Enter Valid MobileNo.</mat-error>
+                                                        <mat-error *ngIf="firstFormGroup.get('mobileno').hasError('required')">MobleNo. is required</mat-error>
+                                                       
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                                    <mat-form-field appearance="outline"  >
+                                                        <mat-label>Experience</mat-label>
+                                                        <mat-select formControlName="experience" tabindex="10" (selectionChange)="selectedAreas($event)" required>
+                                                            <mat-option *ngFor="let experience of searchFills.Experience" [value]="experience.value">
+                                                                {{experience.name}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field></div>
+                                        </div>
+                                    
+                                    
+                                        <div class="flex flex-wrap mb-3" >
+                                            <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                                <mat-form-field fxFlex="100" appearance="outline" >
+                                                    <!-- <mat-chip-list #taglist> -->
+                                                        <!-- <mat-chip selected color="primary"
+                                                                  *ngFor="let Tag of Tags"
+                                                                  [selectable]="selectable"
+                                                                  [removable]="removable"
+                                                                  (removed)="remove(Tag)">
+                                                            {{Tag}}
+                                                            <mat-icon matChipRemove *ngIf="removable">cancel </mat-icon>
+                                                        </mat-chip> -->
+                                                        <mat-label>Job Skill(s)</mat-label>
+                                                        <mat-select formControlName="skills" multiple required 
+                                                                    (selectionChange)="selectedValue($event)">
+                                                            <mat-option *ngFor="let Skill of candidateskills" [value]="Skill.Id">
+                                                                {{Skill.Name}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    <!-- </mat-chip-list> -->
+                                                </mat-form-field></div>
+                                           
+                                            <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                                <mat-form-field fxFlex="100"appearance="outline">
+                                                    <mat-label>Desired Salary</mat-label>
+                                                    <input matInput #desiredsalary formControlName="desiredsalary" tabindex="11" required
+                                                           oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           minlength="2" maxlength="7" pattern="[1-9][0-9]*">
+                                                    <mat-error *ngIf="firstFormGroup.get('desiredsalary').hasError('required')">desiredsalary is required</mat-error>
+                                                    <mat-error *ngIf="firstFormGroup.get('desiredsalary').hasError('minlength')">desiredsalary is too short</mat-error>
+                                                    <mat-error *ngIf="firstFormGroup.get('desiredsalary').hasError('pattern')">Please enter valid salary</mat-error>
+                                                </mat-form-field></div>
+                                                <div class="flex-1 h-12 mb-5" style=" margin-left: 10px;">
+                                                <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                                                    <mat-label>Location</mat-label>
+                                                    <input matInput formControlName="candidate_location" tabindex="4" required #search (keydown)="searchPlaces(search.value)" [matAutocomplete]="auto">
+                                                    <br>
+                                                    <mat-autocomplete #auto="matAutocomplete">
+                                                        <mat-option *ngFor="let option of location_options"
+                                                                    [value]="locatinFormValue" (click)="selectedLocation(option)">
+                                                            {{option['display_name']}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    <mat-icon matSuffix class="disabled-text">location_on</mat-icon>
+                                                </mat-form-field>
+                                                </div>
+                                        </div>
+
+                                    
+                             
+                        </div>
+                       </div>
+                  
+                <!-- <span>
+                        <h2>
+                            <b style="
+                color: gray;
+            ">
+                                Education
+                                <button (click)="AddEducationItem()" style="color: blue  !important;background: white;border: none;font-size: 18px !important;font-weight: 500!important;margin-left: 0.5%;cursor: pointer;">+ Add </button>
+                            </b>
+                        </h2>
+                    </span> -->
+
+
+                    <!-- <div style="overflow-x: scroll;">
+                        <form class="w-full" [formGroup]="Educationform" style="display: flex; white-space: nowrap;">
+                          <div formArrayName="items">
+                            <div *ngFor="let item of Educationform.controls.items['controls']; let i=index" [formGroupName]="i" style="display: block;margin-bottom: -20px;">
+                              <div style="display: flex;">
+                                <div class="flex-1">
+                                  <mat-form-field  appearance="outline">
+                                    <mat-label>From Year</mat-label>
+                                    <input matInput formControlName="item_From_Year" placeholder="From Year" tabindex="10"
+                                           oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                           required minlength="4" maxlength="4" (input)="ValidateYear($event)" pattern="^[0-9]\d*$">
+                                  </mat-form-field>
+                                </div>
+                                <div class="flex-1">
+                                  <mat-form-field  appearance="outline">
+                                    <mat-label>To Year</mat-label>
+                                    <input matInput formControlName="item_To_Year" placeholder="To Year" tabindex="10"
+                                           oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                           required minlength="4" maxlength="4" (input)="ValidateYear($event)" pattern="^[0-9]\d*$">
+                                  </mat-form-field>
+                                </div>
+                                <div class="flex-1">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Qualification</mat-label>
+                                    <input matInput formControlName="Item_Qualification" placeholder="Qualification" tabindex="10"
+                                           minlength="4" maxlength="50" required pattern="^[a-zA-Z.() ]*$">
+                                  </mat-form-field>
+                                </div>
+                                <div class="flex-1">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>University and Place</mat-label>
+                                    <input matInput placeholder="University and Place" formControlName="item_College_University" tabindex="11"
+                                           minlength="4" maxlength="50" required pattern="^[a-zA-Z.() ]*$">
+                                  </mat-form-field>
+                                </div>
+                                <div class="flex-1">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Score %</mat-label>
+                                    <input matInput placeholder="Score %" formControlName="item_Score" tabindex="12"
+                                           required minlength="2" maxlength="3" pattern="^[0-9]\d*$">
+                                  </mat-form-field>
+                                  <button matSuffix mat-icon-button aria-label="Clear" (click)="RemoveEducationItem(i)">
+                                    <mat-icon style="font-size: 25px !important; color: red !important;">close</mat-icon>
+                                  </button>
+                                </div>
+                              </div>
+                              <br>
+                            </div>
+                          </div>
+                        </form>
+                      </div> -->
+                      
+                      
+                    <!-- <br> -->
+
+
+                    <!-- <span>
+                        <h2>
+                            <b style="
+                    color: gray;
+                ">
+                                Work Experience
+                                <button (click)="ExperianceformAddItem()" style="color: blue  !important;background: white;border: none;font-size: 18px !important;font-weight: 500!important;margin-left: 1%;cursor: pointer;">+ Add </button>
+                            </b>
+                        </h2>
+                    </span> -->
+                    <!-- <div style="overflow-x: scroll;">
+
+                    <form class="w-full"  [formGroup]="Experianceform" style="display: flex; white-space: nowrap;">
+                        <div formArrayName="items">
+                            <div *ngFor="let item of Experianceform.controls.items['controls']; let i=index " [formGroupName]="i" style="display: block;margin-bottom: -20px;">
+
+                                    
+                                       
+                                            <div style="display: flex;" >
+                                                <div class="flex-1 "  style=" margin-left: 10px;" >
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>Year of Joining</mat-label>
+                                                        <input matInput formControlName="Joinned" placeholder="Joinned" minlength="4"
+                                                               pattern="^[0-9]\d*$" maxlength="4" (input)="ValidateYear($event)">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="flex-1"  style=" margin-left: 10px;" >
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>Year of relieving</mat-label>
+                                                        <input matInput formControlName="Relived" placeholder="Relived" minlength="4"
+                                                               pattern="^[0-9]\d*$" maxlength="4" (input)="ValidateYear($event)">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="flex-1 "  style=" margin-left: 10px;" >
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>Company Name</mat-label>
+                                                        <input matInput formControlName="CompanyName" placeholder="Company Name "
+                                                               minlength="4" maxlength="50" required pattern="^[a-zA-Z.() ]*$">
+                                                    </mat-form-field>
+                                                </div>
+                                               
+                                                <div class="flex-1 "  style=" margin-left: 10px;" >
+                                                    <mat-form-field appearance="outline" >
+                                                        <mat-label>Place</mat-label>
+                                                        <input matInput formControlName="Place" placeholder="Place"
+                                                               minlength="4" maxlength="50" required pattern="^[a-zA-Z.() ]*$">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="flex-1 "  style=" margin-left: 10px;" >
+                                                    <mat-form-field  appearance="outline">
+                                                        <mat-label>Designation</mat-label>
+                                                        <input matInput formControlName="Designation" placeholder="Designation"
+                                                               minlength="4" maxlength="50" required pattern="^[a-zA-Z. ]*$">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="flex-1 "  style=" margin-left: 10px;" >
+                                                    <button matSuffix
+                                                    mat-icon-button aria-label="Clear"
+                                                    (click)="RemoveExperianceItem(i)">
+                                                <mat-icon style="font-size: 25px !important;color: red !important;">close</mat-icon>
+                                            </button>
+                                                </div>
+                                            </div> <br>
+                            </div>
+
+
+                        </div>
+                        
+                    </form>
+                    </div>
+                    <br> -->
+
+                    <!-- <span>
+                        <h2>
+                            <b style=" color: gray; ">
+                                Awards and  Certificates
+                                <button (click)="AwardsformAddItem()" style="color: blue  !important;background: white;border: none;font-size: 18px !important;font-weight: 500!important;margin-left: 1%;cursor: pointer;">+ Add </button>
+                            </b>
+                        </h2>
+                    </span> -->
+
+                    <!-- <div style="overflow-x: scroll;">
+                    <form class="w-full" [formGroup]="Awardsform" style="display: flex; white-space: nowrap;">
+                        <div formArrayName="items">
+                            <div *ngFor="let item of Awardsform.controls.items['controls']; let i=index " [formGroupName]="i" style="display: block;margin-bottom: 0px;">
+                               
+                                
+                                    
+                                        <div  style="display: flex;" >
+                                            <div class="flex-1"  style=" margin-left: 10px;" >
+                                                <mat-form-field appearance="outline" >
+                                                    <mat-label>Year </mat-label>
+                                                    <input matInput formControlName="AwardYear" placeholder="Awarded Year  "
+                                                           minlength="4" maxlength="4" required pattern="^[0-9]\d*$" (input)="ValidateYear($event)">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="flex-1 h-12 mb-2"  style=" margin-left: 10px;">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Awards or Certificate By </mat-label>
+                                                    <input matInput formControlName="AwardsAndCertificate" placeholder="Awards or Certificate By "
+                                                           required minlength="3" maxlength="50" pattern="^[a-zA-Z. ]*$">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="flex-1 h-12 mb-2"  style=" margin-left: 10px;">
+                                                <mat-form-field appearance="outline" >
+                                                    <mat-label>Awards or Certificate Details </mat-label>
+                                                    <input matInput formControlName="AwardsAndCertificateDetails" placeholder="Awards or Certificate Details "
+                                                           required minlength="3" maxlength="50" pattern="^[a-zA-Z. ]*$">
+                                                </mat-form-field>
+                                             </div>
+                                                <div class="flex-1 h-12 mb-2"  style=" margin-left: 10px;">
+                                                    <button matSuffix
+                                                    mat-icon-button aria-label="Clear"
+                                                    (click)="RemoveAwardsformItem(i)">
+                                                <mat-icon style="font-size: 25px !important;color: red !important;">close</mat-icon>
+                                            </button>
+                                        </div>
+                                                </div>
+                                           
+                                              
+                                       
+                            </div>
+
+                            <br>
+                        </div>
+                    </form>
+                    </div>
+                    <br>  -->
+
+                    
+                        
+                            <div class="flex flex-wrap mb-3" >
+                                <div class="flex-1 h-12 mb-5"  style=" margin-left: 10px;width: 60%;" >
+                                    <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                                        <mat-label>Facebook</mat-label>
+                                        <input matInput formControlName="facebook" tabindex="12">
+                                        
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex-1 h-12 mb-5"  style=" margin-left: 10px;flex-basis: 60%;">
+                                    <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                                        <mat-label>Linkedin</mat-label>
+                                        <input matInput formControlName="linkedin" tabindex="13">
+                                       
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex-1 h-12 mb-5"  style=" margin-left: 10px;flex-basis: 60%;">
+                                    <mat-form-field appearance="outline" fxFlex="100" class="pr-4" style="margin-right: 5px !important;">
+                                        <mat-label>Twitter</mat-label>
+                                        <input matInput formControlName="twitter" tabindex="14">
+                                        
+                                    </mat-form-field>
+                                 </div>
+                                   
+                                    </div>
+                            
+                                
+                                    <div class="flex flex-wrap mb-2" >
+                                        <div class="flex-1 h-12 mb-5">
+                                            <mat-form-field fxFlex="100" appearance="outline" >
+                                                <mat-label>Github</mat-label>
+                                                <input matInput formControlName="github" tabindex="15">
+                                                </mat-form-field>
+                                        </div>
+                                        
+                                        <div class="flex-1 h-12 mb-5">
+                                            <mat-form-field fxFlex="100" appearance="outline">
+                                                <mat-label>Stackoverflow</mat-label>
+                                                <input matInput formControlName="stackoverflow" tabindex="16">
+                                                
+                                            </mat-form-field>
+                                         </div>
+                                          </div>
+                                        
+                                          
+                                    
+                    <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                        <mat-form-field appearance="outline" fxFlex="100" class="pr-4">
+                            <mat-label>Overview</mat-label>
+                            <textarea matInput rows="5" cols="40" placeholder="Overview" tabindex="17" #overview formControlName="overview" required></textarea>
+                        </mat-form-field>
+                    </div> 
+                </form>
+                <div>
+                    <button [disabled]="this.firstFormGroup.invalid  " 
+                    class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                            (click)="submitForm1()">
+                       <span> Save </span>
+                    </button>&nbsp;&nbsp;
+                    <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" 
+                    id="btnCancelDialog1" mat-dialog-close>
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+                <button hidden="true" id="btnclicktoload" (onclick)="Load()"></button>
+            </div>
+        </div>
+    </div>
+</div>

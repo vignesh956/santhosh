@@ -1,0 +1,358 @@
+@media (max-width: 768px) {
+  .truncate {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  
+  
+  // job {
+  
+  
+  //     .mat-paginator{
+  //         background: none !important;
+  //         padding: 0px;
+  //     }
+  
+  //     .mat-paginator-container{
+  //         padding: 0px !important;
+  //     }
+  
+  //     .pagination {
+  //         display: inline-block;
+  //     }
+  
+  //     .pagination a {
+  //         color: black;
+  //         float: left;
+  //         padding: 8px 16px;
+  //         text-decoration: none;
+  //         transition: background-color .3s;
+  //         border: 1px solid #ddd;
+  //         margin: 0 4px;
+  //     }
+  
+  //     .pagination a.active {
+  //         background-color: #4CAF50;
+  //         color: white;
+  //         border: 1px solid #4CAF50;
+  //     }
+  
+  //     .pagination a:hover:not(.active) {background-color: #ddd;}
+  
+  //     width: 100%;
+  
+  //     .searchLocationFilter{
+  //         font-size: 12px;
+  //     }
+  
+  //     .filterText{
+  //         font-size: 12px;
+  //     }
+  
+  //     .mail-main-sidebar1 {
+  //         display: flex;
+  //         flex: 1 0 auto;
+  //         flex-direction: column;
+  //         height: 100%;
+  
+  //         .header {
+  
+  //             .logo {
+  
+  //                 .logo-icon {
+  //                     margin: 0 16px 0 0;
+  //                 }
+  
+  //                 .logo-text {
+  //                     font-size: 24px;
+  //                     line-height: 24px;
+  //                 }
+  //             }
+  
+  //             .account {
+  //                 width: 100%;
+  //             }
+  //         }
+  //     }
+  
+  //     .grid-cell-centered {
+  //         text-align: center;
+  //       }
+  //     .mail-details1 {
+  //         display: flex;
+  //         flex-direction: column;
+  //         flex: 1;
+  //         //padding: 24px;
+  //         padding-left: 10px;
+  //         padding-right: 10px;
+  //         overflow-y: auto;
+  //         -webkit-overflow-scrolling: touch;
+  
+  //         .select-message-text {
+  //             font-size: 24px;
+  //             font-weight: 300;
+  //         }
+  
+  //         .mail-header {
+  //             padding-bottom: 16px;
+  //             border-bottom: 1px solid;
+  
+  //             .actions {
+  //                 min-width: 88px;
+  //             }
+  
+  //             .subject {
+  //                 font-size: 17px;
+  //                 font-weight: 600;
+  //             }
+  
+  //             .label {
+  //                 font-size: 11px;
+  //                 border-radius: 4px;
+  //                 margin: 4px 4px 4px 0;
+  //                 padding: 3px 8px;
+  
+  //                 .label-color {
+  //                     width: 8px;
+  //                     height: 8px;
+  //                     margin-right: 8px;
+  //                     border-radius: 50%;
+  //                 }
+  //             }
+  //         }
+  
+  //         .mail-content {
+  //             padding: 5px 0;
+  
+  //             .to {
+  
+  //                 .to-text {
+  //                     margin-right: 4px;
+  //                     text-transform: lowercase;
+  //                 }
+  //             }
+  
+  //             .info {
+  //                 padding-bottom: 16px;
+  
+  //                 .avatar {
+  //                     margin-right: 16px;
+  //                 }
+  
+  //                 .name {
+  //                     margin-right: 8px;
+  //                     font-weight: 600;
+  //                 }
+  
+  //                 .toggle-details {
+  //                     user-select: none;
+  //                     text-decoration: underline;
+  //                     padding-top: 16px;
+  //                     cursor: pointer;
+  //                     font-weight: 600;
+  //                 }
+  
+  //                 .details {
+  //                     padding-top: 8px;
+  
+  //                     .title {
+  //                         font-weight: 600;
+  //                         margin-right: 6px;
+  //                     }
+  //                 }
+  
+  //             }
+  //         }
+  
+  //         .mail-attachments {
+  //             padding: 24px 0;
+  //             border-top: 1px solid;
+  
+  //             .title {
+  //                 margin-bottom: 16px;
+  //                 font-weight: 600;
+  //             }
+  
+  //             .attachment {
+  
+  //                 .preview {
+  //                     width: 100px;
+  //                     margin: 0 16px 8px 0;
+  //                     border-radius: 4px;
+  //                 }
+  
+  //                 .link {
+  //                     margin-bottom: 2px;
+  //                 }
+  
+  //                 .size {
+  //                     font-size: 11px;
+  //                 }
+  //             }
+  //         }
+  //     }
+  
+  
+  
+  //     .mail-list-1 {
+  //         border-bottom-color: rgba(0,0,0,.12) !important;
+  //         border-right-color: rgba(0,0,0,.12) !important;
+  //         position: relative;
+  //         display: flex;
+  //         flex-direction: column;
+  //         flex: 1;
+  //         padding: 0;
+  //         border-right: 1px solid;
+  //         overflow-y: auto;
+  //         -webkit-overflow-scrolling: touch;
+  
+  //         .no-messages-text {
+  //             font-size: 24px;
+  //             font-weight: 300;
+  //         }
+  
+  //         .mail-list {
+  //             position: relative;
+  //             display: flex;
+  //             flex-direction: column;
+  //             flex: 1;
+  //         }
+  //     }
+  
+  
+  
+  //     .center {
+  
+  //         .jobTitleInfo{
+  //             border-bottom: 1px solid;
+  //             border-bottom-color: rgba(0,0,0,.12);
+  //         }
+  
+  //         .header {
+  
+  //             .search-wrapper {
+  //                 border-radius: 28px;
+  //                 overflow: hidden;
+  //                 @include mat-elevation(1);
+  
+  //                 .sidebar-toggle {
+  //                     margin: 0 0 0 6px;
+  //                     width: 56px;
+  //                     height: 56px;
+  //                     border-radius: 0;
+  //                     border-right: 1px solid;
+  //                 }
+  
+  //                 .search {
+  //                     width: 100%;
+  //                     height: 56px;
+  //                     line-height: 56px;
+  //                     padding: 0 18px;
+  
+  //                     input {
+  //                         height: 56px;
+  //                         min-height: 56px;
+  //                         max-height: 56px;
+  //                         padding: 0 16px;
+  //                         border: none;
+  //                         outline: none;
+  //                     }
+  //                 }
+  //             }
+  //         }
+  
+  //         .content-card {
+  
+  //             .toolbar {
+  
+  //                 .toolbar-separator {
+  //                     height: 32px;
+  //                     width: 1px;
+  //                     margin: 0 12px;
+  //                 }
+  //             }
+  
+  //             @include media-breakpoint(xs) {
+  
+  //                 .mail-list-parent {
+  //                     border-right: none;
+  //                 }
+  
+  //                 .mail-list-parent,
+  //                 mail-details {
+  //                     flex: 1 0 100%;
+  //                 }
+  
+  //                 mail-details {
+  //                     display: none !important;
+  //                 }
+  
+  //                 &.current-mail-selected {
+  
+  //                     .toolbar {
+  //                         padding-left: 16px !important;
+  
+  //                         .mail-selection {
+  //                             display: none !important;
+  //                         }
+  //                     }
+  
+  //                     .content {
+  
+  //                         .mail-list-parent {
+  //                             display: none !important;
+  //                         }
+  
+  //                         mail-details {
+  //                             display: flex !important;
+  //                         }
+  //                     }
+  //                 }
+  //             }
+  //         }
+  //     }
+  // }
+  
+  #loading{
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      width: 150px;
+      height: 150px;
+      margin: -75px 0 0 -75px;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite;
+      }
+      
+      // @keyframes spin {
+      //   0% { transform: rotate(0deg); }
+      //   100% { transform: rotate(360deg); }
+      // }
+  
+      }
+  .rightside-div{
+    width: 100% !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+  }
+  .job-card-info{
+    width: 94.4%; margin: 19px; border-radius: 20px; box-shadow: rgba(18, 18, 43, 0.2) 0px 7px 20px 0px; padding: 22px;
+  }
+  .job-card-info1{
+     margin: 19px 3px 0px 21px; width: 30%; border-radius: 20px; box-shadow: rgba(18, 18, 43, 0.2) 0px 7px 20px 0px; padding: 22px;
+  }
+  
+  .sub-card-header{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 20px 0px;
+    color: #67748e;
+    border-radius: 12px;
+    padding: 18px 16px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 20px 0px;
+  }

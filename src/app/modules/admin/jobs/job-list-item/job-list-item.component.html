@@ -1,0 +1,622 @@
+<!-- border-top: 2px solid rgb(46, 44, 44); -->
+<div class="ml-2 mr-2 job-list-card-info" style=" margin: 0 !important;" >
+    <div flexLayout="row" class="grid-cols-2 mt-2 ml-4 card"
+        style="display:flex;width:100%; align-items: center;justify-content: space-between;padding-right: 20px;">
+        <div style="display: flex; align-items: center;">
+            <mat-icon style="margin-left: 4vw; margin-right:1vw;">trending_flat</mat-icon><span>In project :</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; width: 39%;">
+            <button *ngIf="!IsCandidateRole" (click)="openModal(ShareJobDialog)" type="button"
+                class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800">Close
+                job</button>
+
+            <button type="button" *ngIf="!IsCandidateRole" (click)="redirectToEditJob(job['Id'])"
+                class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800">Edit
+                job</button>
+            <mat-icon>more_horiz</mat-icon>
+        </div>
+    </div>
+
+    <div flexLayout="row" class="grid-cols-2 mt-2 ml-1"
+        style="display:flex;width:100%; justify-content: space-between;align-items: center; ">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div>
+                <mat-checkbox color="primary" class="mr-1"
+                    style="vertical-align:middle; padding: 0 !important; width: 25%;"
+                    [checked]="this.joblist.isallChecked" (click)="$event.stopPropagation()"
+                    (change)="checkValue($event)"></mat-checkbox>
+            </div>
+            <div style="margin-right:10px">
+                <mat-icon>star_border</mat-icon>
+            </div>
+            <div>
+
+                <a class="truncate"
+                    style="cursor: pointer;font-weight: 600 !important;font-size: 14px !important;color: #192a56 !important;"
+                    *ngIf="!IsCandidateRole" (click)="openViewJobModal(ViewJobpreview, job.Id)">{{job['Title']}}</a>
+                <a class="truncate"
+                    style="cursor: pointer;font-weight: 600 !important;font-size: 14px !important;color: #192a56 !important;"
+                    *ngIf="IsCandidateRole" (click)="openApplyModal(ApplyJobpreview, job.Id)">{{job['Title']}}</a>
+            </div>
+            <div>
+                <span *ngIf="!IsCandidateRole && job['JobStatus'] === 'Open'  ;else archive_content">
+                    <span class="p-4 font-weight-100" style="color:#4caf50;font-weight: 500; font-size: 18px;">
+                        {{job['JobStatus']}}
+                    </span>
+                </span>
+                <ng-template #archive_content>
+                    <span *ngIf="!IsCandidateRole && job['JobStatus'] === 'Archive' ;else applied_content">
+                        <span class="p-4 font-weight-100" style="color:#f44336;font-weight: 500; font-size: 18px;">
+                            {{job['JobStatus']}}
+                        </span>
+                    </span>
+                </ng-template>
+                <ng-template #applied_content>
+                    <span *ngIf="!IsCandidateRole && job['JobStatus'] === 'Applied' ;else other_content">
+                        <span class="p-4 blue font-weight-100">
+                            {{job['JobStatus']}}
+                        </span>
+                    </span>
+                </ng-template>
+                <ng-template #other_content>
+                    <span *ngIf="!IsCandidateRole" class="p-4 font-weight-100"
+                        style="color:darkorange;font-weight: 500; font-size: 18px;">
+                        {{job['JobStatus']}}
+                    </span>
+                </ng-template>
+            </div>
+           
+
+        </div>
+
+        <div>
+            <!-- <div flexLayout="row" class="grid-cols-2 mt-1 mb-5 ml-1" style="display:flex;width:100%;"> -->
+            <div style="width:100%!important;" class="mr-2">
+                <span *ngIf="job['TimeStamp'].toString() == '0001-01-01T00:00:00'" class="truncate"
+                    title="Last Viewed:&nbsp;{{job['ModifiedDate'] | date :  'MM/dd/yyyy hh:mm'}}"
+                    style="color:#858585 !important;"><b><span style="font-size:15px!important;"
+                            class="material-icons">calendar_today</span></b>
+                    &nbsp;{{calculateTimeStampDiff(job['ModifiedDate']) }}</span>&nbsp;&nbsp;
+                <span *ngIf="job['TimeStamp'].toString() != '0001-01-01T00:00:00'" class="truncate"
+                    title="Last Viewed:&nbsp;{{job['TimeStamp'] | date :  'MM/dd/yyyy'}}"
+                    style="color:#858585 !important;"><b><span style="font-size:15px!important;"
+                            class="material-icons">calendar_today</span></b>
+                    &nbsp;{{calculateTimeStampDiff(job['TimeStamp'])}}</span>&nbsp;&nbsp;
+                <span title="Work Site:&nbsp;{{job['WorkSite']}}"
+                    style="color:#858585 !important;">{{job['WorkSite']}}</span>
+            </div>
+            <!-- </div> -->
+        </div>
+
+        <!-- <span class="rounded-full bg-blue-900 h-9 p-[1%] text-white text-centre mr-2" title="Title: {{job['Title']}}">
+        {{job['Title'][0]}}
+        </span> -->
+        <!-- <div class="inline-flex overflow-hidden relative justify-center items-center w-6 h-6 bg-blue-900 rounded-full dark:bg-gray-600">
+        <span class="font-medium text-white" title="{{job['Title']}}">{{job['Title'][0]}}</span>
+        </div> -->
+
+
+        <!-- <div style="width:60%!important;overflow:hidden!important;text-overflow: ellipsis;white-space: nowrap;"
+            class="ml-2">
+            <div class="font-medium dark:text-white">
+               
+                <div>
+
+                    <a class="truncate"
+                        style="cursor: pointer;font-weight: 600 !important;font-size: 14px !important;color: #192a56 !important;"
+                        *ngIf="!IsCandidateRole" (click)="openViewJobModal(ViewJobpreview, job.Id)">{{job['Title']}}</a>
+                    <a class="truncate"
+                        style="cursor: pointer;font-weight: 600 !important;font-size: 14px !important;color: #192a56 !important;"
+                        *ngIf="IsCandidateRole" (click)="openApplyModal(ApplyJobpreview, job.Id)">{{job['Title']}}</a>
+                </div>
+              
+                <div class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    <span class="gap-2" *ngFor="let jobtype of job.JobsTypes.slice(0,1)" title="Job Type: {{jobtype}}"
+                        style="border:1px #858585 solid !important;padding: 1% 3px;color:#858585 !important">
+                        {{jobtype}}</span>
+                </div>
+            </div>
+        </div> -->
+        <!-- <div style="width:40%!important;" class="mr-2">
+            <div class="flex-1 h-12 mb-1 text-right">
+                <button type="button"
+                    class="mr-2 bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                    *ngIf="IsCandidateRole && job['JobApplied'] === 'False'"
+                    (click)='openApplyModal(ApplyJobpreview, job.Id)'>
+                    Apply </button>
+                <button type="button"
+                    class=" cursor-not-allowed px-8 py-3 text-white bg-blue-300 rounded focus:outline-none" disabled
+                    *ngIf="IsCandidateRole && job['JobApplied'] === 'True'">
+                    Applied </button>
+
+            </div>
+            <mat-menu #moreMenu="matMenu">
+                <button mat-menu-item aria-label="Forward" (click)="updateJobStatus(job['Id'], 'Archive')"
+                    *ngIf="job['JobStatus']== 'Open' && !IsCandidateRole">
+                    <mat-icon>lock</mat-icon>
+                    <span>Archive Job</span>
+                </button>
+                <button mat-menu-item aria-label="Forward" (click)="updateJobStatus(job['Id'], 'Open')"
+                    *ngIf="job['JobStatus']== 'Archive' && !IsCandidateRole">
+                    <mat-icon>lock_open</mat-icon>
+                    <span>Open Job</span>
+                </button>
+                <button mat-menu-item aria-label="Forward" (click)="printDescription(job['Id'])">
+                    <mat-icon>print</mat-icon>
+                    <span>Print</span>
+                </button>
+                <button mat-menu-item aria-label="Forward" (click)="openModal(Recruiters)" *ngIf="!IsCandidateRole">
+                    <mat-icon>assignment_ind</mat-icon>
+                    <span>Re-assign</span>
+                </button>
+                <button mat-menu-item aria-label="Forward" *ngIf="!IsCandidateRole" (click)="openModal(ShareJobDialog)">
+                    <mat-icon>share</mat-icon>
+                    <span>Share Job</span>
+                </button>
+
+                <button mat-menu-item aria-label="Forward" *ngIf="!IsCandidateRole"
+                    (click)="redirectToEditJob(job['Id'])">
+                    <mat-icon>create</mat-icon>
+                    <span>Edit Job</span>
+                </button>
+               
+            </mat-menu>
+        </div> -->
+    </div>
+
+
+    <div flexLayout="row" class="grid-cols-2 mt-1 ml-1" style="display:flex;width:100%;">
+        <div style="width:10%!important;overflow:hidden!important;text-overflow: ellipsis;white-space: nowrap;"
+            class="ml-2">
+            <span style="color:#858585 !important;" class="truncate"
+                title="Company Name:&nbsp;{{job['Company']}}"><b><img style="height: 16px;width:40px;"
+                        *ngIf="job['CompanyImage']" src="{{job['CompanyImage']}}"><span
+                        *ngIf="!job['CompanyImage']"></span>{{job['Company']}}</b></span>
+            &nbsp;
+        </div>
+        <div style="width:90%!important;" class="mr-2">
+            <span class="text-sm" title="Location: {{job['Location']}}"><span></span>&nbsp; <span
+                    style="color:#858585 !important;">{{job['Location']}}</span></span>
+        </div>
+        
+    </div>
+
+    <div flexLayout="row"  style="display:flex;width:100%;">
+        <div>
+            <span class="p-4 font-weight-100" style="color:#858585 !important; font-size: 15px;">
+                {{job['SeniorityLevel']}}
+            </span>
+        </div>
+        <div>
+            <span class="p-4 font-weight-100" style="color:#858585 !important; font-size: 15px;">
+                {{job['CompanyOverview']}}
+            </span>
+        </div>
+        <div>
+            <span class="p-4 font-weight-100" style="color:#858585 !important; font-size: 15px;">
+                {{job['JobsTypes']}}
+            </span>
+        </div>
+        <div>
+            <span class="p-4 font-weight-100" style="color:#858585 !important; font-size: 15px;">
+                Vacancies : {{job['Vacancies']}} 
+            </span>
+        </div>
+    </div>
+
+    <div flexLayout="row" class="grid-cols-1 mt-3 mb-5 ml-1" style="display:flex;width:100%;">
+        <div style="width:100%!important;overflow:hidden!important;text-overflow: ellipsis;white-space: nowrap;"
+            class="ml-2">
+            <div *ngIf="job?.JobsRecruiters.length > 0 && !IsCandidateRole" style="width:100%!important;" class="ml-2">
+                <span *ngIf="job?.JobsRecruiters.length > 0" class="truncate" style="color:#858585 !important">Recruiter
+                    : &nbsp;
+                    <span title="Recruiters: {{job['JobsRecruiters']}}"
+                        style="color:#858585 !important">{{job['JobsRecruiters']}}</span></span> &nbsp;&nbsp;
+            </div>
+        </div>
+    </div>
+    <div flexLayout="row" class="grid-cols-2 mt-1 mb-5 ml-3" style="display:flex;width:100%;">
+        <div style="width:100%!important;" class="mr-2">
+            <span class="gap-2 bg-indigo-400" *ngFor="let skillID of job?.JobsSkills.slice(0,5) let i=index"
+                title="Skill {{i+1}}: {{skillID}}"
+                style="border:1px #858585 solid !important;padding: 1% 3px;color:#fff !important; background-color: #006a6a !important; margin-left: 5px;">
+                {{skillID}}</span>
+        </div>
+    </div>
+    <!-- <div flexLayout="row" class="grid-cols-2 mt-1 mb-5 ml-1" style="display:flex;width:100%;">
+        <div style="width:100%!important;" class="mr-2">
+            <span *ngIf="job['TimeStamp'].toString() == '0001-01-01T00:00:00'" class="truncate"
+                title="Last Viewed:&nbsp;{{job['ModifiedDate'] | date :  'MM/dd/yyyy hh:mm'}}"
+                style="color:#858585 !important;"><b><span style="font-size:15px!important;"
+                        class="material-icons">calendar_today</span></b>
+                &nbsp;{{calculateTimeStampDiff(job['ModifiedDate']) }}</span>&nbsp;&nbsp;
+            <span *ngIf="job['TimeStamp'].toString() != '0001-01-01T00:00:00'" class="truncate"
+                title="Last Viewed:&nbsp;{{job['TimeStamp'] | date :  'MM/dd/yyyy hh:mm'}}"
+                style="color:#858585 !important;"><b><span style="font-size:15px!important;"
+                        class="material-icons">calendar_today</span></b>
+                &nbsp;{{calculateTimeStampDiff(job['TimeStamp'])}}</span>&nbsp;&nbsp;
+            <span title="Work Site:&nbsp;{{job['WorkSite']}}"
+                style="color:#858585 !important;">{{job['WorkSite']}}</span>
+        </div>
+    </div> -->
+    <div flexLayout="row" class="grid-cols-2 mt-1 mb-1 ml-1" style="display:flex;width:100%;">
+        <div style="width:100%!important;overflow:hidden!important;text-overflow: ellipsis;white-space: nowrap;"
+            class="ml-2 truncate">
+            <div *ngIf="job?.List_JobApplied.length > 0 &&!IsCandidateRole" style="width:100%!important;" class="ml-2">
+                <span *ngIf="job?.List_JobApplied.length > 0 && !IsCandidateRole" style="color:#858585 !important">
+                    Applicants :</span> &nbsp;
+                <span *ngFor="let candidate of job.List_JobApplied;last as isLast">
+                    <span style="color: #487eb0 !important;font-weight:600;cursor:pointer;"><a
+                            (click)="navigatetoevaluation(job['Id'])">{{candidate.CandidateName}}<span
+                                *ngIf="!isLast">,</span> </a></span></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #Recruiters>
+    <div class="modal-content">
+        <div class="modal-header">
+            <div fxLayout="row" class="flex-1" style="display:flex;width:100%!important;">
+                <div style="width:90%!important;">
+                    <span>Select Recruiter</span>
+                </div>
+                <div style="width:10%!important;">
+                    <button type="button" mat-dialog-close
+                        class="bg-red-600 rounded-md p-1 inline-flex items-center justify-center text-red-400 hover:text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                        <span class="sr-only">Close</span>
+                        <!-- Heroicon name: outline/x -->
+                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="modal-body mail-details1">
+            <div class="mail-content">
+                <div style="display:flex;width:100%!important;">
+                    <mat-form-field appearance="outline" class="pr-1" *ngIf="recruitersList">
+                        <mat-label>Recruiter *</mat-label>
+                        <mat-select multiple (selectionChange)="selectedrecruiters($event)">
+                            <mat-option *ngFor="let _recruiter of recruitersList" [value]="formatString(_recruiter.Id)">
+                                {{_recruiter.FirstName}} {{_recruiter.LastName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div style="text-align: center !important;">
+                    <button [disabled]="selectedRecruiters.length == 0"
+                        class="mr-2 bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                        color="primary" (click)="bulkReassignListJobs(job.Id)"><span>Save</span>
+                    </button>
+                    &nbsp;&nbsp;
+                    <button
+                        class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                        mat-dialog-close tabindex="-1">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Select Recruiter(s) to share the job details -->
+
+<ng-template #ApplyJobpreview>
+    <div class="modal-content" *ngFor="let detail of jobDetails">
+        <div class="modal-header">
+            <div flexLayout="row" class="grid-cols-3 mt-1 ml-1" style="display:flex;width:100%;">
+                <!-- <div class="pr-5">
+                    <span class="truncate" title="Company Name:&nbsp;{{job['Company']}}"><b><img style="height: 20px !important;" *ngIf="detail.CompanyImage" src="{{detail.CompanyImage}}"><span *ngIf="!detail.CompanyImage" class="material-icons">business</span> &nbsp;{{job['Company']}}</b></span>
+                </div> -->
+                <div id="divJobTitle" style="width:100%!important;">
+                    <div style="font-size: 18px;font-weight: 600;color: #116fbf;"> {{job['Title']}}</div>
+                </div>
+                <div class="text-right mr-2" style="width:100%!important;" *ngIf="detail.JobApplied === 'False'">
+                    <button
+                        class="mr-2 bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                        [ngClass]="{'cursor-not-allowed': PreQualifyQuestonChecked}" mat-dialog-close
+                        [disabled]="PreQualifyQuestonChecked" (click)="ApplyIndividualJob(job['Id'])">
+                        Apply Job</button>
+                </div>
+                <div *ngIf="detail.JobApplied === 'True'">
+                    <button type="button"
+                        class=" cursor-not-allowed px-8 py-3 text-white bg-blue-300 rounded focus:outline-none"
+                        disabled>
+                        Applied </button>
+                </div>
+                <div>
+                    <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="selectRecord()">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                </div>
+                <div class="text-right mt-2" style="width:10%!important;">
+                    <button type="button" mat-dialog-close
+                        class="bg-red-600 rounded-md p-1 inline-flex items-center justify-center text-red-400 hover:text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                        <span class="sr-only">Close</span>
+                        <!-- Heroicon name: outline/x -->
+                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-body mail-details1 mb-5">
+            <div class="mail-content">
+                <div flexLayout="row" class="grid-cols-3 mt-1 ml-1" style="display:flex;width:100%;">
+                    <div style="margin-left: -1% !important;margin-top:10px !important;width:100%;"
+                        class="info jobTitleInfo">
+                        <div id="divJobSkills">
+                            &nbsp;
+                            <span style="border:1px black solid !important;padding: 1% 10px;color:darkblue !important"
+                                title="Job Type: {{JobType}}">{{JobType}}</span>
+                            &nbsp;&nbsp;
+                            <span>
+                                <span *ngFor="let skills of Skills let i=index">
+                                    <span
+                                        style="border-radius: 2px;padding: 4px 2px;margin: 0 4px;font-size: 11px;font-weight: 500;white-space: nowrap;background-color: rgba(0, 0, 0, 0.12);color: rgba(0, 0, 0, 0.54);"
+                                        title="Skill {{i+1}}: {{skills.Name}}">{{skills.Name}}</span>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div *ngFor="let sal of Salary" style="display:flex;width: 100%!important;">
+
+                    <div class="pr-5 mb-3">
+                        <span style="width: 15%!important;" title="Company Name:&nbsp;{{job['Company']}}"><b><img
+                                    style="height: 20px !important;" *ngIf="detail.CompanyImage"
+                                    src="{{detail.CompanyImage}}"><span *ngIf="!detail.CompanyImage"
+                                    class="material-icons">business</span> &nbsp;{{job['Company']}}</b></span>
+                    </div>
+                    <span style="width:65%!important;"></span>
+                    <span style="width: 20%!important;" class="tect-right truncate" title="Salary"><b>
+                            {{ sal.SalaryFrom | currency:sal.Currency: 'symbol' : '1.0-0'}} -
+                            {{sal.SalaryTo | currency:sal.Currency: 'symbol' : '1.0-0'}}</b></span>
+                </div>
+                <div id="divJobDetails" class="info jobTitleInfo">
+
+                    <div style="display:flex;width: 100%!important;">
+                        <span style="width: 75%!important;" class="truncate"
+                            title="Location: {{detail.Location}}"><b><span class="material-icons">location_on</span></b>
+                            &nbsp;{{detail.Location}}</span>
+                        <span style="width: 25%!important;" class="truncate" title="Date"
+                            style="float: right !important;"><b><span class="material-icons">calendar_today</span></b>
+                            &nbsp;{{detail.CreatedDate}}</span>
+                    </div>
+                    <!-- <div *ngFor="let sal of Salary" style="line-height: 30px !important;">
+                            
+                            <span  fxFlex="20" class="truncate" title="Salary"><b> {{ sal.SalaryFrom | currency:sal.Currency: 'symbol' : '1.0-0'}} - {{sal.SalaryTo | currency:sal.Currency: 'symbol' : '1.0-0'}}</b></span>
+                        </div> -->
+                </div>
+                <div *ngIf="QuestionareCount > 0 && detail.JobApplied === 'False'">
+                    <hr>
+
+                    <div class="PreQualifyQueston">
+                        <h4><b> <label for="PreQualifyQueston">PreQualifyQueston:</label> </b></h4>
+                        <div *ngFor="let Queston of PreQualifyQueston">
+                            <label>
+                                <input type="checkbox" [value]="Queston.PreQualifyQuestonId"
+                                    (change)="onCheckboxChange($event)" />
+                                {{Queston.Question}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="QuestionareCount > 0 && detail.JobApplied === 'True'">
+                    <hr>
+
+                    <div class="PreQualifyQueston">
+                        <h4><b> <label for="PreQualifyQueston">PreQualifyQueston:</label> </b></h4>
+                        <ul>
+                            <li *ngFor="let Queston of PreQualifyQueston">
+                                <span [value]="Queston.PreQualifyQuestonId">{{Queston.Question}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+
+                <h4><b>Job Description</b></h4>
+                <div [innerHTML]="detail.JobDescription"></div>
+
+                <div *ngIf="Benefits.length > 0">
+                    <span style="font-weight: 600;">Benefits&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        :</span> &nbsp;
+                    <span *ngFor="let benefit of Benefits let i=index">
+                        <span *ngIf="i<Benefits.length-1" class="truncate">{{benefit.Name}}, </span>
+                        <span *ngIf="i==Benefits.length-1" class="truncate">{{benefit.Name}}</span>
+                    </span>
+                </div>
+                <div *ngIf="FArea.length > 0">
+                    <span style="font-weight: 600;">Functional
+                        Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        :</span> &nbsp;
+                    <span *ngFor="let funcareas of FArea let i=index">
+                        <span *ngIf="i<FArea.length-1" class="truncate">{{funcareas.Name}}, </span>
+                        <span *ngIf="i==FArea.length-1" class="truncate">{{funcareas.Name}}</span>
+                    </span>
+                </div>
+                <div *ngIf="Industries.length > 0">
+                    <span style="font-weight: 600;">Industries
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> &nbsp;
+                    <span *ngFor="let industry of Industries let i=index">
+                        <span *ngIf="i<Industries.length-1" class="truncate">{{industry.Name}}, </span>
+                        <span *ngIf="i==Industries.length-1" class="truncate">{{industry.Name}}</span>
+                    </span>
+                </div>
+                <div>
+                    <span style="font-weight: 600;">Seniority Level
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span>
+                    &nbsp; <span>{{detail.SeniorityLevel}}</span>
+                </div>
+                <div>
+                    <span style="font-weight: 600;">Company Overview&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        :</span> &nbsp; <span>{{detail.CompanyOverview}}</span>
+                </div>
+                <br>
+                <hr>
+                <div style="text-align: center !important;">
+                    <button
+                        class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                        id="btnCancelDialog" mat-dialog-close><span>Close</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #ViewJobpreview>
+    <div class="modal-content" *ngFor="let detail of jobDetails">
+        <div class="modal-header">
+            <div flexLayout="row" class="grid-cols-3 mt-1 ml-1" style="display:flex;width:100%;">
+                <!-- <div class="pr-5">
+                    <span class="truncate" title="Company Name:&nbsp;{{job['Company']}}"><b><img style="height: 20px !important;" *ngIf="detail.CompanyImage" src="{{detail.CompanyImage}}"><span *ngIf="!detail.CompanyImage" class="material-icons">business</span> &nbsp;{{job['Company']}}</b></span>
+                </div> -->
+                <div id="divJobTitle" style="width:100%!important;">
+                    <div style="font-size: 18px;font-weight: 600;color: #116fbf;"> {{job['Title']}}</div>
+                </div>
+                <div>
+                    <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="selectRecord()">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                </div>
+                <div class="text-right mt-2" style="width:10%!important;">
+                    <button type="button" mat-dialog-close
+                        class="bg-red-600 rounded-md p-1 inline-flex items-center justify-center text-red-400 hover:text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                        <span class="sr-only">Close</span>
+                        <!-- Heroicon name: outline/x -->
+                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-body mail-details1 mb-5">
+            <div class="mail-content">
+                <div flexLayout="row" class="grid-cols-3 mt-1 ml-1" style="display:flex;width:100%;">
+                    <div style="margin-left: -1% !important;margin-top:10px !important;width:100%;"
+                        class="info jobTitleInfo">
+                        <div id="divJobSkills">
+                            &nbsp;
+                            <span style="border:1px black solid !important;padding: 1% 10px;color:darkblue !important"
+                                title="Job Type: {{JobType}}">{{JobType}}</span>
+                            &nbsp;&nbsp;
+                            <span>
+                                <span *ngFor="let skills of Skills let i=index">
+                                    <span
+                                        style="border-radius: 2px;padding: 4px 2px;margin: 0 4px;font-size: 11px;font-weight: 500;white-space: nowrap;background-color: rgba(0, 0, 0, 0.12);color: rgba(0, 0, 0, 0.54);"
+                                        title="Skill {{i+1}}: {{skills.Name}}">{{skills.Name}}</span>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div *ngFor="let sal of Salary" style="display:flex;width: 100%!important;">
+
+                    <div class="pr-5 mb-3">
+                        <span style="width: 15%!important;" title="Company Name:&nbsp;{{job['Company']}}"><b><img
+                                    style="height: 20px !important;" *ngIf="detail.CompanyImage"
+                                    src="{{detail.CompanyImage}}"><span *ngIf="!detail.CompanyImage"
+                                    class="material-icons">business</span> &nbsp;{{job['Company']}}</b></span>
+                    </div>
+                    <span style="width:65%!important;"></span>
+                    <span style="width: 20%!important;" class="tect-right truncate" title="Salary"><b>
+                            {{ sal.SalaryFrom | currency:sal.Currency: 'symbol' : '1.0-0'}} -
+                            {{sal.SalaryTo | currency:sal.Currency: 'symbol' : '1.0-0'}}</b></span>
+                </div>
+                <div id="divJobDetails" class="info jobTitleInfo">
+
+                    <div style="display:flex;width: 100%!important;">
+                        <span style="width: 75%!important;" class="truncate"
+                            title="Location: {{detail.Location}}"><b><span class="material-icons">location_on</span></b>
+                            &nbsp;{{detail.Location}}</span>
+                        <span style="width: 25%!important;" class="truncate" title="Date"
+                            style="float: right !important;"><b><span class="material-icons">calendar_today</span></b>
+                            &nbsp;{{detail.CreatedDate}}</span>
+                    </div>
+                    <!-- <div *ngFor="let sal of Salary" style="line-height: 30px !important;">
+                            
+                            <span  fxFlex="20" class="truncate" title="Salary"><b> {{ sal.SalaryFrom | currency:sal.Currency: 'symbol' : '1.0-0'}} - {{sal.SalaryTo | currency:sal.Currency: 'symbol' : '1.0-0'}}</b></span>
+                        </div> -->
+                </div>
+
+                <div *ngIf="QuestionareCount > 0">
+                    <hr>
+
+                    <div class="PreQualifyQueston">
+                        <h4><b> <label for="PreQualifyQueston">PreQualifyQueston:</label> </b></h4>
+                        <ul>
+                            <li *ngFor="let Queston of PreQualifyQueston">
+                                <span [value]="Queston.PreQualifyQuestonId">{{Queston.Question}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+
+                <h4><b>Job Description</b></h4>
+                <div [innerHTML]="detail.JobDescription"></div>
+
+                <div *ngIf="Benefits.length > 0">
+                    <span style="font-weight: 600;">Benefits&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        :</span> &nbsp;
+                    <span *ngFor="let benefit of Benefits let i=index">
+                        <span *ngIf="i<Benefits.length-1" class="truncate">{{benefit.Name}}, </span>
+                        <span *ngIf="i==Benefits.length-1" class="truncate">{{benefit.Name}}</span>
+                    </span>
+                </div>
+                <div *ngIf="FArea.length > 0">
+                    <span style="font-weight: 600;">Functional
+                        Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        :</span> &nbsp;
+                    <span *ngFor="let funcareas of FArea let i=index">
+                        <span *ngIf="i<FArea.length-1" class="truncate">{{funcareas.Name}}, </span>
+                        <span *ngIf="i==FArea.length-1" class="truncate">{{funcareas.Name}}</span>
+                    </span>
+                </div>
+                <div *ngIf="Industries.length > 0">
+                    <span style="font-weight: 600;">Industries
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span> &nbsp;
+                    <span *ngFor="let industry of Industries let i=index">
+                        <span *ngIf="i<Industries.length-1" class="truncate">{{industry.Name}}, </span>
+                        <span *ngIf="i==Industries.length-1" class="truncate">{{industry.Name}}</span>
+                    </span>
+                </div>
+                <div>
+                    <span style="font-weight: 600;">Seniority Level
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span>
+                    &nbsp; <span>{{detail.SeniorityLevel}}</span>
+                </div>
+                <div>
+                    <span style="font-weight: 600;">Company Overview&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        :</span> &nbsp; <span>{{detail.CompanyOverview}}</span>
+                </div>
+                <br>
+                <hr>
+                <div style="text-align: center !important;">
+                    <button
+                        class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                        id="btnCancelDialog" mat-dialog-close><span>Close</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

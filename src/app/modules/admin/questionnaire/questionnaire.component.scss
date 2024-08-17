@@ -1,0 +1,116 @@
+
+    .responsive-table {
+      width: 100%;
+      border-collapse: collapse;
+      
+      
+    }
+  
+    .responsive-table th,
+    .responsive-table td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+  
+    
+    @media screen and (max-width: 390px) {
+  .responsive-table {
+    display: block;
+    overflow-x: auto;
+  }
+  .mx-screen {
+    margin-left: 4% !important;
+  }
+
+
+  
+  .clsmatselect {
+    width: calc(100% - 30px) !important;
+    margin-bottom: 10px;
+  }
+  .table-container {
+    margin-top: 20px;
+  }
+
+  .prequalifying-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .prequalifying-container span {
+    margin-right: 10px;
+    white-space: nowrap;
+  }
+  .modal-content {
+    width: 90%;
+  }
+
+  .mail-content {
+    margin-bottom: 1rem;
+  }
+
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 1rem;
+  }
+
+  .save-button,
+  .cancel-button,
+  .update-button {
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  .add-questionnaire-heading {
+    margin-bottom: 2rem; 
+    text-align: left;
+    padding-left: 1rem;
+  }
+  .questionnaire-type-label {
+    display: block;
+    width: 100%;
+  }
+  
+  .clsmatselect1 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .form-container {
+    overflow-x: auto;
+  }
+
+  .form-container .form-field {
+    display: block;
+    margin-bottom: 10px;
+  }
+}
+.job-list-card-info{
+  border-radius: 20px;
+  padding: 22px;
+  overflow: hidden;
+  box-shadow: rgba(78, 78, 88, 0.2) 0px 7px 20px 0px;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+:host ::ng-deep .ag-theme-alpine.custom-header .ag-header {
+  --ag-foreground-color: rgb(252, 252, 252);
+  --ag-background-color: rgb(249, 245, 227);
+  --ag-header-foreground-color: rgb(255, 255, 255);
+  --ag-header-background-color: #043535;
+  --ag-odd-row-background-color: rgba(73, 70, 70, 0.03);
+  --ag-header-column-resize-handle-color: rgb(250, 247, 250);
+  --ag-row-border-width: 5px;
+  --ag-font-size: 17px;
+  --ag-font-family: monospace;
+}
+
+:host ::ng-deep .ag-theme-alpine.custom-header {
+  border-radius: 15px; /* Adjust the value to your preference */
+  overflow: hidden; /* Ensures content doesn't overflow the rounded corners */
+}
+
+  
+ 

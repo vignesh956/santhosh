@@ -1,0 +1,35 @@
+.downloadresume
+{
+    width: 100px;
+    height: 25px;
+    border: 1px solid #fff;
+    //background-color: #039be5 !important;
+    background-color:none;
+    color: #487eb0 !important;
+    font-weight: 600;
+    display: inherit;
+    padding-left: 3px; 
+    margin-right : 25px;
+    font-size: 16px;
+    text-decoration: underline;
+}
+
+body.theme-default .mat-raised-button:not([class*=mat-elevation-z])
+{
+    box-shadow: none !important;
+}
+
+
+.job-list-card-info{
+    border-radius: 20px;
+    padding: 22px;
+    overflow: hidden;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 20px 0px;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin: 10px 0; 
+}
+.job-list-card-info:hover {
+transform: scale(1.05);
+border: solid !important;
+transition: transform 0.3s ease; 
+} 

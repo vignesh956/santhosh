@@ -1,0 +1,111 @@
+<style>
+    
+    .example-full-width {
+        width: 100%;
+    }
+    .ag-header-cell-label {
+      justify-content: center !important;
+  }
+</style>
+<div class="w-full bg-white" flexLayout="row">
+  <div class="ml-3 flex mt-1 mb-15 w-full">
+    <div class="ml-5 h-7 mt-3 w-1/2">
+      <span class="mat-accent compose-dialog-button w-100-p">
+        <h2><b>Companies <span *ngIf="gridtotRowCount">({{gridtotRowCount}})</span></b></h2>
+        </span>
+    </div>
+    <div class="h-7 mt-3 w-2/4">
+        <mat-form-field class="w-2/4 mr-1" fxFlex="95">
+            <input matInput [(ngModel)]="jobGridSearchFilter"
+                   autofocus placeholder="Search for a Company" (input)="onQuickFilterChanged()">
+        </mat-form-field>
+        <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800" aria-label="Compose"
+                (click)="openModal(Companies)" title="Add a new Company">
+            Add
+        </button>
+    </div>
+  </div>
+  <!-- <div class="ml-3 flex mt-1 mb-10 w-full">
+    <div class="ml-3 h-7 mt-3 w-40">
+        <span class="mat-accent compose-dialog-button w-100-p">
+          <h2><b>Companies <span *ngIf="gridtotRowCount">({{gridtotRowCount}})</span></b></h2>
+            </span>
+    </div>
+    <div class="h-7 mt-3 w-full mr-5 text-right">
+        <mat-form-field class="mr-2">
+          <input matInput [(ngModel)]="jobGridSearchFilter"
+          autofocus placeholder="Search Company" (input)="onQuickFilterChanged()">
+            </mat-form-field>
+
+            <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800" aria-label="Compose"
+                (click)="openModal(Companies)" title="Add a new Company">
+            Add
+        </button>
+    </div>
+</div> -->
+  <div class="ml-3 bg-white" flexLayout="row">
+    
+    <ag-grid-angular #agGrid style="height: 500px; width: 98% !important; margin-top: 20px;" id="myGrid" class="ag-theme-alpine custom-header" [context]="context"
+                          [context]="context" [gridOptions]="gridOptions" [rowData]="rowData" 
+    (gridReady)="onGridReady($event)" [defaultColDef]="defaultColDef"
+    [frameworkComponents]="frameworkComponents" [rowSelection]="rowSelection"
+></ag-grid-angular>
+  </div>
+</div>
+
+<ng-template #Companies class="card"> 
+  <h2 mat-dialog-title>{{this.isAction}} Company</h2>
+  <mat-divider></mat-divider><br>
+  <mat-dialog-content>
+    <form class="example-form" [formGroup]="companyFormGroup">
+          <div class="card-avatar">
+        <div class="upload-button" (click)="logoUpload.click()">
+          <div class="avatar-preview">
+            <div *ngIf="!CompanyProfileImage" class="avatar-placeholder">
+              {{ companyFormGroup.get('company_name').value ? companyFormGroup.get('company_name').value.charAt(0) : '' }}
+            </div>
+            <img *ngIf="CompanyProfileImage" class="avatar-image" [src]="CompanyProfileImage" alt="Company Logo" />
+          </div>
+          <button type="button"     class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border
+           border-blue-500 hover:border-transparent rounded" >Upload Logo</button>
+        </div>
+        <input type="file" id="logo-upload" accept="image/*" (change)="onFileInput($event)" style="display:none;" #logoUpload />
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Company Name" formControlName="company_name" required>
+      </mat-form-field>
+      
+        <mat-form-field class="example-full-width">
+          <textarea matInput formControlName="company_overview" placeholder="Company Overview" required></textarea>
+        </mat-form-field>
+      
+    </form>
+  </mat-dialog-content>
+  <mat-divider></mat-divider><br>
+  <mat-dialog-actions>
+      <div class="col-md-6">
+          <button class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" 
+          id="btnCancelDialog" mat-dialog-close><span>Close</span></button>
+      </div>&nbsp;&nbsp;
+      <div class="col-md-6">
+          <button 
+          class="mr-2 bg-transparent hover:bg-blue-800 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+          *ngIf="isAction == 'Edit'" [disabled]="this.companyFormGroup.invalid" (click)="updateCompany()" ><span>Update</span></button>&nbsp;&nbsp;
+          <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"  
+          *ngIf="isAction == 'Add'" [disabled]="this.companyFormGroup.invalid" (click)="saveCompany()" ><span>Save</span></button>&nbsp;&nbsp;
+          </div>
+  </mat-dialog-actions>
+</ng-template>
+
+
+
+
+
+

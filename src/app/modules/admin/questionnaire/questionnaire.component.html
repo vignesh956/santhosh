@@ -1,0 +1,432 @@
+<div class="bg-white" flexLayout="column" style="width:100%;">
+<div class="page-layout simple fullwidth docs" style="background-color: white !important;">
+
+    <div id="assignment" class="page-layout carded left-sidebar inner-scroll">
+        <mat-card style="width: 99% !important;">
+        <div class="content-card">
+            <div class="content" style="display: block !important;">
+                <div style="margin-left: 5%;">
+                    <div  class="mt-3" style="display: flex; align-items: center; justify-content: space-between;">
+                <!-- <div fxLayout="row" style="margin-left: 3%;" fxLayoutAlign="start center">
+                    <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center"> -->
+                        <div fxFlex="75">
+                            <span><h2><b>Questionnaire</b></h2></span>
+                        </div>
+                        <div fxFlex="25">
+                            <button class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"  
+                            (click)="AddquestionnairePopup()" 
+                            >Add New</button>
+                        </div>
+                    </div>
+                </div> 
+
+                <!-- <div class="table-container ml-10 mt-5" > -->
+                    <div class="ml-2 mr-2 job-list-card-info" style=" margin: 0 !important;" >
+                    <table class="responsive-table">
+                        <thead>
+                      <tr>
+                        <th></th>
+                        <th>Junior (Active)</th>
+                        <th>Inactive</th>
+                        <th>Senior (Active)</th>
+                        <th>Inactive</th>
+                        <th>Lead (Active)</th>
+                        <th>Inactive</th>
+                      </tr>
+                    </thead>
+                      <tr>
+                        <td>HR</td>
+                        <td>{{HrTypeActiveCount.Junior}}</td>
+                        <td>{{HrTypeInActiveCount.Junior}}</td>
+                        <td>{{HrTypeActiveCount.Senior}}</td>
+                        <td>{{HrTypeInActiveCount.Senior}}</td>
+                        <td>{{HrTypeActiveCount.Lead}}</td>
+                        <td>{{HrTypeInActiveCount.Lead}}</td>
+                      </tr>
+                      <tr>
+                        <td>Technical</td>
+                        <td>{{TechnicalTypeActiveCount.Junior}}</td>
+                        <td>{{TechnicalTypeInActiveCount.Junior}}</td>
+                        <td>{{TechnicalTypeActiveCount.Senior}}</td>
+                        <td>{{TechnicalTypeInActiveCount.Senior}}</td>
+                        <td>{{TechnicalTypeActiveCount.Lead}}</td>
+                        <td>{{TechnicalTypeInActiveCount.Lead}}</td>
+                      </tr>
+                      <tr>
+                        <td>Assessment</td>
+                        <td>{{AssessmentTypeActiveCount.Junior}}</td>
+                        <td>{{AssessmentTypeInActiveCount.Junior}}</td>
+                        <td>{{AssessmentTypeActiveCount.Senior}}</td>
+                        <td>{{AssessmentTypeInActiveCount.Senior}}</td>
+                        <td>{{AssessmentTypeActiveCount.Lead}}</td>
+                        <td>{{AssessmentTypeInActiveCount.Lead}}</td>
+                      </tr>
+                      <tr>
+                        <td>Assignment</td>
+                        <td>{{AssignmentTypeActiveCount.Junior}}</td>
+                        <td>{{AssignmentTypeInActiveCount.Junior}}</td>
+                        <td>{{AssignmentTypeActiveCount.Senior}}</td>
+                        <td>{{AssignmentTypeInActiveCount.Senior}}</td>
+                        <td>{{AssignmentTypeActiveCount.Lead}}</td>
+                        <td>{{AssignmentTypeInActiveCount.Lead}}</td>
+                      </tr>
+                      <tr>
+                        <td>Management</td>
+                        <td>{{ManagementTypeActiveCount.Junior}}</td>
+                        <td>{{ManagementTypeInActiveCount.Junior}}</td>
+                        <td>{{ManagementTypeActiveCount.Senior}}</td>
+                        <td>{{ManagementTypeInActiveCount.Senior}}</td>
+                        <td>{{ManagementTypeActiveCount.Lead}}</td>
+                        <td>{{ManagementTypeInActiveCount.Lead}}</td>
+                      </tr>
+                    </table>
+                  
+                  <div>
+                    <div style="margin-top: 2%;" class="prequalifying-container">
+                <span style="margin-left: 50px;color: blue;font-weight: bold;">  Pre-Qualifying : </span>
+                <span  *ngFor="let Qualify  of PreQualifyingCount">
+                    <span style="padding-left: 10px;"> {{Qualify.QuestionStatus}}</span>
+                    <span > {{Qualify.StatusCount}} </span>
+                </span>
+                    </div>
+            </div>
+                    </div>
+    
+                    <div class="mt-5 ml-10">
+                        <!-- <div class="mx-screen" fxLayout="row"> -->
+                      
+                        <div class="ml-2 mr-2 job-list-card-info" style="margin: 0 !important; width: 100%;">
+                          <mat-form-field fxFlex="50" class="clsmatselect" style="margin-right: 10px;">
+                            <mat-label>Status</mat-label>
+                            <mat-select [(value)]="defaultStatus" (selectionChange)="SelectStatusGroupOption($event.value, 'Status')">
+                              <mat-option value="Active" selected=true>Active</mat-option>
+                              <mat-option value="Inactive">Inactive</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                      
+                          <mat-form-field fxFlex="50" class="clsmatselect" style="margin-right: 10px;">
+                            <mat-label>Skill</mat-label>
+                            <mat-select [(value)]="selectedskills" tabindex="1" (selectionChange)="SelectStatusGroupOption($event.value, 'skill')">
+                              <mat-option value="Select" selected=true>Select</mat-option>
+                              <mat-option value="General">General</mat-option>
+                              <!-- <mat-option *ngFor="let skill of Skills" [value]="skill">{{skill}}</mat-option> -->
+                              <mat-option *ngFor="let skill of Skills" [value]="skill.Name">{{skill.Name}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                      
+                          <mat-form-field fxFlex="50" class="clsmatselect" style="margin-right: 10px;">
+                            <mat-label>Level</mat-label>
+                            <mat-select [(value)]="defaultLevel" (selectionChange)="SelectStatusGroupOption($event.value, 'Level')">
+                              <mat-option value="Select" selected=true>Select</mat-option>
+                              <mat-option value="Junior">Junior</mat-option>
+                              <mat-option value="Senior">Senior</mat-option>
+                              <mat-option value="Lead">Lead</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      
+                        <!-- Add margin-top to this div for spacing -->
+                          <ag-grid-angular #agGrid style="height: 500px; width: 98% !important; margin-top: 20px;" id="myGrid" class="ag-theme-alpine custom-header" [context]="context"
+                            [gridOptions]="gridOptions" [rowData]="rowData" (gridReady)="onGridReady($event)"
+                            (filterChanged)="onGridFilterChanged()" [defaultColDef]="defaultColDef" [rowSelection]="rowSelection"
+                            [frameworkComponents]="frameworkComponents" (selectionChanged)="onSelectionChanged($event)">
+                          </ag-grid-angular>
+                      
+                      </div>
+                      
+            </div>
+        </div>
+    </mat-card>
+    </div>
+    </div>
+    <ng-template #AddQuestionnaire>
+        <div class="modal-content">
+            <div class="modal-body mail-details1">
+                <form fxLayout="column" [formGroup]="firstFormGroup">
+                <span *ngIf="this.firstFormGroup.invalid" style="text-align-last: right !important; margin-right:2% !important; margin-bottom: 5px !important; font-size: 15px !important; color:red !important;">* Please enter all required fields</span>
+                <div class="mail-content" fxLayout="column">
+                    <div fxLayout="row" *ngIf="!isEdit">
+                        <div fxFlex="75">
+                            <div fxLayout="row">
+                            <span><h2><b>Add Questionnaire</b></h2></span><br>
+                        </div>
+                        </div>
+                        <div fxFlex="25"  class="button-container" style="margin-top: 10px !important; margin-left: 25px !important; margin-bottom: 15px;">
+                            <button class="save-button" class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" 
+                            [disabled]="this.firstFormGroup.invalid" mat-dialog-close color="accent" (click)="SaveQuestionnaire()" style="margin-left: 30px !important;">Save</button>&nbsp;&nbsp;
+                            <button  class="cancel-button" class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                            mat-dialog-close tabindex="-1" (click)="Cancelquestionnairetype()">Cancel</button>
+                        </div>
+                    </div>
+                    <div fxLayout="row" *ngIf="isEdit">
+                        <div fxFlex="75">
+                            <div fxLayout="row">
+                            <span><h2><b>Edit Questionnaire</b></h2></span><br>
+                        </div>
+                        </div>
+                        <div class="button-container" fxFlex="30" style="margin-top: 10px !important; margin-left: 25px !important;margin-bottom: 15px;">
+                            <button class="button-container" class="bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"  
+                            mat-dialog-close  (click)="UpdateQuestionnaire()" style="margin-left: 30px !important;">Update</button>&nbsp;&nbsp;
+                            <button class="button-container" class="mr-2 bg-transparent hover:bg-red-800 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                            mat-dialog-close tabindex="-1">Cancel</button>
+                        </div>
+                    </div>
+
+
+                    <div class="flex flex-wrap mb-3">
+                        <div class="flex-1 h-12 mb-5">
+                            <mat-form-field  appearance="outline" >
+                                <mat-label class="questionnaire-type-label">Questionnaire Type</mat-label>
+                                <mat-select tabindex="2" formControlName="ddlquestiontype"  [(value)]="AddEditdefaultQuestionnaireType" (selectionChange)="changequestionnairetype($event.value)">
+                                    <mat-option value="Select" selected=true>Questionnaire Type</mat-option>
+                                    <mat-option value="HR">HR</mat-option>
+                                    <mat-option value="Management">Management</mat-option>
+                                    <mat-option value="Technical">Technical</mat-option>
+                                    <mat-option value="Assessment">Assessment</mat-option>
+                                    <mat-option value="Assignment">Assignment</mat-option>
+                                    <mat-option value="Pre-Qualifying">Pre-Qualifying</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            
+                        </div>
+
+                        
+                        <div class="flex-1 h-12 mb-5">
+                            <mat-form-field *ngIf="!hrexpectedanswer && !prequaligying && Isvisible"  appearance="outline" >
+                                <mat-label>Skill</mat-label>
+                                <mat-select tabindex="1" formControlName="dllskill" [(value)]="AddEditSelectSkillval" (selectionChange)="AddEditSelectSkill($event.value)">
+                                  <mat-option *ngFor="let skill of Skills" [value]="skill.Name">{{skill.Name}}</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                              <mat-form-field *ngIf="hrexpectedanswer && !prequaligying && Isvisible" appearance="outline" >
+                                <mat-label>Skill</mat-label>
+                                <mat-select tabindex="1" formControlName="dllskill" [(value)]="AddEditdefaultSkill" >
+                                    <mat-option  value="Select" selected="true">General</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex-1 h-12 mb-3">
+                            <mat-form-field  appearance="outline" *ngIf="!prequaligying && Isvisible"  >
+                              <mat-label>Level</mat-label>
+                              <mat-select tabindex="2" formControlName="ddllevel" [(value)]="AddEditdefaultLevel" (selectionChange)="AddEditSelectLevel($event.value)">
+                                <mat-option value="" disabled>Level</mat-option>
+                                <mat-option value="Junior">Junior</mat-option>
+                                <mat-option value="Senior">Senior</mat-option>
+                                <mat-option value="Lead">Lead</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="flex flex-wrap mb-3">
+                          <div class="flex-1 h-12 mb-5">
+                            <mat-form-field appearance="outline" *ngIf="!prequaligying && Isvisible"  >
+                                <mat-label>Time(Minutes)</mat-label>
+                                <mat-select tabindex="3" formControlName="ddltiming" [(value)]="AddEditdefaultTime" (selectionChange)="AddEditSelectTiming($event.value)">
+                                  <mat-option value="Select" selected=true>Time(Minutes)</mat-option>
+                                  <mat-option value="01">01</mat-option>
+                                  <mat-option value="02">02</mat-option>
+                                  <mat-option value="03">03</mat-option>
+                                  <mat-option value="04">04</mat-option>
+                                  <mat-option value="05">05</mat-option>
+                                  <mat-option value="06">06</mat-option>
+                                  <mat-option value="07">07</mat-option>
+                                  <mat-option value="08">08</mat-option>
+                                  <mat-option value="09">09</mat-option>
+                                  <mat-option value="10">10</mat-option>
+                                  <mat-option value="11">11</mat-option>
+                                  <mat-option value="12">12</mat-option>
+                                  <mat-option value="13">13</mat-option>
+                                  <mat-option value="14">14</mat-option>
+                                  <mat-option value="15">15</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                          </div>
+                          <div class="flex-1 h-12 mb-5">
+                            <mat-form-field *ngIf="Isvisible" appearance="outline"  >
+                                <mat-label>Status</mat-label>
+                                <mat-select tabindex="5" formControlName="ddlstatus" [(value)]="defaultQuestionStatus" (selectionChange)="AddEditSelectStatus($event.value)">
+                                  <mat-option value="Active" selected=true>Active</mat-option>
+                                  <mat-option value="InActive">InActive</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                          </div>
+                          <div class="flex-1 h-12 mb-3"></div>
+                        </div>
+
+                      
+
+
+
+                   
+                    
+                    <!-- <div fxLayout="row">
+                        <mat-form-field fxFlex="28" appearance="outline" class="clsmatselect1" >
+                            <mat-label class="questionnaire-type-label">Questionnaire Type</mat-label>
+                            <mat-select tabindex="2" formControlName="ddlquestiontype"  [(value)]="AddEditdefaultQuestionnaireType" (selectionChange)="changequestionnairetype($event.value)">
+                                <mat-option value="Select" selected=true>Questionnaire Type</mat-option>
+                                <mat-option value="HR">HR</mat-option>
+                                <mat-option value="Management">Management</mat-option>
+                                <mat-option value="Technical">Technical</mat-option>
+                                <mat-option value="Assessment">Assessment</mat-option>
+                                <mat-option value="Assignment">Assignment</mat-option>
+                                <mat-option value="Pre-Qualifying">Pre-Qualifying</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="!hrexpectedanswer && !prequaligying && Isvisible" fxFlex="12" appearance="outline" class="clsmatselect1" style="margin-right: 15px !important;margin-left: 15px;">
+                            <mat-label>Skill</mat-label>
+                            <mat-select tabindex="1" formControlName="dllskill" [(value)]="AddEditSelectSkillval" (selectionChange)="AddEditSelectSkill($event.value)">
+                                <mat-option *ngFor="let skill of Skills" [value]="skill" >{{skill}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                         <mat-form-field *ngIf="hrexpectedanswer && !prequaligying && Isvisible" fxFlex="12" appearance="outline" class="clsmatselect1" style="margin-right: 15px !important;margin-left: 15px;">
+                            <mat-label>Skill</mat-label>
+                            <mat-select tabindex="1" formControlName="dllskill" [(value)]="AddEditdefaultSkill" >
+                                <mat-option  value="Select" selected="true">General</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+    
+                        <mat-form-field fxFlex="15" appearance="outline" *ngIf="!prequaligying && Isvisible" class="clsmatselect1" style="margin-right: 15px !important;margin-left: 15px;">
+                            <mat-label>Level</mat-label>
+                            <mat-select tabindex="2" formControlName="ddllevel"  [(value)]="AddEditdefaultLevel" (selectionChange)="AddEditSelectLevel($event.value)">
+                                
+                                
+                                <mat-option value="" disabled>Level</mat-option>
+                                <mat-option value="Junior">Junior</mat-option>
+                                <mat-option value="Senior">Senior</mat-option>
+                                <mat-option value="Lead">Lead</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+    
+                        <mat-form-field fxFlex="20" appearance="outline" *ngIf="!prequaligying && Isvisible" class="clsmatselect1" style="margin-right: 15px !important;margin-left: 15px;">
+                            <mat-label>Time(Minutes)</mat-label>
+                            <mat-select tabindex="3" formControlName="ddltiming"  [(value)]="AddEditdefaultTime" (selectionChange)="AddEditSelectTiming($event.value)">
+                                <mat-option value="Select" selected=true>Time(Minutes)</mat-option>
+                                <mat-option value="01">01</mat-option>
+                                <mat-option value="02">02</mat-option>
+                                <mat-option value="03">03</mat-option>
+                                <mat-option value="04">04</mat-option>
+                                <mat-option value="05">05</mat-option>
+                                <mat-option value="06">06</mat-option><mat-option value="07">07</mat-option><mat-option value="08">08</mat-option><mat-option value="09">09</mat-option>
+                                <mat-option value="10">10</mat-option><mat-option value="11">11</mat-option><mat-option value="12">12</mat-option><mat-option value="13">13</mat-option>
+                                <mat-option value="14">14</mat-option><mat-option value="15">15</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                       
+                        <mat-form-field *ngIf="Isvisible" appearance="outline" fxFlex="12" class="clsmatselect1">
+                            <mat-label>Status</mat-label>
+                            <mat-select tabindex="5" formControlName="ddlstatus"  [(value)]="defaultQuestionStatus"  (selectionChange)="AddEditSelectStatus($event.value)">
+                                <mat-option value="Active" selected=true>Active</mat-option>
+                                <mat-option value="InActive">InActive</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>  -->
+                    <span style="color:orange; font-weight: 600; font-size: 16px;">{{selectedquestionnairetext}}</span><br>
+                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                        <div fxFlex="100">
+                            <mat-form-field *ngIf="Isvisible" appearance="outline" fxFlex="100" class="pr-4">
+                                <mat-label>Enter Question</mat-label>
+                                <textarea tabindex="6" matInput rows="4" cols="50"
+                                 placeholder="Enter Question" tabindex="12" #question formControlName="textareaQuestion"></textarea>
+                            </mat-form-field>
+                           
+                        </div>
+                      
+                    </div>
+                    <div fxLayout="row" style="margin-top: 5px !important;" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                        <div *ngIf="hrexpectedanswer" fxFlex="100" >
+                            <div>
+                            <mat-form-field *ngIf="Isvisible"  appearance="outline" fxFlex="100" class="pr-4">
+                                <mat-label>Expected Answer</mat-label>
+                                <textarea tabindex="6" matInput rows="4" cols="50"
+                                 placeholder="Expected Answer" tabindex="12" #question formControlName="textareaGeneralExpAnswer" ></textarea>
+                            </mat-form-field>
+                        </div>
+                            <div  *ngIf="Isvisible"  style="margin-right: 15%;">
+                                <mat-star-rating style="align-self: center !important;" class="clsstarrating" 
+                                [rating]="rating" [color]="starColor"  [starCount]="question2" 
+                                (ratingUpdated)="onRatingChanged($event)"></mat-star-rating>
+                            </div>
+                        </div>
+                        <div *ngIf="assessmentexpans" fxFlex="100" style="margin-left: 20px !important;">
+                            <mat-form-field *ngIf="Isvisible" appearance="outline" fxFlex="100" class="pr-4">
+                                <mat-label>Answer With Error</mat-label>
+                                <textarea tabindex="6" matInput rows="8" cols="50"
+                                 placeholder="Answer With Error" tabindex="12" #question formControlName="textareaAssessmentAnswithError"></textarea>
+                            </mat-form-field>
+                            <mat-form-field *ngIf="Isvisible" appearance="outline" fxFlex="100" class="pr-4">
+                                <mat-label>Expected Answer</mat-label>
+                                <textarea tabindex="6" matInput rows="8" cols="50"
+                                 placeholder="Expected Answer" tabindex="12" #question formControlName="textareaAssmentExpAnswer"></textarea>
+                            </mat-form-field>
+                        </div>
+                         <div *ngIf="assignmentexpans && Isvisible" fxFlex="100" style="margin-left: 20px !important;">
+                            <div fxFlex="100" style="margin-left: 20px !important;">
+                                <div style="margin-bottom: 40px;">
+                                    <mat-form-field appearance="outline" fxFlex="100"  class="pr-4" style="width: 85% !important;height: 30px !important;">
+                                        <mat-label>A</mat-label>
+                                        <input matInput tabindex="7" #Option_A_answer formControlName="Assignment_Option_A_answer"  >
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex="100"  class="pr-4" style="width: 85% !important;height: 30px !important;">
+                                        <mat-label>C</mat-label>
+                                        <input matInput tabindex="9" #Option_C_answer formControlName="Assignment_Option_C_answer" >
+                                    </mat-form-field>
+                                </div>
+                                <div  style="margin-bottom: 40px;">
+                                    <mat-form-field appearance="outline" fxFlex="100"  class="pr-4" style="width: 85% !important;height: 30px !important;">
+                                        <mat-label>B</mat-label>
+                                        <input matInput tabindex="8" #Option_B_answer formControlName="Assignment_Option_B_answer" >
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex="100"  class="pr-4" style="width: 85% !important; height: 30px !important;">
+                                        <mat-label>D</mat-label>
+                                        <input matInput tabindex="10" #Option_D_answer formControlName="Assignment_Option_D_answer"  >
+                                    </mat-form-field>
+                                </div>
+                                <div  style="margin-left: 72% !important;">
+                                    <mat-form-field *ngIf="Isvisible" appearance="outline" fxFlex="98" class="clsmatselect">
+                                        <mat-label>Expected Answer</mat-label>
+                                        <mat-select tabindex="4" formControlName="Assignment_ExpAnswer"  [(value)]="defaultExpAnswer">
+                                            <mat-option value="Select" selected=true>Expected Answer</mat-option>
+                                            <mat-option value="A">A</mat-option>
+                                            <mat-option value="B">B</mat-option>
+                                            <mat-option value="C">C</mat-option>
+                                            <mat-option value="D">D</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div fxLayout="row" style="margin-top: 25px !important;" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                        <div fxFlex="100" style="margin-left: 20px !important;">
+                            <div style="margin-bottom: 40px;">
+                                <mat-form-field appearance="outline" fxFlex="100"  class="pr-4" style="width: 85% !important;height: 30px !important;">
+                                    <mat-label>A</mat-label>
+                                    <input matInput tabindex="7" #Option_A_answer formControlName="Option_A_answer"  required>
+                                </mat-form-field>
+                            </div>
+                            <div  style="margin-bottom: 40px;">
+                                <mat-form-field appearance="outline" fxFlex="100"  class="pr-4" style="width: 85% !important;height: 30px !important;">
+                                    <mat-label>B</mat-label>
+                                    <input matInput tabindex="8" #Option_B_answer formControlName="Option_B_answer"  required>
+                                </mat-form-field>
+                            </div>
+                            <div  style="margin-bottom: 40px;">
+                                <mat-form-field appearance="outline" fxFlex="100"  class="pr-4" style="width: 85% !important;height: 30px !important;">
+                                    <mat-label>C</mat-label>
+                                    <input matInput tabindex="9" #Option_C_answer formControlName="Option_C_answer"  required>
+                                </mat-form-field>
+                            </div>
+                            <div  style="margin-bottom: 40px;">
+                                <mat-form-field appearance="outline" fxFlex="100"  class="pr-4" style="width: 85% !important; height: 30px !important;">
+                                    <mat-label>D</mat-label>
+                                    <input matInput tabindex="10" #Option_D_answer formControlName="Option_D_answer"  required>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </form>
+            </div>
+        </div>
+    </ng-template>
+</div>

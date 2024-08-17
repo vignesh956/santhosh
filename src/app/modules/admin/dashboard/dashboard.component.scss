@@ -1,0 +1,217 @@
+
+.row{
+    display: flex;
+    margin-top:5%;
+}
+.col-md-2{
+    margin-left: 3%;
+}
+//     .container-fluid{
+//             margin-top: 5%;
+//     }
+
+// .clsngxchart{
+//         width: 1000px;
+//         height: 400px;
+//     }
+.mat-card{
+    height: 125px;
+    width: 160px;
+}
+.col-md-4{
+    margin-left: 5%;
+}
+
+
+.col-md-5{
+    margin-left: 15%;
+}
+.col-md-6{
+    margin-left: 10%;
+}
+.card-display-header {
+    font-size: x-large;
+}
+
+.card-display-header-medium {
+    font-size: x-large;
+}
+
+p {
+    margin: 0 !important;
+}
+
+.alert {
+    text-align: center;
+    padding: 6px 0px 3px 12px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert-info {
+color: #31708f;
+background-color: #d9edf7;
+border-color: #bce8f1;
+margin-left: 100px;
+}
+
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+.row {
+display:inherit;
+}
+
+.mat-card
+{
+margin-left: 50px;
+}
+.alert{
+margin-left: -40px;
+}
+.alert-info{
+margin-left: 0px;
+margin-top:15px;
+}
+.clsonboarding{
+margin-left: 15%;
+}
+.col-md-5{
+margin-left: 0%;
+}
+
+.col-md-4{
+margin-left: 1%;
+}
+.col-md-6{
+margin-left: -19%;
+}
+.jqxchartparent{
+margin-left:0px;
+}
+// .clsngxchart{
+//    width: 0px;
+//    height: 0px;
+// }
+}
+@media screen and (max-width: 390px) {
+    .count {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 4xl;
+    }
+  }
+
+
+
+
+  .cards-info {
+    color: #67748e;
+    border-radius: 20px;
+    padding: 5px;
+    overflow: hidden;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 20px 0px;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  .cards-info:hover {
+    transform: scale(1.05);
+    border: solid !important;
+    // border-color: #8c8c8c4d !important;
+  } 
+  .font-color-info{
+    color: #67748e;
+    line-height: 5px;
+  }
+
+// .ag-header-cell {
+//     background-color: blue;
+//     color: white;
+// }
+
+// .ag-row-hover {
+//     background-color: lightblue !important;
+// }
+
+.ag-header{
+    --ag-background-color : red !important;
+    background-color: #f51c1c !important; 
+}
+
+.ag-header-cell-label {
+    color: #49f316 !important; 
+}
+.ag-header {
+    background-color: deeppink !important;
+}
+:host ::ng-deep .ag-theme-alpine.custom-header .ag-header {
+    --ag-foreground-color: rgb(252, 252, 252);
+    --ag-background-color: rgb(249, 245, 227);
+    --ag-header-foreground-color: rgb(255, 255, 255);
+    --ag-header-background-color: #043535;
+    --ag-odd-row-background-color: rgba(73, 70, 70, 0.03);
+    --ag-header-column-resize-handle-color: rgb(250, 247, 250);
+
+    --ag-font-size: 17px;
+    --ag-font-family: monospace;
+}
+:host ::ng-deep .ag-theme-alpine.custom-header {
+    border-radius: 15px; /* Adjust the value to your preference */
+    overflow: hidden; /* Ensures content doesn't overflow the rounded corners */
+  }
+
+// ==========================================================
+
+  .navbar {
+    display: flex;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+    color: #67748e;
+    border-radius: 20px;
+    padding: 5px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 20px 0px;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.3)
+  }
+  .dropdown:hover {
+    transform: scale(1.05);
+    border: solid !important;
+  } 
+  
+  .dropdown-button {
+    color: black;
+    padding: 10px 20px;
+    font-size: 22px;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .dropdown .dropdown-content {
+    display: block;
+  }
